@@ -1,0 +1,452 @@
+[
+  {
+    "id": "TR-A1F820",
+    "userId": "u004",
+    "destination": "Jeddah",
+    "origin": "Riyadh",
+    "purpose": "Quarterly finance review with ACME Corp",
+    "departureDate": "2026-03-10",
+    "returnDate": "2026-03-12",
+    "days": 3,
+    "travelers": 1,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "Saudia",
+        "flightNo": "SV1012",
+        "departure": "08:00",
+        "arrival": "10:05",
+        "class": "Economy",
+        "price": 850
+      },
+      "return": {
+        "airline": "Saudia",
+        "flightNo": "SV1019",
+        "departure": "19:30",
+        "arrival": "21:35",
+        "class": "Economy",
+        "price": 920
+      }
+    },
+    "hotel": {
+      "name": "Hilton Jeddah",
+      "stars": 5,
+      "pricePerNight": 680,
+      "nights": 2,
+      "total": 1360
+    },
+    "costBreakdown": {
+      "flights": 1770,
+      "hotel": 1360,
+      "perDiem": 600,
+      "transport": 300,
+      "total": 4030
+    },
+    "status": "approved",
+    "taskId": null,
+    "submittedAt": "2026-03-01T09:30:00.000Z",
+    "reviewedBy": "u002",
+    "reviewedAt": "2026-03-02T11:15:00.000Z",
+    "reviewNote": "Approved — critical client meeting"
+  },
+  {
+    "id": "TR-B3E441",
+    "userId": "u005",
+    "destination": "Dubai",
+    "origin": "Riyadh",
+    "purpose": "GITEX Technology Week — vendor evaluation",
+    "departureDate": "2026-04-20",
+    "returnDate": "2026-04-23",
+    "days": 4,
+    "travelers": 1,
+    "travelClass": "business",
+    "flight": {
+      "outbound": {
+        "airline": "Emirates",
+        "flightNo": "EK824",
+        "departure": "09:15",
+        "arrival": "11:30",
+        "class": "Business",
+        "price": 3200
+      },
+      "return": {
+        "airline": "Emirates",
+        "flightNo": "EK825",
+        "departure": "14:00",
+        "arrival": "16:10",
+        "class": "Business",
+        "price": 3400
+      }
+    },
+    "hotel": {
+      "name": "JW Marriott Marquis Dubai",
+      "stars": 5,
+      "pricePerNight": 1100,
+      "nights": 3,
+      "total": 3300
+    },
+    "costBreakdown": {
+      "flights": 6600,
+      "hotel": 3300,
+      "perDiem": 1200,
+      "transport": 600,
+      "total": 11700
+    },
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-03T14:20:00.000Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "TR-C7D612",
+    "userId": "u002",
+    "destination": "Dammam",
+    "origin": "Riyadh",
+    "purpose": "Audit of Eastern Province branch",
+    "departureDate": "2026-03-22",
+    "returnDate": "2026-03-24",
+    "days": 3,
+    "travelers": 2,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "flynas",
+        "flightNo": "XY230",
+        "departure": "07:00",
+        "arrival": "08:15",
+        "class": "Economy",
+        "price": 420
+      },
+      "return": {
+        "airline": "flynas",
+        "flightNo": "XY237",
+        "departure": "20:00",
+        "arrival": "21:15",
+        "class": "Economy",
+        "price": 480
+      }
+    },
+    "hotel": {
+      "name": "Sheraton Dammam",
+      "stars": 5,
+      "pricePerNight": 550,
+      "nights": 2,
+      "total": 1100
+    },
+    "costBreakdown": {
+      "flights": 1800,
+      "hotel": 2200,
+      "perDiem": 1200,
+      "transport": 500,
+      "total": 5700
+    },
+    "status": "approved",
+    "taskId": null,
+    "submittedAt": "2026-03-15T08:45:00.000Z",
+    "reviewedBy": "u001",
+    "reviewedAt": "2026-03-15T10:00:00.000Z",
+    "reviewNote": "Approved"
+  },
+  {
+    "id": "TR-D9A133",
+    "userId": "u006",
+    "destination": "Riyadh",
+    "origin": "Jeddah",
+    "purpose": "Annual leadership summit at HQ",
+    "departureDate": "2026-04-12",
+    "returnDate": "2026-04-14",
+    "days": 3,
+    "travelers": 1,
+    "travelClass": "business",
+    "flight": {
+      "outbound": {
+        "airline": "Saudia",
+        "flightNo": "SV1045",
+        "departure": "06:30",
+        "arrival": "08:40",
+        "class": "Business",
+        "price": 1950
+      },
+      "return": {
+        "airline": "Saudia",
+        "flightNo": "SV1058",
+        "departure": "18:00",
+        "arrival": "20:10",
+        "class": "Business",
+        "price": 2100
+      }
+    },
+    "hotel": {
+      "name": "Four Seasons Riyadh",
+      "stars": 5,
+      "pricePerNight": 1450,
+      "nights": 2,
+      "total": 2900
+    },
+    "costBreakdown": {
+      "flights": 4050,
+      "hotel": 2900,
+      "perDiem": 600,
+      "transport": 400,
+      "total": 7950
+    },
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-04T16:00:00.000Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "TR-D8E79255",
+    "userId": "u001",
+    "destination": "Abha",
+    "origin": "Riyadh",
+    "purpose": "t",
+    "departureDate": "2026-04-15",
+    "returnDate": "2026-04-18",
+    "days": 4,
+    "travelers": 1,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "Saudia",
+        "flightNo": "SV997",
+        "departure": "13:00",
+        "arrival": "14:56",
+        "class": "Economy",
+        "price": 450
+      },
+      "return": {
+        "airline": "flynas",
+        "flightNo": "XY254",
+        "departure": "21:00",
+        "arrival": "22:52",
+        "class": "Economy",
+        "price": 415
+      }
+    },
+    "hotel": {
+      "name": "Golden Tulip Abha",
+      "stars": 4,
+      "pricePerNight": 350,
+      "nights": 3,
+      "total": 1050
+    },
+    "costBreakdown": {
+      "flights": 865,
+      "hotel": 1050,
+      "perDiem": 1000,
+      "transport": 400,
+      "total": 3315
+    },
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-05T13:50:00.605Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "TR-E52B1DE0",
+    "userId": "u001",
+    "destination": "Cairo",
+    "origin": "Riyadh",
+    "purpose": "closing deal",
+    "departureDate": "2026-04-15",
+    "returnDate": "2026-04-18",
+    "days": 4,
+    "travelers": 1,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "Saudia",
+        "flightNo": "SV581",
+        "departure": "19:00",
+        "arrival": "22:15",
+        "class": "Economy",
+        "price": 1200
+      },
+      "return": {
+        "airline": "flynas",
+        "flightNo": "XY974",
+        "departure": "07:00",
+        "arrival": "10:06",
+        "class": "Economy",
+        "price": 1235
+      }
+    },
+    "hotel": {
+      "name": "Kempinski Nile Hotel",
+      "stars": 5,
+      "pricePerNight": 660,
+      "nights": 3,
+      "total": 1980
+    },
+    "costBreakdown": {
+      "flights": 2435,
+      "hotel": 1980,
+      "perDiem": 1280,
+      "transport": 480,
+      "total": 6175
+    },
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-05T13:53:25.568Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "TR-307635A2",
+    "userId": "u004",
+    "destination": "Abha",
+    "origin": "Riyadh",
+    "purpose": "business",
+    "departureDate": "2026-04-22",
+    "returnDate": "2026-04-25",
+    "days": 4,
+    "travelers": 1,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "flynas",
+        "flightNo": "XY918",
+        "departure": "15:00",
+        "arrival": "16:52",
+        "class": "Economy",
+        "price": 435
+      },
+      "return": {
+        "airline": "Saudia",
+        "flightNo": "SV358",
+        "departure": "20:00",
+        "arrival": "21:40",
+        "class": "Economy",
+        "price": 410
+      }
+    },
+    "hotel": {
+      "name": "InterContinental Abha",
+      "stars": 5,
+      "pricePerNight": 505,
+      "nights": 3,
+      "total": 1515
+    },
+    "costBreakdown": {
+      "flights": 845,
+      "hotel": 1515,
+      "perDiem": 1000,
+      "transport": 400,
+      "total": 3760
+    },
+    "status": "pending",
+    "taskId": "T6734F32C",
+    "submittedAt": "2026-04-12T10:03:51.856Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "TR-56B5C5E1",
+    "userId": "u001",
+    "destination": "Abha",
+    "origin": "Riyadh",
+    "purpose": "sd",
+    "departureDate": "2026-04-24",
+    "returnDate": "2026-04-27",
+    "days": 4,
+    "travelers": 1,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "Saudia",
+        "flightNo": "SV497",
+        "departure": "19:30",
+        "arrival": "21:16",
+        "class": "Economy",
+        "price": 410
+      },
+      "return": {
+        "airline": "Saudia",
+        "flightNo": "SV116",
+        "departure": "14:00",
+        "arrival": "15:55",
+        "class": "Economy",
+        "price": 435
+      }
+    },
+    "hotel": {
+      "name": "Golden Tulip Abha",
+      "stars": 4,
+      "pricePerNight": 325,
+      "nights": 3,
+      "total": 975
+    },
+    "costBreakdown": {
+      "flights": 845,
+      "hotel": 975,
+      "perDiem": 1000,
+      "transport": 400,
+      "total": 3220
+    },
+    "status": "pending",
+    "taskId": "T1790ED26",
+    "submittedAt": "2026-04-14T12:36:28.901Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "TR-4941A0F5",
+    "userId": "u001",
+    "destination": "Abha",
+    "origin": "Riyadh",
+    "purpose": "klhkjh",
+    "departureDate": "2026-05-01",
+    "returnDate": "2026-05-04",
+    "days": 4,
+    "travelers": 1,
+    "travelClass": "economy",
+    "flight": {
+      "outbound": {
+        "airline": "Saudia",
+        "flightNo": "SV913",
+        "departure": "09:15",
+        "arrival": "11:01",
+        "class": "Economy",
+        "price": 410
+      },
+      "return": {
+        "airline": "Saudia",
+        "flightNo": "SV299",
+        "departure": "10:00",
+        "arrival": "11:42",
+        "class": "Economy",
+        "price": 420
+      }
+    },
+    "hotel": {
+      "name": "Golden Tulip Abha",
+      "stars": 4,
+      "pricePerNight": 310,
+      "nights": 3,
+      "total": 930
+    },
+    "costBreakdown": {
+      "flights": 830,
+      "hotel": 930,
+      "perDiem": 1000,
+      "transport": 400,
+      "total": 3160
+    },
+    "status": "pending",
+    "taskId": "T742E1666",
+    "submittedAt": "2026-04-21T09:48:59.308Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  }
+]

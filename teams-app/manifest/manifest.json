@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "fc21a8b4-9503-4b72-8b1e-8493d9e2b67d",
+  "developer": {
+    "name": "WIND-IS",
+    "websiteUrl": "https://commercial.windinfosys.com/unifiedsmi",
+    "privacyUrl": "https://commercial.windinfosys.com/unifiedsmi/privacy",
+    "termsOfUseUrl": "https://commercial.windinfosys.com/unifiedsmi/terms"
+  },
+  "name": {
+    "short": "Unified Workspace",
+    "full": "Unified Workspace \u2014 Enterprise Portal"
+  },
+  "description": {
+    "short": "Centralized workplace portal for tasks, analytics, and self-services.",
+    "full": "Unified Workspace is a centralized enterprise portal that aggregates tasks, analytics, leave requests, attendance, goals, and more from all organizational systems (ERP, CRM, HR, IT) into a single unified interface."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#001E57",
+  "staticTabs": [
+    {
+      "entityId": "unified-home",
+      "name": "Home",
+      "contentUrl": "https://commercial.windinfosys.com/unifiedsmi/",
+      "scopes": ["personal"]
+    }
+  ],
+  "configurableTabs": [],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": [
+    "commercial.windinfosys.com"
+  ],
+  "showLoadingIndicator": false
+}

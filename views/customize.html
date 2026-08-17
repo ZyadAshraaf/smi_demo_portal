@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customize — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <style>
+    /* ── Color Picker Card ───────────────────────────────── */
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--color-border-light);
+    }
+    .color-row:last-child { border-bottom: none; }
+    .color-swatch-wrap {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid var(--color-border);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .color-swatch-wrap:hover { border-color: var(--color-primary); }
+    .color-swatch-wrap input[type="color"] {
+      position: absolute;
+      inset: -6px;
+      width: calc(100% + 12px);
+      height: calc(100% + 12px);
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+    }
+    .color-swatch-bg {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .color-label { flex: 1; }
+    .color-label-title { font-size: 14px; font-weight: 600; color: var(--color-text); }
+    .color-label-desc  { font-size: 12px; color: var(--color-text-muted); margin-top: 1px; }
+    .color-hex {
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-primary);
+      background: var(--color-primary-faint);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      width: 98px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    /* ── Logo Upload ─────────────────────────────────────── */
+    .logo-upload-zone {
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--color-surface);
+    }
+    .logo-upload-zone:hover, .logo-upload-zone.dragover {
+      border-color: var(--color-primary);
+      background: var(--color-primary-faint);
+    }
+    .logo-upload-zone i { font-size: 36px; color: var(--color-primary-lighter); margin-bottom: 10px; display: block; }
+    .logo-preview-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px;
+      background: var(--color-primary);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+    }
+    #logoPreviewImg { height: 44px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
+
+    /* ── Live Preview Panel ───────────────────────────────── */
+    .preview-panel {
+      position: sticky;
+      top: calc(var(--topbar-height) + 20px);
+    }
+    .mini-sidebar {
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mini-sidebar-logo {
+      width: 28px;
+      height: 28px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: white;
+    }
+    .mini-sidebar-name { color: white; font-size: 13px; font-weight: 700; }
+    .mini-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      color: rgba(255,255,255,0.8);
+      font-size: 12px;
+      border-radius: 0;
+    }
+    .mini-nav-item.active { background: rgba(255,255,255,0.2); color: white; }
+    .mini-nav-item i { font-size: 14px; }
+    .preview-content {
+      background: var(--color-surface);
+      padding: 16px;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+    .preview-stat {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .preview-stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .shade-palette {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .shade-chip {
+      flex: 1;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* ── Section Headers ──────────────────────────────────── */
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo" id="sidebarLogo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Customize</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="row g-4">
+
+        <!-- ── Settings Form ─────────────────────────────────── -->
+        <div class="col-12 col-xl-7">
+
+          <!-- App Name -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <span><i class="bi bi-type text-primary me-2"></i>Application Name</span>
+            </div>
+            <div class="card-body">
+              <div class="row g-3 align-items-end">
+                <div class="col">
+                  <label class="form-label">App Name</label>
+                  <input type="text" class="form-control" id="appNameInput" placeholder="e.g. Unified Workspace">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colors -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <span><i class="bi bi-palette2 text-primary me-2"></i>Color Palette</span>
+              <span class="fs-sm text-muted">Click a swatch to open the color picker</span>
+            </div>
+            <div class="card-body">
+
+              <!-- Primary -->
+              <div class="section-title mb-2">Primary Color</div>
+              <div class="color-row">
+                <div class="color-swatch-wrap" onclick="document.getElementById('pickPrimary').click()">
+                  <div class="color-swatch-bg" id="swatchPrimary"></div>
+                  <input type="color" id="pickPrimary" value="#001E57">
+                </div>
+                <div class="color-label">
+                  <div class="color-label-title">Primary</div>
+                  <div class="color-label-desc">Sidebar, buttons, links, active states</div>
+                </div>
+                <input class="color-hex" id="hexPrimary" value="#001E57" maxlength="7" spellcheck="false">
+              </div>
+
+              <!-- Shades preview -->
+              <div class="mb-4">
+                <div class="fs-xs text-muted mb-1">Auto-generated shades</div>
+                <div class="shade-palette" id="shadePalette">
+                  <div class="shade-chip" id="shadeDarker" title="Darker"></div>
+                  <div class="shade-chip" id="shadeDark"   title="Dark"></div>
+                  <div class="shade-chip" id="shadeBase"   title="Primary"></div>
+                  <div class="shade-chip" id="shadeLight"  title="Light"></div>
+                  <div class="shade-chip" id="shadeLighter" title="Lighter"></div>
+                  <div class="shade-chip" id="shadeFaint"  title="Faint"></div>
+                </div>
+              </div>
+
+              <!-- Secondary -->
+              <div class="section-title mb-2">Secondary Color</div>
+              <div class="color-row">
+                <div class="color-swatch-wrap" onclick="document.getElementById('pickSecondary').click()">
+                  <div class="color-swatch-bg" id="swatchSecondary"></div>
+                  <input type="color" id="pickSecondary" value="#DF6512">
+                </div>
+                <div class="color-label">
+                  <div class="color-label-title">Secondary</div>
+                  <div class="color-label-desc">Text headings, sidebar footer user area</div>
+                </div>
+                <input class="color-hex" id="hexSecondary" value="#DF6512" maxlength="7" spellcheck="false">
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <span><i class="bi bi-image text-primary me-2"></i>Application Logo</span>
+            </div>
+            <div class="card-body">
+              <!-- Current logo preview on sidebar bg -->
+              <div class="logo-preview-wrap mb-3">
+                <img id="logoPreviewImg" src="/unifiedsmi/assets/logo.png" alt="Current Logo" onerror="this.style.display='none'">
+                <span class="fs-xs" style="color:rgba(255,255,255,0.6)">Sidebar preview</span>
+              </div>
+
+              <!-- Upload zone -->
+              <div class="logo-upload-zone" id="logoDropZone">
+                <i class="bi bi-cloud-arrow-up"></i>
+                <div class="fw-600 mb-1">Drop logo here or click to browse</div>
+                <div class="fs-sm text-muted">PNG or SVG recommended · Max 2MB</div>
+                <input type="file" id="logoFileInput" accept="image/*" style="display:none">
+              </div>
+              <div class="mt-2 fs-sm d-none" id="logoFileName" style="color:var(--color-primary)">
+                <i class="bi bi-check-circle me-1"></i><span id="logoFileNameText"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex gap-3">
+            <button class="btn btn-primary px-4" id="btnSaveAll">
+              <i class="bi bi-check-lg me-2"></i>Save & Apply
+            </button>
+            <button class="btn btn-outline-secondary" id="btnReset">
+              <i class="bi bi-arrow-counterclockwise me-2"></i>Reset to Defaults
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Live Preview ───────────────────────────────────── -->
+        <div class="col-12 col-xl-5">
+          <div class="preview-panel">
+            <div class="card">
+              <div class="card-header">
+                <span><i class="bi bi-eye text-primary me-2"></i>Live Preview</span>
+                <span class="fs-xs text-muted">Updates as you pick colors</span>
+              </div>
+              <div class="card-body p-0">
+                <!-- Mini sidebar header -->
+                <div class="mini-sidebar" id="previewSidebar">
+                  <div class="mini-sidebar-logo"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                  <div class="mini-sidebar-name" id="previewAppName">Unified Workspace</div>
+                </div>
+                <!-- Mini nav items -->
+                <div style="padding:6px 0;" id="previewSidebarBg">
+                  <div class="mini-nav-item active" id="previewNavActive"><i class="bi bi-house-door"></i> Home</div>
+                  <div class="mini-nav-item"><i class="bi bi-check2-square"></i> My Tasks</div>
+                  <div class="mini-nav-item"><i class="bi bi-calendar-check"></i> Leaves</div>
+                  <div class="mini-nav-item"><i class="bi bi-bar-chart-line"></i> Analytics</div>
+                </div>
+
+                <!-- Content preview -->
+                <div class="preview-content">
+                  <!-- Stat cards -->
+                  <div class="row g-2 mb-3">
+                    <div class="col-6">
+                      <div class="preview-stat">
+                        <div class="preview-stat-icon" id="previewIconBg"><i class="bi bi-check2-square" id="previewIconColor"></i></div>
+                        <div><div class="fw-700">12</div><div class="fs-xs text-muted">Tasks</div></div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="preview-stat">
+                        <div class="preview-stat-icon" style="background:#E4F7EF;color:#1A9E6A"><i class="bi bi-calendar3"></i></div>
+                        <div><div class="fw-700">18</div><div class="fs-xs text-muted">Leave Days</div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Buttons -->
+                  <div class="d-flex gap-2 mb-3 flex-wrap">
+                    <button class="btn btn-sm btn-primary" id="previewBtnPrimary" style="pointer-events:none">Primary</button>
+                    <button class="btn btn-sm btn-outline-primary" id="previewBtnOutline" style="pointer-events:none">Outline</button>
+                    <span class="badge-custom badge-status-pending">Pending</span>
+                    <span class="badge-custom badge-status-completed">Done</span>
+                  </div>
+
+                  <!-- Progress bar -->
+                  <div class="fs-xs text-muted mb-1">Task Progress</div>
+                  <div class="progress mb-3">
+                    <div class="progress-bar" id="previewProgressBar" style="width:65%"></div>
+                  </div>
+
+                  <!-- Link color -->
+                  <div class="fs-sm">
+                    <a href="#" id="previewLink" style="pointer-events:none">View all tasks →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Applied shades reference -->
+            <div class="card mt-3">
+              <div class="card-header"><span><i class="bi bi-palette text-primary me-2"></i>Generated Shades</span></div>
+              <div class="card-body pb-2">
+                <div class="row g-2 text-center fs-xs" id="shadeReference"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Success Toast container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/customize.js"></script>
+</body>
+</html>

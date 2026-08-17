@@ -1,0 +1,221 @@
+[
+  {
+    "id": "MC001",
+    "name": "Financial Details",
+    "description": "Amount, currency, and payment terms",
+    "fields": [
+      { "id": "amount", "label": "Amount", "type": "number", "required": true },
+      { "id": "currency", "label": "Currency", "type": "select", "required": true, "options": ["SAR", "USD", "EUR", "GBP", "AED", "KWD"] },
+      { "id": "due_date", "label": "Due Date", "type": "date", "required": false }
+    ]
+  },
+  {
+    "id": "MC002",
+    "name": "Vendor Details",
+    "description": "Vendor / supplier identification",
+    "fields": [
+      { "id": "vendor_name", "label": "Vendor Name", "type": "text", "required": true },
+      { "id": "vendor_code", "label": "Vendor Code", "type": "text", "required": false },
+      { "id": "contact_person", "label": "Contact Person", "type": "text", "required": false }
+    ]
+  },
+  {
+    "id": "MC003",
+    "name": "Contract Dates",
+    "description": "Effective and expiration dates for agreements",
+    "fields": [
+      { "id": "effective_date", "label": "Effective Date", "type": "date", "required": true },
+      { "id": "expiration_date", "label": "Expiration Date", "type": "date", "required": true }
+    ]
+  },
+  {
+    "id": "MC004",
+    "name": "Department & Approval",
+    "description": "Owning department and approver information",
+    "fields": [
+      { "id": "department", "label": "Department", "type": "select", "required": true, "options": ["HR", "Finance", "IT", "Security", "Operations", "Compliance", "Engineering", "Sales", "Marketing", "Executive"] },
+      { "id": "approver", "label": "Approver", "type": "text", "required": false }
+    ]
+  },
+  {
+    "id": "MC005",
+    "name": "Client & Proposal",
+    "description": "Client details and proposal values",
+    "fields": [
+      { "id": "client_name", "label": "Client Name", "type": "text", "required": true },
+      { "id": "proposal_amount", "label": "Proposal Amount", "type": "number", "required": true },
+      { "id": "validity_days", "label": "Validity (days)", "type": "number", "required": false }
+    ]
+  },
+  {
+    "id": "MC006",
+    "name": "Employee Record",
+    "description": "HR employee identification and record type",
+    "fields": [
+      { "id": "employee_id", "label": "Employee ID", "type": "text", "required": true },
+      { "id": "employee_name", "label": "Employee Name", "type": "text", "required": true },
+      { "id": "record_type", "label": "Record Type", "type": "select", "required": true, "options": ["Onboarding", "Performance Review", "Disciplinary", "Separation", "Training"] }
+    ]
+  },
+  {
+    "id": "MC007",
+    "name": "Meeting Information",
+    "description": "Meeting title, date, and attendees",
+    "fields": [
+      { "id": "meeting_title", "label": "Meeting Title", "type": "text", "required": true },
+      { "id": "meeting_date", "label": "Meeting Date", "type": "date", "required": true },
+      { "id": "attendees", "label": "Attendees", "type": "text", "required": false }
+    ]
+  },
+  {
+    "id": "MC008",
+    "name": "Payment & Receipt",
+    "description": "Payment method, amount paid, and expense category",
+    "fields": [
+      { "id": "amount_paid", "label": "Amount Paid", "type": "number", "required": true },
+      { "id": "payment_method", "label": "Payment Method", "type": "select", "required": true, "options": ["Cash", "Check", "Credit Card", "Bank Transfer"] },
+      { "id": "expense_category", "label": "Expense Category", "type": "select", "required": false, "options": ["Office Supplies", "Travel", "Meals", "Equipment", "Other"] }
+    ]
+  },
+  {
+    "id": "MC009",
+    "name": "Report Classification",
+    "description": "Report type, author, and confidentiality level",
+    "fields": [
+      { "id": "report_type", "label": "Report Type", "type": "select", "required": true, "options": ["Financial", "Operational", "Marketing", "Technical", "Compliance"] },
+      { "id": "author", "label": "Author", "type": "text", "required": true },
+      { "id": "confidentiality", "label": "Confidentiality", "type": "select", "required": true, "options": ["Public", "Internal", "Confidential", "Restricted"] }
+    ]
+  },
+  {
+    "id": "MC010",
+    "name": "Internal Communication",
+    "description": "Subject, sender department, priority for memos",
+    "fields": [
+      { "id": "subject", "label": "Subject", "type": "text", "required": true },
+      { "id": "from_department", "label": "From Department", "type": "select", "required": true, "options": ["HR", "Finance", "IT", "Operations", "Executive"] },
+      { "id": "priority", "label": "Priority", "type": "select", "required": true, "options": ["Low", "Medium", "High", "Urgent"] }
+    ]
+  },
+  {
+    "id": "MD001",
+    "name": "Invoice Template",
+    "description": "All metadata fields for invoice documents",
+    "fields": [
+      { "id": "invoice_number", "label": "Invoice Number", "type": "text", "required": true },
+      { "id": "invoice_date", "label": "Invoice Date", "type": "date", "required": true },
+      { "id": "vendor_name", "label": "Vendor Name", "type": "text", "required": true },
+      { "id": "amount", "label": "Amount", "type": "number", "required": true },
+      { "id": "currency", "label": "Currency", "type": "select", "required": true, "options": ["SAR", "USD", "EUR", "GBP", "AED", "KWD"] },
+      { "id": "due_date", "label": "Due Date", "type": "date", "required": false }
+    ]
+  },
+  {
+    "id": "MD002",
+    "name": "Contract Template",
+    "description": "All metadata fields for contract documents",
+    "fields": [
+      { "id": "contract_number", "label": "Contract Number", "type": "text", "required": true },
+      { "id": "parties", "label": "Parties", "type": "text", "required": true },
+      { "id": "contract_type", "label": "Contract Type", "type": "select", "required": true, "options": ["Service", "NDA", "Employment", "Vendor", "Lease", "Partnership"] },
+      { "id": "effective_date", "label": "Effective Date", "type": "date", "required": true },
+      { "id": "expiration_date", "label": "Expiration Date", "type": "date", "required": true },
+      { "id": "contract_value", "label": "Contract Value", "type": "number", "required": false }
+    ]
+  },
+  {
+    "id": "MD003",
+    "name": "Policy Template",
+    "description": "All metadata fields for policy documents",
+    "fields": [
+      { "id": "policy_number", "label": "Policy Number", "type": "text", "required": true },
+      { "id": "department", "label": "Department", "type": "select", "required": true, "options": ["HR", "Finance", "IT", "Security", "Operations", "Compliance"] },
+      { "id": "effective_date", "label": "Effective Date", "type": "date", "required": true },
+      { "id": "review_date", "label": "Next Review Date", "type": "date", "required": true },
+      { "id": "approver", "label": "Approver", "type": "text", "required": true }
+    ]
+  },
+  {
+    "id": "MD004",
+    "name": "Purchase Order Template",
+    "description": "All metadata fields for purchase order documents",
+    "fields": [
+      { "id": "po_number", "label": "PO Number", "type": "text", "required": true },
+      { "id": "vendor_name", "label": "Vendor Name", "type": "text", "required": true },
+      { "id": "order_date", "label": "Order Date", "type": "date", "required": true },
+      { "id": "total_amount", "label": "Total Amount", "type": "number", "required": true },
+      { "id": "delivery_date", "label": "Expected Delivery", "type": "date", "required": true },
+      { "id": "department", "label": "Department", "type": "select", "required": true, "options": ["Finance", "Operations", "Engineering", "HR", "Sales"] }
+    ]
+  },
+  {
+    "id": "MD005",
+    "name": "Report Template",
+    "description": "All metadata fields for report documents",
+    "fields": [
+      { "id": "report_type", "label": "Report Type", "type": "select", "required": true, "options": ["Financial", "Operational", "Marketing", "Technical", "Compliance"] },
+      { "id": "author", "label": "Author", "type": "text", "required": true },
+      { "id": "report_date", "label": "Report Date", "type": "date", "required": true },
+      { "id": "department", "label": "Department", "type": "select", "required": true, "options": ["Finance", "Operations", "Engineering", "Marketing", "HR"] },
+      { "id": "confidentiality", "label": "Confidentiality", "type": "select", "required": true, "options": ["Public", "Internal", "Confidential", "Restricted"] }
+    ]
+  },
+  {
+    "id": "MD006",
+    "name": "Memo Template",
+    "description": "All metadata fields for internal memo documents",
+    "fields": [
+      { "id": "subject", "label": "Subject", "type": "text", "required": true },
+      { "id": "from_department", "label": "From Department", "type": "select", "required": true, "options": ["HR", "Finance", "IT", "Operations", "Executive"] },
+      { "id": "date_issued", "label": "Date Issued", "type": "date", "required": true },
+      { "id": "priority", "label": "Priority", "type": "select", "required": true, "options": ["Low", "Medium", "High", "Urgent"] }
+    ]
+  },
+  {
+    "id": "MD007",
+    "name": "Proposal Template",
+    "description": "All metadata fields for proposal documents",
+    "fields": [
+      { "id": "proposal_number", "label": "Proposal Number", "type": "text", "required": true },
+      { "id": "client_name", "label": "Client Name", "type": "text", "required": true },
+      { "id": "proposal_date", "label": "Proposal Date", "type": "date", "required": true },
+      { "id": "proposal_amount", "label": "Amount", "type": "number", "required": true },
+      { "id": "validity_days", "label": "Validity (days)", "type": "number", "required": true }
+    ]
+  },
+  {
+    "id": "MD008",
+    "name": "Employee Record Template",
+    "description": "All metadata fields for HR employee record documents",
+    "fields": [
+      { "id": "employee_id", "label": "Employee ID", "type": "text", "required": true },
+      { "id": "employee_name", "label": "Employee Name", "type": "text", "required": true },
+      { "id": "record_type", "label": "Record Type", "type": "select", "required": true, "options": ["Onboarding", "Performance Review", "Disciplinary", "Separation", "Training"] },
+      { "id": "date_created", "label": "Date", "type": "date", "required": true },
+      { "id": "department", "label": "Department", "type": "select", "required": true, "options": ["HR", "Finance", "IT", "Operations", "Engineering", "Sales"] }
+    ]
+  },
+  {
+    "id": "MD009",
+    "name": "Meeting Minutes Template",
+    "description": "All metadata fields for meeting minutes documents",
+    "fields": [
+      { "id": "meeting_title", "label": "Meeting Title", "type": "text", "required": true },
+      { "id": "meeting_date", "label": "Meeting Date", "type": "date", "required": true },
+      { "id": "attendees", "label": "Attendees", "type": "text", "required": true },
+      { "id": "department", "label": "Department", "type": "select", "required": true, "options": ["Executive", "Finance", "Operations", "Engineering", "Sales", "HR"] }
+    ]
+  },
+  {
+    "id": "MD010",
+    "name": "Receipt Template",
+    "description": "All metadata fields for receipt documents",
+    "fields": [
+      { "id": "receipt_number", "label": "Receipt Number", "type": "text", "required": true },
+      { "id": "receipt_date", "label": "Date", "type": "date", "required": true },
+      { "id": "amount_paid", "label": "Amount Paid", "type": "number", "required": true },
+      { "id": "payment_method", "label": "Payment Method", "type": "select", "required": true, "options": ["Cash", "Check", "Credit Card", "Bank Transfer"] },
+      { "id": "expense_category", "label": "Expense Category", "type": "select", "required": false, "options": ["Office Supplies", "Travel", "Meals", "Equipment", "Other"] }
+    ]
+  }
+]

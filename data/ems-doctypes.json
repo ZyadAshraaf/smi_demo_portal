@@ -1,0 +1,92 @@
+[
+  {
+    "id": "DT001",
+    "name": "Invoice",
+    "description": "Financial invoice document",
+    "icon": "bi-receipt",
+    "color": "#DC3545",
+    "metadataId": "MD001",
+    "fields": []
+  },
+  {
+    "id": "DT002",
+    "name": "Contract",
+    "description": "Legal agreement between parties",
+    "icon": "bi-file-earmark-text",
+    "color": "#198D87",
+    "metadataId": "MD002",
+    "fields": []
+  },
+  {
+    "id": "DT003",
+    "name": "Policy",
+    "description": "Organizational policy document",
+    "icon": "bi-shield-check",
+    "color": "#2C3E50",
+    "metadataId": "MD003",
+    "fields": []
+  },
+  {
+    "id": "DT004",
+    "name": "Purchase Order",
+    "description": "Procurement authorization document",
+    "icon": "bi-cart-check",
+    "color": "#FF6B35",
+    "metadataId": "MD004",
+    "fields": []
+  },
+  {
+    "id": "DT005",
+    "name": "Report",
+    "description": "Business or technical report",
+    "icon": "bi-bar-chart-line",
+    "color": "#6F42C1",
+    "metadataId": "MD005",
+    "fields": []
+  },
+  {
+    "id": "DT006",
+    "name": "Memo",
+    "description": "Internal communication memo",
+    "icon": "bi-envelope-paper",
+    "color": "#0D6EFD",
+    "metadataId": "MD006",
+    "fields": []
+  },
+  {
+    "id": "DT007",
+    "name": "Proposal",
+    "description": "Business development proposal",
+    "icon": "bi-file-earmark-richtext",
+    "color": "#20C997",
+    "metadataId": "MD007",
+    "fields": []
+  },
+  {
+    "id": "DT008",
+    "name": "Employee Record",
+    "description": "HR employee documentation",
+    "icon": "bi-person-vcard",
+    "color": "#E91E63",
+    "metadataId": "MD008",
+    "fields": []
+  },
+  {
+    "id": "DT009",
+    "name": "Meeting Minutes",
+    "description": "Meeting notes and action items",
+    "icon": "bi-journal-text",
+    "color": "#FFC107",
+    "metadataId": "MD009",
+    "fields": []
+  },
+  {
+    "id": "DT010",
+    "name": "Receipt",
+    "description": "Payment or transaction receipt",
+    "icon": "bi-credit-card",
+    "color": "#795548",
+    "metadataId": "MD010",
+    "fields": []
+  }
+]

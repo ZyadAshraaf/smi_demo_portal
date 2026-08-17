@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#001E57">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/unifiedsmi/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/unifiedsmi/assets/pwa-icon.png">
+  <title>Work From Home — Unified Workspace</title>
+  <style>html,body{background:#eef2f7}.m-header{background:var(--color-primary,#001E57)}</style>
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/mobile/css/mobile.css">
+</head>
+<body>
+<div class="m-page m-page--no-tabs">
+  <div class="m-header m-header--back">
+    <a href="/unifiedsmi/m/home?tab=services">
+      <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+    </a>
+    <div>
+      <h1>Work From Home</h1>
+      <div class="m-header__sub">Submit a WFH request</div>
+    </div>
+  </div>
+
+  <div class="m-content">
+    <form class="m-form" id="wfhForm">
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Duration</label>
+        <div class="form-control" id="daysDisplay" style="background:#f8fafc;color:#64748b;">Select dates above</div>
+      </div>
+
+      <div class="form-group">
+        <label for="reason">Reason</label>
+        <textarea id="reason" class="form-control" rows="4" placeholder="Briefly describe the reason for working from home…" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full" id="submitBtn">Submit Request</button>
+    </form>
+  </div>
+</div>
+
+<script src="/unifiedsmi/mobile/js/api.js"></script>
+<script src="/unifiedsmi/mobile/js/wfh.js"></script>
+</body>
+</html>

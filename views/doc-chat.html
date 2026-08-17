@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Assistant — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       Knowledge Assistant — Premium AI Page Design
+       ═══════════════════════════════════════════════════════════ */
+
+    /* ── AI Hero ─────────────────────────────────────────────── */
+    .ai-hero {
+      background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary) 55%, var(--color-primary-light) 100%);
+      border-radius: 20px; padding: 32px 36px 28px; color: white;
+      margin-bottom: 28px; position: relative; overflow: hidden;
+    }
+    .ai-hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.09) 1px, transparent 0);
+      background-size: 28px 28px;
+    }
+    .ai-hero-glow {
+      position: absolute; right: -60px; top: -60px; width: 320px; height: 320px;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(255,255,255,0.13) 0%, transparent 70%);
+    }
+    .ai-hero-bc  { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 16px; position: relative; }
+    .ai-hero-bc span { color: rgba(255,255,255,0.9); font-weight: 600; }
+    .ai-hero-body { display: flex; align-items: flex-start; gap: 20px; position: relative; }
+    .ai-hero-icon {
+      width: 68px; height: 68px; border-radius: 18px; flex-shrink: 0;
+      background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.28);
+      display: flex; align-items: center; justify-content: center; font-size: 30px;
+    }
+    .ai-hero-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.3px; }
+    .ai-hero-sub   { font-size: 14px; opacity: 0.82; line-height: 1.65; margin-bottom: 18px; max-width: 560px; }
+    .ai-hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ai-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 20px; padding: 5px 13px; font-size: 12px; font-weight: 600;
+    }
+
+    /* ── Wizard Track ─────────────────────────────────────────── */
+    .wizard-track {
+      display: flex; align-items: center;
+      background: white; border: 1px solid var(--color-border);
+      border-radius: 16px; padding: 6px 8px; margin-bottom: 28px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .wizard-step {
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+      border-radius: 12px; font-size: 13px; font-weight: 600;
+      transition: all 0.3s; white-space: nowrap; flex: 1; cursor: default;
+    }
+    .wizard-step.active  { background: var(--color-primary); color: white; box-shadow: 0 4px 18px rgba(var(--color-primary-rgb), 0.38); }
+    .wizard-step.done    { background: var(--color-success-light); color: var(--color-success); }
+    .wizard-step.pending { background: transparent; color: var(--color-text-muted); }
+    .wizard-step-num {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+    }
+    .wizard-step.active  .wizard-step-num { background: rgba(255,255,255,0.25); color: white; }
+    .wizard-step.done    .wizard-step-num { background: var(--color-success); color: white; }
+    .wizard-step.pending .wizard-step-num { background: var(--color-border); color: var(--color-text-muted); }
+    .wizard-step-info { display: flex; flex-direction: column; }
+    .wizard-step-label { font-size: 13px; font-weight: 700; line-height: 1.2; }
+    .wizard-step-desc  { font-size: 11px; opacity: 0.65; font-weight: 400; margin-top: 2px; }
+    .wizard-connector  { height: 2px; background: var(--color-border); margin: 0 4px; min-width: 12px; flex-shrink: 1; }
+
+    /* ── Upload Card (Step 1) ─────────────────────────────────── */
+    .upload-card {
+      background: white; border: 1px solid var(--color-border);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.08); max-width: 700px; margin: 0 auto;
+    }
+    .upload-card-head {
+      display: flex; align-items: center; gap: 16px;
+      padding: 24px 32px; border-bottom: 1px solid var(--color-border-light);
+    }
+    .upload-card-icon {
+      width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+      background: var(--color-primary-faint); color: var(--color-primary);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .upload-card-title { font-size: 16px; font-weight: 700; color: var(--color-text); margin-bottom: 3px; }
+    .upload-card-sub   { font-size: 13px; color: var(--color-text-muted); }
+    .upload-card-body  { padding: 28px 32px 32px; }
+
+    /* ── Upload Zone ─────────────────────────────────────────── */
+    .upload-zone {
+      border: 2px dashed var(--color-border); border-radius: 16px;
+      padding: 44px 28px; text-align: center; cursor: pointer;
+      transition: all 0.25s; background: var(--color-surface);
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--color-primary); background: var(--color-primary-faint);
+      box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.09);
+    }
+    .upload-zone .upload-icon {
+      font-size: 50px; color: var(--color-primary-lighter); margin-bottom: 14px; display: block;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .upload-zone .upload-title { font-size: 16px; font-weight: 700; color: var(--color-text); margin-bottom: 6px; }
+    .upload-zone .upload-hint  { font-size: 13px; color: var(--color-text-muted); margin: 0; }
+    .upload-zone .upload-hint strong { color: var(--color-primary); }
+    .upload-limit { font-size: 12px; color: var(--color-text-muted); margin-top: 10px; display: block; }
+
+    /* ── AI Primary Button ───────────────────────────────────── */
+    .btn-ai {
+      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 60%, var(--color-primary-light) 100%);
+      color: white; border: none; border-radius: 12px;
+      padding: 13px 24px; font-size: 14px; font-weight: 700; width: 100%; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(var(--color-primary-rgb), 0.4); transition: all 0.2s;
+    }
+    .btn-ai:hover  { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(var(--color-primary-rgb), 0.5); color: white; }
+    .btn-ai:active { transform: translateY(0); }
+    .btn-ai:disabled { opacity: 0.65; cursor: not-allowed; transform: none !important; box-shadow: 0 2px 10px rgba(var(--color-primary-rgb), 0.2); }
+
+    /* ── File Chips ──────────────────────────────────────────── */
+    .file-chip { display: flex; align-items: center; gap: 8px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 9px 13px; transition: box-shadow 0.15s; }
+    .file-chip:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .file-chip-icon   { color: #e74c3c; font-size: 16px; flex-shrink: 0; }
+    .file-chip-name   { flex: 1; font-size: 12px; font-weight: 500; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .file-chip-size   { font-size: 11px; color: var(--color-text-muted); white-space: nowrap; flex-shrink: 0; }
+    .file-chip-remove { cursor: pointer; color: var(--color-text-muted); background: none; border: none; padding: 2px 4px; line-height: 1; border-radius: 4px; flex-shrink: 0; }
+    .file-chip-remove:hover { color: var(--color-danger); background: var(--color-danger-light); }
+
+    /* ── AI Loading Card ──────────────────────────────────────── */
+    .ai-loading-card {
+      background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary) 100%);
+      border-radius: 20px; padding: 60px 32px 52px; text-align: center; color: white;
+      box-shadow: 0 12px 52px rgba(var(--color-primary-rgb), 0.38);
+      position: relative; overflow: hidden; max-width: 600px; margin: 0 auto;
+    }
+    .ai-loading-card::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0);
+      background-size: 28px 28px;
+    }
+    .ai-loading-rings {
+      position: relative; width: 110px; height: 110px;
+      margin: 0 auto 32px; display: flex; align-items: center; justify-content: center;
+    }
+    .ai-ring { position: absolute; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); }
+    .ai-ring-1 { width: 110px; height: 110px; animation: pulse-ring 2.2s ease-in-out infinite; }
+    .ai-ring-2 { width: 82px;  height: 82px;  animation: pulse-ring 2.2s ease-in-out infinite 0.45s; }
+    .ai-ring-3 { width: 56px;  height: 56px;  animation: pulse-ring 2.2s ease-in-out infinite 0.9s; }
+    @keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:0.28} 50%{transform:scale(1.07);opacity:0.85} }
+    .ai-loading-core {
+      width: 46px; height: 46px; border-radius: 14px; z-index: 1;
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .ai-loading-title { font-size: 21px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.2px; position: relative; }
+    .ai-loading-sub   { font-size: 14px; opacity: 0.75; margin-bottom: 28px; line-height: 1.65; position: relative; }
+    .ai-loading-steps { display: flex; flex-direction: column; gap: 8px; max-width: 340px; margin: 0 auto; position: relative; }
+    .ai-loading-step {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; border-radius: 10px; text-align: left;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      font-size: 13px; color: rgba(255,255,255,0.55); transition: all 0.4s;
+    }
+    .ai-loading-step.active { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); color: white; font-weight: 600; }
+    .ai-loading-step i { font-size: 14px; flex-shrink: 0; }
+    .loading-dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
+    @keyframes dots { 0%,20%{content:''} 40%{content:'.'} 60%{content:'..'} 80%,100%{content:'...'} }
+    @keyframes spin  { to { transform: rotate(360deg); } }
+
+    /* ── Chat Layout (Step 3) ─────────────────────────────────── */
+    .chat-layout { display: flex; gap: 20px; align-items: flex-start; }
+    .chat-main   { flex: 1; min-width: 0; }
+
+    /* ── Document Context Sidebar ─────────────────────────────── */
+    .doc-sidebar { width: 268px; flex-shrink: 0; }
+    .doc-sidebar-card {
+      background: white; border: 1px solid var(--color-border);
+      border-radius: 18px; padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+    .doc-sidebar-title {
+      font-size: 11px; font-weight: 700; color: var(--color-text-muted);
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .doc-sidebar-title i { color: var(--color-primary); font-size: 13px; }
+    .doc-file-item { display: flex; align-items: flex-start; gap: 9px; padding: 9px 0; border-bottom: 1px solid var(--color-border-light); }
+    .doc-file-item:last-child { border-bottom: none; }
+    .doc-file-item i { color: #e74c3c; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .doc-file-name { font-size: 12px; font-weight: 500; color: var(--color-text); line-height: 1.4; }
+    .doc-stats { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--color-border-light); }
+    .doc-stat { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+    .doc-stat-label { color: var(--color-text-muted); }
+    .doc-stat-value { font-weight: 700; color: var(--color-text); }
+    .btn-new-session { width: 100%; margin-top: 16px; font-size: 12px; padding: 8px; border-radius: 10px; }
+
+    /* ── Chat Panel ──────────────────────────────────────────── */
+    .chat-panel {
+      background: white; border: 1px solid var(--color-border);
+      border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .chat-panel-header {
+      background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+      color: white; padding: 18px 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .chat-icon-wrap { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+    .chat-panel-header h6 { margin: 0 0 2px; font-weight: 700; font-size: 14px; }
+    .chat-panel-header p  { margin: 0; font-size: 12px; opacity: 0.8; }
+    .chat-messages { padding: 20px; min-height: 380px; max-height: 520px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+    .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
+    .chat-msg.user      { align-self: flex-end; align-items: flex-end; }
+    .chat-msg.assistant { align-self: flex-start; align-items: flex-start; }
+    .chat-bubble { padding: 11px 15px; border-radius: 14px; font-size: 13px; line-height: 1.6; }
+    .chat-msg.user      .chat-bubble { background: var(--color-primary); color: white; border-bottom-right-radius: 4px; }
+    .chat-msg.assistant .chat-bubble { background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-bottom-left-radius: 4px; }
+    .chat-time { font-size: 10px; color: var(--color-text-muted); margin-top: 4px; }
+    .chat-sources { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+    .source-chip { font-size: 10px; font-weight: 600; color: var(--color-primary); background: var(--color-primary-faint); border: 1px solid var(--color-border); border-radius: 10px; padding: 2px 8px; white-space: nowrap; }
+    .chat-typing { display: flex; gap: 4px; align-items: center; padding: 12px 15px; }
+    .chat-typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--color-text-muted); animation: bounce 1.2s ease-in-out infinite; }
+    .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1);opacity:1} }
+    .chat-input-row { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--color-border); background: var(--color-surface); }
+    .chat-input-row .form-control { border-radius: 22px; font-size: 13px; border-color: var(--color-border); }
+    .chat-input-row .form-control:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.12); }
+    .chat-input-row .btn-send { border-radius: 22px; padding: 6px 18px; flex-shrink: 0; }
+
+    /* ── Suggested Questions ─────────────────────────────────── */
+    .suggestions { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--color-border-light); background: var(--color-surface); }
+    .suggestion-chip { font-size: 12px; color: var(--color-primary); background: white; border: 1px solid var(--color-border); border-radius: 16px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .suggestion-chip:hover { background: var(--color-primary-faint); border-color: var(--color-primary); }
+
+    @media (max-width: 991px) { .chat-layout { flex-direction: column; } .doc-sidebar { width: 100%; } }
+    @media (max-width: 768px) {
+      .ai-hero-body { flex-direction: column; gap: 14px; }
+      .ai-hero-icon { width: 52px; height: 52px; font-size: 24px; border-radius: 14px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Knowledge Assistant</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- AI Hero -->
+      <div class="ai-hero">
+        <div class="ai-hero-grid"></div>
+        <div class="ai-hero-glow"></div>
+        <div class="ai-hero-bc">AI Use Cases &rsaquo; <span>Knowledge Assistant</span></div>
+        <div class="ai-hero-body">
+          <div class="ai-hero-icon"><i class="bi bi-lightbulb"></i></div>
+          <div>
+            <div class="ai-hero-title">Knowledge Assistant</div>
+            <div class="ai-hero-sub">Upload up to 5 documents and instantly start a conversation — ask anything about their contents and get cited, accurate answers.</div>
+            <div class="ai-hero-badges">
+              <span class="ai-badge"><i class="bi bi-chat-dots"></i>Conversational Q&amp;A</span>
+              <span class="ai-badge"><i class="bi bi-bookmark-check"></i>Source Citations</span>
+              <span class="ai-badge"><i class="bi bi-files"></i>Multi-Document</span>
+              <span class="ai-badge"><i class="bi bi-cpu"></i>AI-Powered Search</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wizard Steps -->
+      <div class="wizard-track">
+        <div class="wizard-step active" id="wizStep1">
+          <div class="wizard-step-num">1</div>
+          <div class="wizard-step-info">
+            <div class="wizard-step-label">Upload</div>
+            <div class="wizard-step-desc">Add your documents</div>
+          </div>
+        </div>
+        <div class="wizard-connector"></div>
+        <div class="wizard-step pending" id="wizStep2">
+          <div class="wizard-step-num">2</div>
+          <div class="wizard-step-info">
+            <div class="wizard-step-label">Processing</div>
+            <div class="wizard-step-desc">Building knowledge index</div>
+          </div>
+        </div>
+        <div class="wizard-connector"></div>
+        <div class="wizard-step pending" id="wizStep3">
+          <div class="wizard-step-num">3</div>
+          <div class="wizard-step-info">
+            <div class="wizard-step-label">Chat</div>
+            <div class="wizard-step-desc">Ask anything</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 1: Upload ────────────────────────────────────── -->
+      <div id="step1">
+        <div class="upload-card">
+          <div class="upload-card-head">
+            <div class="upload-card-icon"><i class="bi bi-file-earmark-arrow-up"></i></div>
+            <div>
+              <div class="upload-card-title">Upload Documents</div>
+              <div class="upload-card-sub">Add up to 5 PDF files — the AI will index them so you can ask any question about their contents.</div>
+            </div>
+          </div>
+          <div class="upload-card-body">
+            <div class="upload-zone" id="uploadZone">
+              <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+              <i class="bi bi-file-earmark-arrow-up upload-icon"></i>
+              <div class="upload-title">Drop PDF documents here</div>
+              <p class="upload-hint">or <strong>click to browse</strong></p>
+              <span class="upload-limit"><i class="bi bi-info-circle me-1"></i>PDF files only &mdash; up to 5 documents</span>
+            </div>
+
+            <div id="fileList" class="mt-3 d-flex flex-column gap-2"></div>
+
+            <div class="mt-4">
+              <button class="btn-ai" id="btnIngest">
+                <i class="bi bi-lightning-charge me-2"></i>Upload &amp; Start Chatting
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Processing ────────────────────────────────── -->
+      <div id="step2" class="d-none">
+        <div class="ai-loading-card">
+          <div class="ai-loading-rings">
+            <div class="ai-ring ai-ring-1"></div>
+            <div class="ai-ring ai-ring-2"></div>
+            <div class="ai-ring ai-ring-3"></div>
+            <div class="ai-loading-core"><i class="bi bi-files"></i></div>
+          </div>
+          <div class="ai-loading-title">Indexing Documents<span class="loading-dots"></span></div>
+          <div class="ai-loading-sub">Building a searchable knowledge base from your files.<br>This usually takes just a few seconds.</div>
+          <div class="ai-loading-steps">
+            <div class="ai-loading-step active"><i class="bi bi-file-earmark-text"></i>Reading document contents</div>
+            <div class="ai-loading-step"><i class="bi bi-diagram-3"></i>Chunking &amp; indexing knowledge</div>
+            <div class="ai-loading-step"><i class="bi bi-chat-dots"></i>Preparing conversational AI</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Chat ──────────────────────────────────────── -->
+      <div id="step3" class="d-none">
+        <div class="chat-layout">
+
+          <!-- Document context sidebar -->
+          <div class="doc-sidebar">
+            <div class="doc-sidebar-card">
+              <div class="doc-sidebar-title">
+                <i class="bi bi-folder2-open"></i>Loaded Documents
+              </div>
+              <div id="docFileList"></div>
+              <div class="doc-stats" id="docStats"></div>
+              <button class="btn btn-outline-secondary btn-sm btn-new-session" id="btnNewSession">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Upload New Docs
+              </button>
+            </div>
+          </div>
+
+          <!-- Chat panel -->
+          <div class="chat-main">
+            <div class="chat-panel">
+              <div class="chat-panel-header">
+                <div class="chat-icon-wrap"><i class="bi bi-chat-dots"></i></div>
+                <div>
+                  <h6>Document Q&amp;A</h6>
+                  <p id="chatHeaderSub">Ask any question about your documents</p>
+                </div>
+              </div>
+
+              <div class="chat-messages" id="chatMessages">
+                <div class="chat-msg assistant">
+                  <div class="chat-bubble">Your documents are ready. Ask me anything about their contents — I'll find the relevant information and cite my sources.</div>
+                  <div class="chat-time">Now</div>
+                </div>
+              </div>
+
+              <!-- Suggested starter questions -->
+              <div class="suggestions" id="suggestionsRow">
+                <span class="suggestion-chip" onclick="useSuggestion(this)">What is the main topic?</span>
+                <span class="suggestion-chip" onclick="useSuggestion(this)">Summarise the key points</span>
+                <span class="suggestion-chip" onclick="useSuggestion(this)">What are the main conclusions?</span>
+              </div>
+
+              <div class="chat-input-row">
+                <input type="text" class="form-control" id="chatInput" placeholder="Ask a question about your documents…">
+                <button class="btn btn-primary btn-send" id="chatSendBtn"><i class="bi bi-send"></i></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div style="height:32px"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/doc-chat.js"></script>
+</body>
+</html>

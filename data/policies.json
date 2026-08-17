@@ -1,0 +1,92 @@
+[
+  {
+    "id": "p001",
+    "title": "Annual Leave Policy",
+    "category": "Leave",
+    "version": "3.2",
+    "effectiveDate": "2026-01-01",
+    "content": "Annual leave entitlement is 21 days per year for employees with less than 5 years of service, and 30 days for employees with 5 or more years of service. Annual leave must be requested at least 7 days in advance through the Unified Workspace portal. Carry-over of unused leave is permitted up to a maximum of 10 days per year. Leave encashment is not permitted except upon resignation or termination. Emergency leave may be granted with retroactive approval in exceptional circumstances. Leave requests during peak periods (fiscal year-end, Hajj season) are subject to manager discretion and business needs.",
+    "keywords": ["annual leave", "vacation", "leave entitlement", "leave balance", "carry-over", "days off", "holiday"]
+  },
+  {
+    "id": "p002",
+    "title": "Code of Conduct",
+    "category": "Ethics",
+    "version": "2.1",
+    "effectiveDate": "2025-06-01",
+    "content": "All employees are expected to maintain the highest standards of professional conduct. This includes: treating all colleagues, clients, and partners with respect and dignity; maintaining confidentiality of company and client information; avoiding conflicts of interest and disclosing any potential conflicts to management; refraining from any form of discrimination, harassment, or bullying; using company resources responsibly and only for legitimate business purposes; reporting any violations of this code to HR or through the anonymous whistleblower channel. Violations may result in disciplinary action up to and including termination.",
+    "keywords": ["conduct", "ethics", "behavior", "harassment", "discrimination", "respect", "conflict of interest", "whistleblower"]
+  },
+  {
+    "id": "p003",
+    "title": "IT Security Policy 2026",
+    "category": "IT",
+    "version": "2026.1",
+    "effectiveDate": "2026-01-01",
+    "content": "All employees must comply with the following IT security requirements: Use strong passwords of at least 12 characters with a mix of letters, numbers, and symbols; passwords must be changed every 90 days. Do not share login credentials with anyone, including IT staff. Enable multi-factor authentication (MFA) on all company systems. Lock your computer screen when leaving your desk. Do not install unauthorized software on company devices. Be vigilant about phishing emails — verify sender identity before clicking links or downloading attachments. Report suspected security incidents to IT immediately. Company data must not be stored on personal devices or unapproved cloud services.",
+    "keywords": ["password", "security", "phishing", "MFA", "multi-factor", "data protection", "IT security", "unauthorized software", "credentials"]
+  },
+  {
+    "id": "p004",
+    "title": "Remote Work Policy",
+    "category": "Work Arrangement",
+    "version": "2.0",
+    "effectiveDate": "2026-04-01",
+    "content": "Eligible employees may work remotely up to 2 days per week. Eligibility requirements: minimum 6 months of continuous service; satisfactory performance rating in the most recent appraisal; manager approval; role must be suitable for remote work as determined by the department head. Remote work days must be agreed with the manager in advance. Employees working remotely must be reachable during core hours (9 AM – 3 PM) and attend all mandatory meetings. Company data security policies apply regardless of work location. Remote work is a privilege, not a right, and can be revoked if performance is impacted.",
+    "keywords": ["remote work", "work from home", "WFH", "flexible work", "hybrid", "remote", "telework", "home office"]
+  },
+  {
+    "id": "p005",
+    "title": "Performance Appraisal Policy",
+    "category": "HR",
+    "version": "1.5",
+    "effectiveDate": "2025-01-01",
+    "content": "Performance appraisals are conducted quarterly. The appraisal process consists of: (1) Self-Assessment: employee completes self-evaluation within the first 2 weeks of the new quarter; (2) Manager Assessment: line manager reviews self-assessment and provides their evaluation within the following 2 weeks; (3) One-on-One Discussion: manager and employee meet to discuss the appraisal, agree on scores, and set goals for the next quarter; (4) HR Review: HR reviews all completed appraisals for consistency. Ratings are on a scale of 1–5. Employees scoring below 2.5 will be placed on a Performance Improvement Plan (PIP). Those scoring 4.5 and above are considered for promotion or salary review.",
+    "keywords": ["appraisal", "performance review", "performance", "evaluation", "rating", "self-assessment", "manager review", "promotion", "PIP", "improvement plan"]
+  },
+  {
+    "id": "p006",
+    "title": "Sick Leave Policy",
+    "category": "Leave",
+    "version": "2.0",
+    "effectiveDate": "2025-01-01",
+    "content": "Employees are entitled to sick leave as follows: first 30 days of sick leave per year are paid at full salary; days 31–90 are paid at 75% salary; days 91–120 are unpaid. Sick leave must be reported to the manager on the first day of absence. For absences of 3 or more consecutive days, a medical certificate from a licensed physician is required. Sick leave during annual leave is not counted as annual leave and requires a medical certificate. Chronic illness cases are reviewed individually by HR. Abuse of sick leave policy may result in disciplinary action.",
+    "keywords": ["sick leave", "medical leave", "illness", "medical certificate", "sick", "doctor", "health"]
+  },
+  {
+    "id": "p007",
+    "title": "Dress Code Policy",
+    "category": "Workplace",
+    "version": "1.3",
+    "effectiveDate": "2026-01-01",
+    "content": "WIND-IS maintains a professional business casual dress code for all employees. Business days (Monday–Thursday): Business casual attire is required. This includes collared shirts, blouses, trousers, dress pants, skirts of appropriate length, and clean formal shoes. Casual Fridays: Smart casual is permitted, including neat jeans without tears, polo shirts, and casual shoes. Client-facing days: Business formal is required when meeting clients or attending external events — suits, ties for men, and formal attire for women are expected. Prohibited at all times: torn or distressed clothing, sportswear, sleeveless tops (unless covered), flip-flops or open-toed sandals in office areas, clothing with offensive graphics or slogans. Remote work: While working from home, employees must maintain a professional appearance during video calls. Violations may result in being asked to change attire and repeated violations may lead to disciplinary action.",
+    "keywords": ["dress code", "attire", "clothing", "uniform", "formal", "casual", "business casual", "appearance", "outfit"]
+  },
+  {
+    "id": "p008",
+    "title": "Smoking Policy",
+    "category": "Workplace",
+    "version": "1.1",
+    "effectiveDate": "2025-06-01",
+    "content": "WIND-IS maintains a smoke-free workplace in compliance with applicable health and safety regulations. Smoking (including e-cigarettes, vaping, and hookah) is strictly prohibited inside all company buildings, offices, meeting rooms, corridors, restrooms, and company vehicles. Designated smoking areas: Smoking is only permitted in the clearly marked outdoor designated smoking zones located at least 10 meters from building entrances. Smoking breaks: Employees may use designated smoking areas during official break times only. Excessive smoking breaks that impact productivity are subject to disciplinary review. Non-compliance: Employees found smoking in non-designated areas will receive a formal written warning. A second violation may result in further disciplinary action up to and including termination. Visitors and contractors are also required to comply with this policy.",
+    "keywords": ["smoking", "smoke", "cigarette", "vaping", "e-cigarette", "tobacco", "smoking area", "smoke-free", "hookah"]
+  },
+  {
+    "id": "p009",
+    "title": "Travel & Expense Policy",
+    "category": "Finance",
+    "version": "2.3",
+    "effectiveDate": "2026-01-01",
+    "content": "Business travel must be pre-approved by the direct manager and HR before booking. Economy class is the standard for flights under 4 hours. Business class may be approved for flights exceeding 6 hours or for Senior Management. Hotel accommodation must fall within approved per-diem rates: domestic SAR 500/night, international up to USD 200/night. Meal allowances: domestic SAR 150/day, international USD 80/day. All expenses must be submitted within 14 days of returning from travel with original receipts. Personal expenses, entertainment not related to business, and alcohol are not reimbursable. Company credit cards may be issued for frequent travelers upon manager and Finance approval. Misuse of company funds or expense falsification will result in immediate disciplinary action and potential legal action.",
+    "keywords": ["travel", "expense", "reimbursement", "business trip", "flight", "hotel", "per diem", "allowance", "receipt", "business class"]
+  },
+  {
+    "id": "p010",
+    "title": "Social Media Policy",
+    "category": "Ethics",
+    "version": "1.0",
+    "effectiveDate": "2025-09-01",
+    "content": "Employees are personally responsible for content they publish on social media platforms. The following guidelines apply: Do not share confidential company information, client data, financial results, or unreleased product details on any social media platform. When identifying yourself as a WIND-IS employee, make clear that opinions expressed are your own and not the company's official position. Do not post negative, defamatory, or misleading content about WIND-IS, its clients, partners, or colleagues. Do not share photos or videos taken inside company premises without prior approval from Communications. Employees in client-facing roles must obtain approval before mentioning clients by name. Company social media accounts may only be managed by the designated Communications team. Violations of this policy may result in disciplinary action up to and including termination, and may also carry legal consequences.",
+    "keywords": ["social media", "facebook", "instagram", "twitter", "linkedin", "posting", "online", "internet", "confidential", "brand"]
+  }
+]

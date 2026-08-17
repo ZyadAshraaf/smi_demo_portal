@@ -1,0 +1,1693 @@
+[
+  {
+    "id": "DOC1A2B3C01",
+    "title": "Q1 2026 Vendor Invoice - Acme Corp",
+    "description": "Quarterly service invoice from Acme Corporation",
+    "folderId": "FLD00000001",
+    "docTypeId": "DT001",
+    "metadata": {
+      "invoice_number": "INV-202601",
+      "vendor_name": "Acme Corporation",
+      "invoice_date": "2026-03-15",
+      "amount": 45750,
+      "currency": "SAR",
+      "due_date": "2026-04-15"
+    },
+    "status": "active",
+    "createdBy": "u002",
+    "createdAt": "2026-03-15T10:00:00Z",
+    "updatedAt": "2026-08-17T10:01:37.054Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "acme-invoice-q1-2026.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C01_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 245760,
+        "uploadedBy": "u002",
+        "uploadedAt": "2026-03-15T10:00:00Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:01:37.054Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC1A2B3C02",
+    "title": "NDA - Tech Partners Inc.",
+    "description": "Non-disclosure agreement with Tech Partners",
+    "folderId": "FLD1A2B3C03",
+    "docTypeId": "DT002",
+    "metadata": {
+      "contract_number": "CTR-202601",
+      "parties": "Our Company & Tech Partners Inc.",
+      "effective_date": "2026-02-01",
+      "expiration_date": "2027-02-01",
+      "contract_value": 0,
+      "contract_type": "NDA"
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-02-01T08:00:00Z",
+    "updatedAt": "2026-08-17T10:01:52.209Z",
+    "currentVersion": 2,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "nda-techpartners-draft.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C02_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 185000,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-02-01T08:00:00Z",
+        "notes": "Draft version"
+      },
+      {
+        "version": 2,
+        "filename": "nda-techpartners-signed.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C02_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 210000,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-02-05T11:20:00Z",
+        "notes": "Signed by both parties"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIG00000001",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-02-05T11:15:00Z",
+        "type": "drawn"
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.12,
+      "angle": -35
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:01:52.209Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC1A2B3C03",
+    "title": "IT Security Policy v3",
+    "description": "Information security policy for all employees",
+    "folderId": "FLD1A2B3C05",
+    "docTypeId": "DT003",
+    "metadata": {
+      "policy_number": "POL-IT-003",
+      "department": "IT",
+      "effective_date": "2026-01-01",
+      "review_date": "2026-07-01",
+      "approver": "Ahmed Al-Rashidi"
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-01-01T08:00:00Z",
+    "updatedAt": "2026-08-17T10:02:01.107Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "it-security-policy-v3.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C03_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 520000,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-01-01T08:00:00Z",
+        "notes": "Version 3 - updated access control section"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": true,
+      "text": "INTERNAL USE ONLY",
+      "opacity": 0.1,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [
+      "u002"
+    ],
+    "trashedAt": "2026-08-17T10:02:01.107Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC1A2B3C04",
+    "title": "Board Meeting Minutes - March 2026",
+    "description": "Minutes from monthly board meeting",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT009",
+    "metadata": {
+      "meeting_title": "March 2026 Board Meeting",
+      "meeting_date": "2026-03-28",
+      "attendees": "Ahmed, Khalid, Sara, Omar",
+      "department": "Executive"
+    },
+    "status": "active",
+    "createdBy": "u004",
+    "createdAt": "2026-03-28T16:00:00Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 3,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "board-minutes-march-2026.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C04_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 98000,
+        "uploadedBy": "u004",
+        "uploadedAt": "2026-03-28T16:00:00Z",
+        "notes": "Final minutes"
+      },
+      {
+        "version": 2,
+        "filename": "RFP.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C04_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 223296,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-07T09:15:33.169Z",
+        "notes": "Version 2"
+      },
+      {
+        "version": 3,
+        "filename": "OmarWaleedCV.pdf",
+        "storagePath": "uploads/ems/DOC1A2B3C04_v3.pdf",
+        "mimeType": "application/pdf",
+        "size": 89173,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-07T21:39:37.849Z",
+        "notes": "Version 3"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T09:21:28.416Z",
+        "type": "drawn",
+        "x": 5,
+        "y": 70,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T09:24:06.615Z",
+        "type": "drawn",
+        "x": 30.4,
+        "y": 41.6,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG29BAE277",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T09:24:22.612Z",
+        "type": "drawn",
+        "x": 41.6,
+        "y": 40,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.5,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC3B11FE59",
+    "title": "dddd",
+    "description": "jfdnvhjfd",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "100",
+      "client_name": "dkfslfj",
+      "proposal_date": "2026-04-08",
+      "proposal_amount": 55,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-04-07T11:25:37.220Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Foundational Proposal (Saudi Version).docx",
+        "storagePath": "uploads/ems/DOC3B11FE59_v1.docx",
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "size": 7043757,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-07T11:25:37.220Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC4041BA18",
+    "title": "Proposal",
+    "description": "Proposal",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "100",
+      "client_name": "Proposal",
+      "proposal_date": "2026-04-24",
+      "proposal_amount": 100,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-04-08T16:21:20.621Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOC4041BA18_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 227895,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-08T16:21:20.622Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T16:45:25.901Z",
+        "type": "drawn",
+        "x": 30.8,
+        "y": 71.5,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG29BAE277",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T16:45:48.359Z",
+        "type": "drawn",
+        "x": 35.1,
+        "y": 69.5,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T16:50:25.167Z",
+        "type": "drawn",
+        "x": 33.8,
+        "y": 64.9,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T16:57:48.408Z",
+        "type": "drawn",
+        "x": 47.7,
+        "y": 66.9,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-08T17:02:46.004Z",
+        "type": "drawn",
+        "x": 37.2,
+        "y": 65.1,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGEB896CBA",
+        "userId": "u004",
+        "userName": "Sara Hassan",
+        "signedAt": "2026-04-12T10:07:21.122Z",
+        "type": "drawn",
+        "x": 33.1,
+        "y": 17.9,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG15A0809C",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T15:49:37.491Z",
+        "type": "drawn",
+        "x": 7.2,
+        "y": 88.4,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.5,
+      "angle": -30
+    },
+    "annotations": [
+      {
+        "id": "ANN93206CED",
+        "text": "jknelkfnskfndsf",
+        "color": "#080808",
+        "size": 13,
+        "x": 5,
+        "y": 10,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-04-15T20:53:53.078Z"
+      },
+      {
+        "id": "ANNEC8713C7",
+        "text": "ksldnfkjsdnfksdnf",
+        "color": "#e63946",
+        "size": 13,
+        "x": 76.4,
+        "y": 16.9,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-04-15T20:54:06.817Z"
+      }
+    ],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC604A5DD0",
+    "title": "Proposal",
+    "description": "skdjflksdj",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "wind",
+      "proposal_date": "2026-04-12",
+      "proposal_amount": 100000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u004",
+    "createdAt": "2026-04-12T10:22:44.317Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 3,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "RFP (1).pdf",
+        "storagePath": "uploads/ems/DOC604A5DD0_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 223296,
+        "uploadedBy": "u004",
+        "uploadedAt": "2026-04-12T10:22:44.320Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "OmarWaleedCV.pdf",
+        "storagePath": "uploads/ems/DOC604A5DD0_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 89173,
+        "uploadedBy": "u003",
+        "uploadedAt": "2026-04-15T21:12:57.959Z",
+        "notes": "Version 2"
+      },
+      {
+        "version": 3,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOC604A5DD0_v3.pdf",
+        "mimeType": "application/pdf",
+        "size": 227895,
+        "uploadedBy": "u003",
+        "uploadedAt": "2026-04-15T21:34:23.135Z",
+        "notes": "Version 3",
+        "status": "approved"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIG8F006A12",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-14T12:41:25.891Z",
+        "type": "drawn",
+        "x": 38.4,
+        "y": 10.9,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG8F006A12",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T16:02:03.008Z",
+        "type": "drawn",
+        "x": 10.3,
+        "y": 84.2,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG8F006A12",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T16:02:18.064Z",
+        "type": "drawn",
+        "x": 5,
+        "y": 70,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:22:49.664Z",
+        "type": "drawn",
+        "x": 4.3,
+        "y": 1.6,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGB31CC359",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:32:09.610Z",
+        "type": "drawn",
+        "x": 72.7,
+        "y": 2,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG92D294E2",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:55:17.131Z",
+        "type": "drawn",
+        "x": 25.2,
+        "y": 1.7,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGEB896CBA",
+        "userId": "u004",
+        "userName": "Sara Hassan",
+        "signedAt": "2026-04-17T10:59:30.681Z",
+        "type": "drawn",
+        "x": 6.8,
+        "y": 1.6,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGCB0EC6EC",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-19T15:27:42.892Z",
+        "type": "drawn",
+        "x": 72.7,
+        "y": 1.2,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-19T15:28:26.591Z",
+        "type": "drawn",
+        "x": 73.3,
+        "y": 87.7,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.5,
+      "angle": 0
+    },
+    "annotations": [
+      {
+        "id": "ANN9417E6E8",
+        "text": "Hello",
+        "color": "#e63946",
+        "size": 13,
+        "x": 85.1,
+        "y": 17.4,
+        "page": 1,
+        "userId": "u004",
+        "userName": "Sara Hassan",
+        "createdAt": "2026-04-17T10:59:58.228Z"
+      },
+      {
+        "id": "ANN42872334",
+        "text": "7655u7uyu",
+        "color": "#a0e637",
+        "size": 13,
+        "x": 44,
+        "y": 3,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-04-19T15:27:52.968Z"
+      }
+    ],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOCA5391BC0",
+    "title": "Saudi Downtown",
+    "description": "AI",
+    "folderId": "FLD00000001",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "12",
+      "client_name": "Downtown",
+      "proposal_date": "2026-04-15",
+      "proposal_amount": 12,
+      "validity_days": 12
+    },
+    "status": "active",
+    "createdBy": "u003",
+    "createdAt": "2026-04-14T14:48:27.883Z",
+    "updatedAt": "2026-08-17T10:01:40.536Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Generative AI Implementation Proposal RAG & Agentic IT Services- Saudi Downtown.pdf",
+        "storagePath": "uploads/ems/DOCA5391BC0_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 1849109,
+        "uploadedBy": "u003",
+        "uploadedAt": "2026-04-14T14:48:27.883Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:01:40.536Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC46E279DD",
+    "title": "Alpha Proposal",
+    "description": "",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "1",
+      "client_name": "X",
+      "proposal_date": "2026-04-15",
+      "proposal_amount": 10000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-04-15T19:33:54.090Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 2,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOC46E279DD_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 227895,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-15T19:33:54.091Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC46E279DD_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-15T20:12:51.507Z",
+        "notes": "Version 2"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T19:34:24.579Z",
+        "type": "drawn",
+        "x": 5,
+        "y": 70,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T19:38:30.385Z",
+        "type": "drawn",
+        "x": 5.2,
+        "y": 28.8,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T19:38:48.392Z",
+        "type": "drawn",
+        "x": 5.4,
+        "y": 31.7,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBC3D8BEE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T19:45:25.657Z",
+        "type": "drawn",
+        "x": 4.6,
+        "y": 71.6,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG9AA6BC88",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T19:53:19.278Z",
+        "type": "drawn",
+        "x": 45.3,
+        "y": 47.6,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG34AE0D9C",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:07:24.427Z",
+        "type": "drawn",
+        "x": 2.1,
+        "y": 1.3,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGEC1B8093",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:08:56.224Z",
+        "type": "drawn",
+        "x": 36.4,
+        "y": 80,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG4E107ABD",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:09:14.340Z",
+        "type": "drawn",
+        "x": 36.2,
+        "y": 0.6,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGE31C29F7",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:09:41.061Z",
+        "type": "drawn",
+        "x": 75.3,
+        "y": 0.7,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG3651EC0A",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-15T20:11:02.823Z",
+        "type": "drawn",
+        "x": 52.9,
+        "y": 13.9,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.5,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC9CF41F87",
+    "title": "test",
+    "description": "test",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "100",
+      "client_name": "X",
+      "proposal_date": "2026-04-20",
+      "proposal_amount": 10000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-04-19T16:18:33.262Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 4,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOC9CF41F87_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 246643,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-19T16:18:33.264Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Alpha_Digital_Solutions (6).pdf",
+        "storagePath": "uploads/ems/DOC9CF41F87_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 230106,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-19T16:20:55.242Z",
+        "notes": "Version 2",
+        "status": "approved"
+      },
+      {
+        "version": 3,
+        "filename": "Proposal_Alpha_Digital_Solutions (9).pdf",
+        "storagePath": "uploads/ems/DOC9CF41F87_v3.pdf",
+        "mimeType": "application/pdf",
+        "size": 253349,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-20T09:13:53.657Z",
+        "notes": "Version 3",
+        "status": "approved"
+      },
+      {
+        "version": 4,
+        "filename": "Proposal_Alpha_Digital_Solutions (8).pdf",
+        "storagePath": "uploads/ems/DOC9CF41F87_v4.pdf",
+        "mimeType": "application/pdf",
+        "size": 253349,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-20T09:16:20.173Z",
+        "notes": "Version 4",
+        "status": "approved"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIGE446BAF1",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-19T16:18:58.258Z",
+        "type": "drawn",
+        "x": 6.1,
+        "y": 40.7,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGC4D723EE",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-20T10:00:03.621Z",
+        "type": "drawn",
+        "x": 64,
+        "y": 1.7,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG30F72F54",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-20T10:00:03.722Z",
+        "type": "drawn",
+        "x": 70.9,
+        "y": 1.9,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGA7D12EA1",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-04-20T10:33:27.381Z",
+        "type": "drawn",
+        "x": 0.1,
+        "y": 2.1,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "vbcvbcvbcvb",
+      "opacity": 0.15,
+      "angle": -16
+    },
+    "annotations": [
+      {
+        "id": "ANN0E2024BB",
+        "text": "TEST",
+        "color": "#5de637",
+        "size": 17,
+        "x": 52.2,
+        "y": 37.1,
+        "page": 4,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-04-19T16:19:52.748Z"
+      },
+      {
+        "id": "ANNFE224753",
+        "text": "jyhj",
+        "color": "#e63946",
+        "size": 13,
+        "x": 22.6,
+        "y": 4.4,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-04-20T10:00:58.868Z"
+      },
+      {
+        "id": "ANN679E8F7A",
+        "text": "efdfdfdfdf",
+        "color": "#e63946",
+        "size": 13,
+        "x": 5,
+        "y": 10,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-04-20T10:33:27.445Z"
+      }
+    ],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOCAE1CF945",
+    "title": "test",
+    "description": "xfgf",
+    "folderId": "FLD1A2B3C08",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "100",
+      "client_name": "X",
+      "proposal_date": "2026-05-06",
+      "proposal_amount": 100,
+      "validity_days": 26
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-04-21T09:51:30.907Z",
+    "updatedAt": "2026-08-17T10:02:13.715Z",
+    "currentVersion": 2,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions (1).pdf",
+        "storagePath": "uploads/ems/DOCAE1CF945_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 233239,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-21T09:51:30.908Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOCAE1CF945_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-04-21T09:51:48.581Z",
+        "notes": "Version 2",
+        "status": "approved"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-08-17T10:02:13.715Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOCC3DFDF9C",
+    "title": "Proposal Alpha Digital Solutions",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "101",
+      "client_name": "Alpha",
+      "proposal_date": "2026-05-01",
+      "proposal_amount": 10000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T23:48:01.150Z",
+    "updatedAt": "2026-05-02T05:30:11.787Z",
+    "currentVersion": 2,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOCC3DFDF9C_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 227895,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-01T23:48:01.151Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOCC3DFDF9C_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:27:44.892Z",
+        "notes": "Version 2",
+        "status": "approved"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIG47FC0C17",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-05-02T05:28:51.973Z",
+        "type": "drawn",
+        "x": 5.5,
+        "y": 84.8,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [
+      {
+        "id": "ANN283E6FEA",
+        "text": "Hello",
+        "color": "#1a1919",
+        "size": 13,
+        "x": 5,
+        "y": 10,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-05-02T05:29:27.965Z"
+      }
+    ],
+    "starred": [],
+    "trashedAt": "2026-05-02T05:30:11.787Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC1EEB0535",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-01",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T23:48:38.822Z",
+    "updatedAt": "2026-05-01T23:50:46.165Z",
+    "currentVersion": 0,
+    "versions": [],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-01T23:50:46.165Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOCF51EF78A",
+    "title": "Proposal Gamma Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "303",
+      "client_name": "Gamma",
+      "proposal_date": "2026-05-01",
+      "proposal_amount": 30000,
+      "validity_days": 29
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T23:50:35.308Z",
+    "updatedAt": "2026-05-02T05:31:11.592Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOCF51EF78A_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 227895,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-01T23:50:35.309Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T05:31:11.592Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC9B34B7BE",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-01",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T23:51:13.966Z",
+    "updatedAt": "2026-05-02T04:03:45.828Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC9B34B7BE_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-01T23:51:13.967Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC9B34B7BE_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T04:03:04.124Z",
+        "notes": "Version 2",
+        "status": "pending"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T04:03:45.828Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC2A079EFE",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T04:04:29.183Z",
+    "updatedAt": "2026-05-02T04:05:40.146Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC2A079EFE_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T04:04:29.183Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC2A079EFE_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T04:05:14.732Z",
+        "notes": "Version 2",
+        "status": "pending"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T04:05:40.146Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC6A19D5CD",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T04:06:21.893Z",
+    "updatedAt": "2026-05-02T04:09:14.259Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC6A19D5CD_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T04:06:21.894Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC6A19D5CD_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T04:06:47.715Z",
+        "notes": "Version 2",
+        "status": "pending"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T04:09:14.259Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOCEDA64FFC",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T04:09:43.998Z",
+    "updatedAt": "2026-05-02T05:27:18.886Z",
+    "currentVersion": 2,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOCEDA64FFC_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T04:09:43.998Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOCEDA64FFC_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:15:59.946Z",
+        "notes": "Version 2",
+        "status": "approved"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIG50096157",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-05-02T05:24:55.951Z",
+        "type": "drawn",
+        "x": 1.2,
+        "y": 0.5,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG1A70B450",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-05-02T05:25:40.611Z",
+        "type": "drawn",
+        "x": 2.1,
+        "y": 80,
+        "width": 22
+      },
+      {
+        "signatureId": "SIGBA079375",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-05-02T05:26:00.115Z",
+        "type": "drawn",
+        "x": 2.3,
+        "y": 80,
+        "width": 22
+      },
+      {
+        "signatureId": "SIG3C3D0C00",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-05-02T05:26:28.321Z",
+        "type": "drawn",
+        "x": 5.4,
+        "y": 80,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T05:27:18.886Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC80FFF143",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T05:27:38.102Z",
+    "updatedAt": "2026-05-02T05:31:08.890Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC80FFF143_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:27:38.102Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T05:31:08.890Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC36064CC5",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T05:30:39.840Z",
+    "updatedAt": "2026-05-02T05:31:05.873Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC36064CC5_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:30:39.841Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": "2026-05-02T05:31:05.873Z",
+    "lockedBy": null,
+    "lockedAt": null,
+    "trashedBy": "u001"
+  },
+  {
+    "id": "DOC4E22106C",
+    "title": "Proposal Alpha Digital Solutions",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "101",
+      "client_name": "Alpha",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 10000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T05:31:38.348Z",
+    "updatedAt": "2026-05-02T05:31:38.348Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Alpha_Digital_Solutions.pdf",
+        "storagePath": "uploads/ems/DOC4E22106C_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 227895,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:31:38.348Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": null,
+    "lockedBy": null,
+    "lockedAt": null
+  },
+  {
+    "id": "DOC62A47C28",
+    "title": "Proposal Gamma Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "303",
+      "client_name": "Gamma",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 30000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T05:32:31.932Z",
+    "updatedAt": "2026-05-02T05:32:31.932Z",
+    "currentVersion": 1,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC62A47C28_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:32:31.932Z",
+        "notes": "Initial upload"
+      }
+    ],
+    "signatures": [],
+    "watermark": {
+      "enabled": false,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.15,
+      "angle": -30
+    },
+    "annotations": [],
+    "starred": [],
+    "trashedAt": null,
+    "lockedBy": null,
+    "lockedAt": null
+  },
+  {
+    "id": "DOC164A0BA3",
+    "title": "Proposal Beta Tech Innovations",
+    "description": "",
+    "folderId": "FLD68992BD0",
+    "docTypeId": "DT007",
+    "metadata": {
+      "proposal_number": "202",
+      "client_name": "Beta",
+      "proposal_date": "2026-05-02",
+      "proposal_amount": 20000,
+      "validity_days": 30
+    },
+    "status": "active",
+    "createdBy": "u001",
+    "createdAt": "2026-05-02T05:32:52.055Z",
+    "updatedAt": "2026-05-02T05:36:08.601Z",
+    "currentVersion": 2,
+    "versions": [
+      {
+        "version": 1,
+        "filename": "Proposal_Beta_Tech_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC164A0BA3_v1.pdf",
+        "mimeType": "application/pdf",
+        "size": 240555,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:32:52.055Z",
+        "notes": "Initial upload"
+      },
+      {
+        "version": 2,
+        "filename": "Proposal_Gamma_Innovations.pdf",
+        "storagePath": "uploads/ems/DOC164A0BA3_v2.pdf",
+        "mimeType": "application/pdf",
+        "size": 204061,
+        "uploadedBy": "u001",
+        "uploadedAt": "2026-05-02T05:32:59.667Z",
+        "notes": "Version 2",
+        "status": "approved"
+      }
+    ],
+    "signatures": [
+      {
+        "signatureId": "SIGEDED5B04",
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "signedAt": "2026-05-02T05:35:19.128Z",
+        "type": "drawn",
+        "x": 2.3,
+        "y": 85.8,
+        "width": 22
+      }
+    ],
+    "watermark": {
+      "enabled": true,
+      "text": "CONFIDENTIAL",
+      "opacity": 0.19,
+      "angle": -17
+    },
+    "annotations": [
+      {
+        "id": "ANNF5F44621",
+        "text": "Hello",
+        "color": "#121212",
+        "size": 13,
+        "x": 87.2,
+        "y": 2.6,
+        "page": 1,
+        "userId": "u001",
+        "userName": "Ahmed Al-Rashidi",
+        "createdAt": "2026-05-02T05:35:41.487Z"
+      }
+    ],
+    "starred": [],
+    "trashedAt": null,
+    "lockedBy": null,
+    "lockedAt": null
+  }
+]

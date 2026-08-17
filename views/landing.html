@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <style>
+    .content { background: var(--color-surface) !important; padding: 0 !important; }
+
+    /* ── Animations ─────────────────────────────────────────── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes pulse-ring { 0% { transform: scale(.9); opacity: .6; } 50% { transform: scale(1.05); opacity: .3; } 100% { transform: scale(.9); opacity: .6; } }
+
+    .anim-up { animation: fadeUp .5s ease both; }
+    .anim-d1 { animation-delay: .05s; }
+    .anim-d2 { animation-delay: .1s; }
+    .anim-d3 { animation-delay: .15s; }
+    .anim-d4 { animation-delay: .2s; }
+    .anim-d5 { animation-delay: .25s; }
+    .anim-d6 { animation-delay: .3s; }
+
+    /* ── Hero Banner ────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary) 40%, var(--color-primary-light) 70%, var(--color-primary-lighter) 100%);
+      padding: 36px 36px 42px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -80px; right: -60px;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.1) 0%, transparent 70%);
+      animation: pulse-ring 6s ease-in-out infinite;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -100px; left: 30%;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 70%);
+      animation: pulse-ring 8s ease-in-out infinite 2s;
+    }
+    .hero-inner { position: relative; z-index: 2; }
+    .hero-bc { font-size: 12px; color: rgba(255,255,255,.5); margin-bottom: 12px; }
+    .hero-bc span { color: rgba(255,255,255,.85); font-weight: 600; }
+    .hero-greeting {
+      font-size: 28px; font-weight: 800; color: #fff;
+      margin-bottom: 4px; letter-spacing: -.3px;
+    }
+    .hero-sub { font-size: 14px; color: rgba(255,255,255,.75); margin-bottom: 0; }
+    .hero-date {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px; font-size: 12px; color: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.1); backdrop-filter: blur(8px);
+      padding: 5px 14px; border-radius: 20px;
+    }
+
+    /* ── Stats Strip ────────────────────────────────────────── */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      padding: 0 36px; margin-top: -28px; position: relative; z-index: 3;
+    }
+    .stat-tile {
+      background: #fff;
+      border-radius: 18px; padding: 22px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+      transition: transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .stat-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.13);
+    }
+    .stat-tile-accent {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .stat-tile-accent.teal   { background: linear-gradient(90deg, var(--color-primary), var(--color-primary-lighter)); }
+    .stat-tile-accent.blue   { background: linear-gradient(90deg, #0096C7, #48CAE4); }
+    .stat-tile-accent.green  { background: linear-gradient(90deg, #00B894, #55EFC4); }
+    .stat-tile-accent.coral  { background: linear-gradient(90deg, #E17055, #FAB1A0); }
+
+    .stat-tile-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 14px;
+    }
+    .stat-tile-icon.teal  { background: var(--color-primary-faint); color: var(--color-primary); }
+    .stat-tile-icon.blue  { background: #E1F5FE; color: #0096C7; }
+    .stat-tile-icon.green { background: #E4F7EF; color: #00B894; }
+    .stat-tile-icon.coral { background: #FDE8EA; color: #E17055; }
+
+    .stat-tile-label { font-size: 12px; color: var(--color-text-muted); font-weight: 500; margin-bottom: 4px; }
+    .stat-tile-value { font-size: 30px; font-weight: 800; color: var(--color-text); line-height: 1; margin-bottom: 8px; }
+    .stat-tile-footer { display: flex; gap: 14px; }
+    .stat-tile-meta { font-size: 11px; color: var(--color-text-light); }
+    .stat-tile-meta strong { color: var(--color-text-muted); font-weight: 700; }
+
+    /* ── Page body ──────────────────────────────────────────── */
+    .home-body { display: flex; gap: 20px; padding: 24px 36px 36px; align-items: flex-start; }
+    .home-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+    .home-aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 86px; }
+
+    /* ── Quick Actions ──────────────────────────────────────── */
+    .qa-card {
+      background: #fff; border-radius: 18px; padding: 22px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .qa-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .qa-hdr h3 { font-size: 15px; font-weight: 700; color: var(--color-text); margin: 0; }
+    .qa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .qa-item {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      text-decoration: none; color: var(--color-text);
+      padding: 14px 6px; border-radius: 14px;
+      transition: all .2s; border: 1.5px solid transparent;
+    }
+    .qa-item:hover {
+      background: var(--color-primary-faint); border-color: var(--color-border);
+      transform: translateY(-2px); color: var(--color-primary-dark);
+      box-shadow: 0 4px 16px rgba(var(--color-primary-rgb),.1);
+    }
+    .qa-item-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; background: var(--color-primary-faint); color: var(--color-primary);
+      transition: all .2s;
+    }
+    .qa-item:hover .qa-item-icon {
+      background: var(--color-primary); color: #fff;
+    }
+    .qa-item span { font-size: 11px; font-weight: 600; text-align: center; line-height: 1.2; }
+
+    /* ── Tasks Card ─────────────────────────────────────────── */
+    .tasks-card {
+      background: #fff; border-radius: 18px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .tasks-card-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px; border-bottom: 1px solid var(--color-border-light);
+    }
+    .tasks-card-hdr h3 { font-size: 15px; font-weight: 700; color: var(--color-text); margin: 0; }
+    .tasks-card-hdr a {
+      font-size: 12px; font-weight: 600; color: var(--color-primary);
+      text-decoration: none; display: flex; align-items: center; gap: 4px;
+    }
+    .tasks-card-hdr a:hover { text-decoration: underline; }
+
+    .task-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px; border-bottom: 1px solid var(--color-border-light);
+      transition: background .12s;
+    }
+    .task-row:last-child { border-bottom: none; }
+    .task-row:hover { background: var(--color-primary-faint); }
+    .task-row-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .task-row-icon.hr   { background: #E8F0FE; color: #1a56db; }
+    .task-row-icon.acc   { background: #DCFCE7; color: #166534; }
+    .task-row-icon.crm   { background: #F3E8FF; color: #6b21a8; }
+    .task-row-icon.wh    { background: #FFF3E0; color: #b45309; }
+    .task-row-icon.it    { background: var(--color-primary-faint); color: var(--color-primary); }
+    .task-row-icon.manual{ background: #F1F5F9; color: #475569; }
+    .task-row-body { flex: 1; min-width: 0; overflow: hidden; }
+    .task-row-title { font-size: 13px; font-weight: 600; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .task-row-sub { font-size: 11px; color: var(--color-text-light); margin-top: 1px; }
+    .task-row-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 700; padding: 5px 14px;
+      border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+      letter-spacing: .2px; line-height: 1.4;
+    }
+    .task-row-badge.pending   { background: #FEF6E1; color: #92600A; }
+    .task-row-badge.in-prog   { background: #DBEAFE; color: #1E40AF; }
+    .task-row-badge.escalated { background: #FDE8EA; color: #B02A37; }
+    .task-row-badge.done      { background: #DCFCE7; color: #166534; }
+    .task-row-due { font-size: 11px; color: var(--color-text-light); white-space: nowrap; }
+    .task-row-due.overdue { color: var(--color-danger); font-weight: 600; }
+    .task-empty { text-align: center; padding: 40px 20px; color: var(--color-text-muted); }
+    .task-empty i { font-size: 36px; color: var(--color-primary-lighter); display: block; margin-bottom: 10px; }
+
+    /* ── Announcements ─────────────────────────────────────── */
+    .news-card {
+      background: #fff; border-radius: 18px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .news-card-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px; border-bottom: 1px solid var(--color-border-light);
+    }
+    .news-card-hdr h3 { font-size: 15px; font-weight: 700; color: var(--color-text); margin: 0; }
+    .news-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 24px; border-bottom: 1px solid var(--color-border-light);
+      transition: background .12s;
+    }
+    .news-row:last-child { border-bottom: none; }
+    .news-row:hover { background: var(--color-primary-faint); }
+    .news-row-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--color-surface-alt); color: var(--color-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .news-row-body { flex: 1; min-width: 0; }
+    .news-row-title { font-size: 13px; font-weight: 600; color: var(--color-text); margin-bottom: 2px; }
+    .news-row-text { font-size: 12px; color: var(--color-text-muted); line-height: 1.45; }
+    .news-row-time { font-size: 11px; color: var(--color-text-light); margin-top: 4px; }
+    .news-empty { text-align: center; padding: 30px; color: var(--color-text-light); }
+
+    /* ── Right Panel — Profile ─────────────────────────────── */
+    .profile-card {
+      background: linear-gradient(160deg, var(--color-primary-darker), var(--color-primary));
+      border-radius: 18px; padding: 28px 22px;
+      color: #fff; position: relative; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(var(--color-primary-rgb),.3);
+    }
+    .profile-card::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 140px; height: 140px; border-radius: 50%;
+      background: rgba(255,255,255,.07);
+    }
+    .profile-card::after {
+      content: ''; position: absolute; bottom: -30px; left: -20px;
+      width: 100px; height: 100px; border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+    .profile-card-inner { position: relative; z-index: 2; }
+    .profile-avatar-wrap { text-align: center; margin-bottom: 14px; }
+    .profile-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(255,255,255,.2); color: #fff;
+      font-size: 24px; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+      text-transform: uppercase; border: 3px solid rgba(255,255,255,.25);
+    }
+    .profile-name { font-size: 16px; font-weight: 700; text-align: center; }
+    .profile-role { font-size: 12px; text-align: center; color: rgba(255,255,255,.7); margin-top: 2px; }
+    .profile-info { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .profile-info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px;
+    }
+    .profile-info-label { color: rgba(255,255,255,.55); }
+    .profile-info-val { font-weight: 600; }
+
+    /* ── Right Panel — Overview ────────────────────────────── */
+    .overview-card {
+      background: #fff; border-radius: 18px; padding: 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .overview-card h4 { font-size: 14px; font-weight: 700; color: var(--color-text); margin: 0 0 16px; }
+    .ov-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+    }
+    .ov-row:last-child { border-bottom: none; }
+    .ov-row-left { display: flex; align-items: center; gap: 10px; }
+    .ov-row-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .ov-row-dot.teal  { background: var(--color-primary); }
+    .ov-row-dot.blue  { background: #0096C7; }
+    .ov-row-dot.green { background: #00B894; }
+    .ov-row-dot.coral { background: #E17055; }
+    .ov-row-name { font-size: 13px; color: var(--color-text); }
+    .ov-row-sub { font-size: 11px; color: var(--color-text-light); }
+    .ov-row-val { font-size: 16px; font-weight: 800; }
+    .ov-row-val.teal  { color: var(--color-primary); }
+    .ov-row-val.blue  { color: #0096C7; }
+    .ov-row-val.green { color: #00B894; }
+    .ov-row-val.coral { color: #E17055; }
+
+    /* ── Today summary widget ──────────────────────────────── */
+    .today-card {
+      background: #fff; border-radius: 18px; padding: 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .today-card h4 { font-size: 14px; font-weight: 700; color: var(--color-text); margin: 0 0 14px; }
+    .today-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .today-item:last-child { margin-bottom: 0; }
+    .today-item-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .today-item-text { font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
+    .today-item-text strong { color: var(--color-text); }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 1200px) { .home-aside { width: 260px; } }
+    @media (max-width: 1100px) { .home-aside { display: none; } .home-body { padding: 20px 24px; } }
+    @media (max-width: 900px) {
+      .stats-strip { grid-template-columns: repeat(2, 1fr); padding: 0 24px; }
+      .qa-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero { padding: 28px 24px 36px; }
+    }
+    @media (max-width: 600px) {
+      .stats-strip { grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px; }
+      .qa-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero { padding: 20px 16px 30px; }
+      .hero-greeting { font-size: 22px; }
+      .home-body { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main wrapper -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Home</h1>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search...">
+        </div>
+        <button class="icon-btn" title="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-dot d-none" id="notifDot"></span>
+        </button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ── Hero ──────────────────────────────────────────── -->
+      <div class="hero anim-up">
+        <div class="hero-inner">
+          <div class="hero-bc">Dashboard &rsaquo; <span>Home</span></div>
+          <div class="hero-greeting" id="welcomeGreeting">Good morning!</div>
+          <div class="hero-sub" id="welcomeSub">Here's what's happening across your workspace today.</div>
+          <div class="hero-date" id="welcomeDate">
+            <i class="bi bi-calendar3"></i>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Stats Strip ──────────────────────────────────── -->
+      <div class="stats-strip">
+        <div class="stat-tile anim-up anim-d1">
+          <div class="stat-tile-accent teal"></div>
+          <div class="stat-tile-icon teal"><i class="bi bi-check2-square"></i></div>
+          <div class="stat-tile-label">Pending Tasks</div>
+          <div class="stat-tile-value" id="statPendingTasks">&mdash;</div>
+          <div class="stat-tile-footer">
+            <span class="stat-tile-meta"><strong id="mfInProgress">&mdash;</strong> In Progress</span>
+            <span class="stat-tile-meta"><strong id="mfEscalated">&mdash;</strong> Escalated</span>
+          </div>
+        </div>
+        <div class="stat-tile anim-up anim-d2">
+          <div class="stat-tile-accent blue"></div>
+          <div class="stat-tile-icon blue"><i class="bi bi-calendar-check"></i></div>
+          <div class="stat-tile-label">Leave Days Left</div>
+          <div class="stat-tile-value" id="statLeaveBalance">&mdash;</div>
+          <div class="stat-tile-footer">
+            <span class="stat-tile-meta"><strong id="mfSick">&mdash;</strong> Sick Days</span>
+          </div>
+        </div>
+        <div class="stat-tile anim-up anim-d3">
+          <div class="stat-tile-accent green"></div>
+          <div class="stat-tile-icon green"><i class="bi bi-person-check"></i></div>
+          <div class="stat-tile-label">Days Present</div>
+          <div class="stat-tile-value" id="statPresentDays">&mdash;</div>
+          <div class="stat-tile-footer">
+            <span class="stat-tile-meta">This month</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Body ─────────────────────────────────────────── -->
+      <div class="home-body">
+        <div class="home-main">
+
+          <!-- Quick Actions -->
+          <div class="qa-card anim-up anim-d3">
+            <div class="qa-hdr">
+              <h3><i class="bi bi-lightning-fill me-2" style="color:var(--color-primary)"></i>Quick Actions</h3>
+            </div>
+            <div class="qa-grid">
+              <a href="/unifiedsmi/tasks" class="qa-item">
+                <div class="qa-item-icon"><i class="bi bi-check2-square"></i></div>
+                <span>My Tasks</span>
+              </a>
+              <a href="/unifiedsmi/leaves" class="qa-item">
+                <div class="qa-item-icon"><i class="bi bi-calendar-plus"></i></div>
+                <span>Leave</span>
+              </a>
+              <a href="/unifiedsmi/wfh" class="qa-item">
+                <div class="qa-item-icon"><i class="bi bi-house-check"></i></div>
+                <span>Work From Home</span>
+              </a>
+              <a href="/unifiedsmi/travel" class="qa-item">
+                <div class="qa-item-icon"><i class="bi bi-airplane"></i></div>
+                <span>Business Travel</span>
+              </a>
+              <a href="/unifiedsmi/purchase-orders" class="qa-item">
+                <div class="qa-item-icon"><i class="bi bi-file-earmark-text"></i></div>
+                <span>Purchase Order</span>
+              </a>
+              <a href="/unifiedsmi/services" class="qa-item">
+                <div class="qa-item-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+                <span>Services</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Recent Tasks -->
+          <div class="tasks-card anim-up anim-d4">
+            <div class="tasks-card-hdr">
+              <h3><i class="bi bi-clock-history me-2" style="color:var(--color-primary)"></i>Recent Tasks</h3>
+              <a href="/unifiedsmi/tasks">View All <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div id="recentTasksList">
+              <div class="task-empty">
+                <div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Announcements -->
+          <div class="news-card anim-up anim-d5">
+            <div class="news-card-hdr">
+              <h3><i class="bi bi-megaphone me-2" style="color:var(--color-primary)"></i>Announcements</h3>
+            </div>
+            <div id="newsList">
+              <div class="news-empty">
+                <div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /home-main -->
+
+        <!-- ── Right Panel ────────────────────────────────── -->
+        <div class="home-aside">
+
+          <!-- Profile -->
+          <div class="profile-card anim-up anim-d3">
+            <div class="profile-card-inner">
+              <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="profileAvatar">A</div>
+              </div>
+              <div class="profile-name" id="profileName">Loading...</div>
+              <div class="profile-role" id="profileRole">--</div>
+              <div class="profile-info">
+                <div class="profile-info-row">
+                  <span class="profile-info-label">Department</span>
+                  <span class="profile-info-val" id="profileDept">--</span>
+                </div>
+                <div class="profile-info-row">
+                  <span class="profile-info-label">Status</span>
+                  <span class="profile-info-val" style="color:#55EFC4">Active</span>
+                </div>
+                <div class="profile-info-row">
+                  <span class="profile-info-label">Today</span>
+                  <span class="profile-info-val" id="profileDate">--</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overview -->
+          <div class="overview-card anim-up anim-d4">
+            <h4>Overview</h4>
+            <div class="ov-row">
+              <div class="ov-row-left">
+                <div class="ov-row-dot teal"></div>
+                <div>
+                  <div class="ov-row-name">Pending Tasks</div>
+                  <div class="ov-row-sub">Requires attention</div>
+                </div>
+              </div>
+              <div class="ov-row-val teal" id="sbPending">&mdash;</div>
+            </div>
+            <div class="ov-row">
+              <div class="ov-row-left">
+                <div class="ov-row-dot blue"></div>
+                <div>
+                  <div class="ov-row-name">Leave Balance</div>
+                  <div class="ov-row-sub">Annual days left</div>
+                </div>
+              </div>
+              <div class="ov-row-val blue" id="sbLeave">&mdash;</div>
+            </div>
+            <div class="ov-row">
+              <div class="ov-row-left">
+                <div class="ov-row-dot green"></div>
+                <div>
+                  <div class="ov-row-name">Attendance</div>
+                  <div class="ov-row-sub">This month</div>
+                </div>
+              </div>
+              <div class="ov-row-val green" id="sbAttend">&mdash;</div>
+            </div>
+          </div>
+
+          <!-- Today at a glance -->
+          <div class="today-card anim-up anim-d5">
+            <h4><i class="bi bi-sunrise me-2" style="color:var(--color-primary)"></i>Today at a Glance</h4>
+            <div class="today-item">
+              <div class="today-item-icon" style="background:var(--color-primary-faint);color:var(--color-primary)">
+                <i class="bi bi-clock"></i>
+              </div>
+              <div class="today-item-text"><strong>Working hours:</strong> 9:00 AM - 6:00 PM</div>
+            </div>
+            <div class="today-item">
+              <div class="today-item-icon" style="background:#E1F5FE;color:#0096C7">
+                <i class="bi bi-geo-alt"></i>
+              </div>
+              <div class="today-item-text"><strong>Location:</strong> On-site</div>
+            </div>
+            <div class="today-item">
+              <div class="today-item-icon" style="background:#E4F7EF;color:#00B894">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="today-item-text"><strong>Check-in:</strong> Recorded</div>
+            </div>
+          </div>
+
+        </div><!-- /home-aside -->
+      </div><!-- /home-body -->
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  await Layout.init('landing');
+  setWelcome();
+  await Promise.all([loadSummary(), loadRecentTasks(), loadNews()]);
+});
+
+function setWelcome() {
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const user = Layout.user;
+  const name = user?.name?.split(' ')[0] || '';
+  document.getElementById('welcomeGreeting').textContent = `${greeting}, ${name}!`;
+  document.getElementById('welcomeSub').textContent = "Here's what's happening across your workspace today.";
+  const dateStr = new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('welcomeDate').querySelector('span').textContent = dateStr;
+
+  if (user) {
+    document.getElementById('profileAvatar').textContent = (user.name || 'U')[0].toUpperCase();
+    document.getElementById('profileName').textContent   = user.name || '\u2014';
+    document.getElementById('profileRole').textContent   = user.role || '\u2014';
+    document.getElementById('profileDept').textContent   = user.department || '\u2014';
+    document.getElementById('profileDate').textContent   = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  }
+}
+
+async function loadSummary() {
+  const data = await API.get('/api/analytics/summary');
+  if (!data?.success) return;
+  const s = data.summary;
+  document.getElementById('statPendingTasks').textContent = s.pendingTasks ?? '\u2014';
+  document.getElementById('statLeaveBalance').textContent = s.leaveBalance?.annual ?? '\u2014';
+  document.getElementById('statPresentDays').textContent  = s.attendance?.presentDays ?? '\u2014';
+  if (s.leaveBalance?.sick !== undefined) document.getElementById('mfSick').textContent = s.leaveBalance.sick;
+
+  const inProg = s.inProgressTasks ?? 0;
+  const esc = s.escalatedTasks ?? 0;
+  document.getElementById('mfInProgress').textContent = inProg;
+  document.getElementById('mfEscalated').textContent  = esc;
+
+  document.getElementById('sbPending').textContent = s.pendingTasks ?? '\u2014';
+  document.getElementById('sbLeave').textContent   = (s.leaveBalance?.annual ?? '\u2014') + ' days';
+  document.getElementById('sbAttend').textContent  = (s.attendance?.presentDays ?? '\u2014') + ' days';
+}
+
+async function loadRecentTasks() {
+  const data = await API.get('/api/tasks');
+  const el = document.getElementById('recentTasksList');
+  if (!data?.success) {
+    el.innerHTML = '<div class="task-empty" style="color:var(--color-danger)">Failed to load tasks.</div>';
+    return;
+  }
+  const tasks = data.tasks.filter(t => t.status !== 'completed').slice(0, 6);
+  if (!tasks.length) {
+    el.innerHTML = '<div class="task-empty"><i class="bi bi-check2-all"></i>All caught up \u2014 no pending tasks!</div>';
+    return;
+  }
+
+  const badgeClass = { pending:'pending', escalated:'escalated', completed:'done' };
+  const badgeLabel = { pending:'Pending', escalated:'Escalated', completed:'Done' };
+  const iconClass  = { HR:'hr', Accounting:'acc', CRM:'crm', Warehouse:'wh', IT:'it', Manual:'manual' };
+  const iconMap    = { HR:'bi-people', Accounting:'bi-cash-stack', CRM:'bi-person-rolodex', Warehouse:'bi-box-seam', IT:'bi-pc-display', Manual:'bi-pencil' };
+
+  el.innerHTML = tasks.map(t => {
+    const isOverdue = t.dueDate && new Date(t.dueDate) < new Date();
+    const icon = iconMap[t.sourceSystem] || 'bi-check2-square';
+    const ic   = iconClass[t.sourceSystem] || 'it';
+    const bc   = badgeClass[t.status] || 'pending';
+    const bl   = badgeLabel[t.status] || t.status;
+    const due  = t.dueDate ? new Date(t.dueDate).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '\u2014';
+    return `
+      <div class="task-row">
+        <div class="task-row-icon ${ic}"><i class="bi ${icon}"></i></div>
+        <div class="task-row-body">
+          <div class="task-row-title">${t.title}</div>
+          <div class="task-row-sub">${t.sourceSystem || '\u2014'}</div>
+        </div>
+        <span class="task-row-badge ${bc}">${bl}</span>
+        <span class="task-row-due ${isOverdue ? 'overdue' : ''}">${isOverdue ? 'Overdue' : due}</span>
+      </div>`;
+  }).join('');
+}
+
+async function loadNews() {
+  const data = await API.get('/api/news');
+  const el   = document.getElementById('newsList');
+  if (!data?.success || !data.news?.length) {
+    el.innerHTML = '<div class="news-empty">No announcements.</div>';
+    return;
+  }
+  el.innerHTML = data.news.slice(0, 4).map(n => {
+    const ago = UI.timeAgo ? UI.timeAgo(n.postedAt) : n.postedAt;
+    return `
+      <div class="news-row">
+        <div class="news-row-icon"><i class="bi ${n.icon || 'bi-megaphone'}"></i></div>
+        <div class="news-row-body">
+          <div class="news-row-title">${n.title}</div>
+          <div class="news-row-text">${n.summary}</div>
+          <div class="news-row-time">${ago}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>

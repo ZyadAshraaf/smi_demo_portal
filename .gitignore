@@ -1,0 +1,4 @@
+node_modules/
+.sessions/
+.claude/launch.json
+.env

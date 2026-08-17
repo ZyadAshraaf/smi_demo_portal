@@ -1,0 +1,91 @@
+/* ============================================================
+   UNIFIED WORKSPACE — CSS VARIABLES
+   Primary: #001E57 (SMI Navy) | Secondary: #DF6512 (SMI Orange)
+   Edit this file to retheme the entire application.
+   ============================================================ */
+
+:root {
+  /* ── Primary Navy ───────────────────────────────────────── */
+  --color-primary:         #001E57;
+  --color-primary-dark:    #000C45;
+  --color-primary-darker:  #00002F;
+  --color-primary-light:   #0E2C65;
+  --color-primary-lighter: #617497;
+  --color-primary-faint:   #E0E4EB;
+  --color-primary-rgb:     0, 30, 87;
+
+  /* ── Secondary (SMI Orange accent) ───────────────────────── */
+  --color-secondary:       #DF6512;
+  --color-secondary-light: #F37926;
+
+  /* ── Backgrounds & Surfaces ─────────────────────────────── */
+  --color-bg:              #FFFFFF;
+  --color-surface:         #F5F6F8;
+  --color-surface-alt:     #EBEDF2;
+  --color-card:            #FFFFFF;
+
+  /* ── Borders ─────────────────────────────────────────────── */
+  --color-border:          #B8C0D0;
+  --color-border-light:    #E0E4EB;
+
+  /* ── Text ────────────────────────────────────────────────── */
+  --color-text:            #1A2233;
+  --color-text-muted:      #5B6B85;
+  --color-text-light:      #93A0B8;
+
+  /* ── Status Colors ───────────────────────────────────────── */
+  --color-success:         #1A9E6A;
+  --color-success-light:   #E4F7EF;
+  --color-warning:         #E6A817;
+  --color-warning-light:   #FEF6E1;
+  --color-danger:          #DC3545;
+  --color-danger-light:    #FDE8EA;
+  --color-info:            #0D7BB5;
+  --color-info-light:      #E1F0F9;
+
+  /* ── System Source Colors ────────────────────────────────── */
+  --color-sys-hr:          #0d6efd;
+  --color-sys-accounting:  #198754;
+  --color-sys-crm:         #6f42c1;
+  --color-sys-warehouse:   #fd7e14;
+  --color-sys-it:          #001E57;
+  --color-sys-manual:      #6c757d;
+
+  /* ── Sidebar ─────────────────────────────────────────────── */
+  --sidebar-width:         255px;
+  --sidebar-bg:            var(--color-primary);
+  --sidebar-text:          rgba(255,255,255,0.88);
+  --sidebar-text-muted:    rgba(255,255,255,0.5);
+  --sidebar-hover-bg:      rgba(255,255,255,0.12);
+  --sidebar-active-bg:     rgba(255,255,255,0.2);
+  --sidebar-border:        rgba(255,255,255,0.14);
+
+  /* ── Topbar ──────────────────────────────────────────────── */
+  --topbar-height:         62px;
+  --topbar-bg:             #FFFFFF;
+  --topbar-border:         var(--color-border);
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --content-padding:       28px;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm:             0 1px 4px rgba(0,30,87,0.08);
+  --shadow-md:             0 4px 16px rgba(0,30,87,0.12);
+  --shadow-lg:             0 8px 32px rgba(0,30,87,0.15);
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-sm:             6px;
+  --radius-md:             10px;
+  --radius-lg:             16px;
+  --radius-xl:             24px;
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-family:           'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-size-xs:          11px;
+  --font-size-sm:          13px;
+  --font-size-base:        14px;
+  --font-size-md:          15px;
+  --font-size-lg:          18px;
+  --font-size-xl:          22px;
+  --font-size-2xl:         28px;
+}

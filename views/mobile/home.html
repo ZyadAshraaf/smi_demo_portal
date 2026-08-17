@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#001E57">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/unifiedsmi/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/unifiedsmi/assets/pwa-icon.png">
+  <title>Unified Workspace</title>
+  <style>html,body{background:#eef2f7}</style>
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/mobile/css/mobile.css">
+</head>
+<body>
+<div class="m-page" id="page">
+
+  <!-- Dynamic header — hidden on home tab -->
+  <div class="m-header" id="mainHeader" style="display:none">
+    <h1 id="headerTitle"></h1>
+    <div class="m-header__sub" id="headerSub"></div>
+  </div>
+
+  <!-- ── View: Home ──────────────────────────────────────────────────────── -->
+  <div id="view-home" class="m-content">
+    <div class="ptr-indicator" id="ptrIndicator">↓ Refreshing…</div>
+    <div class="greeting">
+      <div class="greeting__name" id="greetingName">Good morning 👋</div>
+      <div class="greeting__sub" id="greetingSub">Welcome back</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-card__value" id="statTasks">—</div>
+        <div class="stat-card__label">Pending Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value" id="statLeave">—</div>
+        <div class="stat-card__label">Leave Balance</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value" id="statPresent">—</div>
+        <div class="stat-card__label">Days Present</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value" id="statTickets">—</div>
+        <div class="stat-card__label">Open Tickets</div>
+      </div>
+    </div>
+    <div class="section-header">
+      <h2>Recent Tasks</h2>
+      <a data-tab="tasks" href="/unifiedsmi/m/tasks">View All →</a>
+    </div>
+    <div id="recentTasks" class="mb-20"><div class="empty-state">Loading…</div></div>
+    <div class="chart-card mb-20">
+      <h2>Task Status</h2>
+      <div class="chart-wrap">
+        <canvas id="donutChart" width="150" height="150"></canvas>
+        <div class="chart-legend" id="chartLegend">Loading…</div>
+      </div>
+    </div>
+    <div class="section-header"><h2>Latest News</h2></div>
+    <div id="newsFeed"><div class="empty-state">Loading…</div></div>
+  </div>
+
+  <!-- ── View: Tasks ─────────────────────────────────────────────────────── -->
+  <div id="view-tasks" class="m-content" style="display:none">
+    <div class="filter-chips" id="filterChips">
+      <button class="chip chip--active" data-filter="all">All</button>
+      <button class="chip" data-filter="pending">Pending <span class="chip__badge" id="pendingBadge" style="display:none"></span></button>
+      <button class="chip" data-filter="approval">Needs Approval <span class="chip__badge" id="approvalBadge" style="display:none"></span></button>
+      <button class="chip" data-filter="completed">Completed</button>
+    </div>
+    <div id="taskList"><div class="empty-state">Loading…</div></div>
+  </div>
+
+  <!-- ── View: Services ──────────────────────────────────────────────────── -->
+  <div id="view-services" class="m-content" style="display:none">
+    <div class="service-grid">
+      <a class="service-card" href="/unifiedsmi/m/leave">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+        </div>
+        <div class="service-card__text">
+          <h3>Leave Request</h3>
+          <p>Apply for annual, sick, or other leave</p>
+        </div>
+      </a>
+      <a class="service-card" href="/unifiedsmi/m/wfh">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><rect x="9" y="12" width="6" height="9" rx="1"/></svg>
+        </div>
+        <div class="service-card__text">
+          <h3>Work From Home</h3>
+          <p>Request to work remotely for selected dates</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Tab bar -->
+  <nav class="tab-bar">
+    <a class="tab-bar__item" data-tab="home" href="/unifiedsmi/m/home">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      Home
+    </a>
+    <a class="tab-bar__item" data-tab="tasks" href="/unifiedsmi/m/tasks">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+      Tasks
+    </a>
+    <a class="tab-bar__item" data-tab="services" href="/unifiedsmi/m/services">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      Services
+    </a>
+  </nav>
+</div>
+
+<!-- Bottom sheet overlay (global — used by tasks view) -->
+<div class="sheet-overlay" id="sheetOverlay"></div>
+<div class="bottom-sheet" id="taskSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-actions" id="sheetActions"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/unifiedsmi/mobile/js/api.js"></script>
+<script src="/unifiedsmi/mobile/js/home.js"></script>
+<script src="/unifiedsmi/mobile/js/tasks.js"></script>
+<script src="/unifiedsmi/mobile/js/services.js"></script>
+</body>
+</html>

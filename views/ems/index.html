@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/ems.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Content Management System</h1>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search...">
+        </div>
+        <button class="icon-btn" title="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-dot d-none" id="notifDot"></span>
+        </button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content ems-content-shell">
+      <!-- Tab Navigation -->
+      <ul class="nav nav-tabs ems-tabs mb-0" id="emsTabs">
+        <li class="nav-item"><a class="nav-link active" data-tab="documents" href="#"><i class="bi bi-folder2-open me-1"></i>Documents</a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="groups" href="#"><i class="bi bi-shield-lock me-1"></i>Access Groups</a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="users" href="#"><i class="bi bi-person-badge me-1"></i>Users</a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="audit" href="#"><i class="bi bi-journal-text me-1"></i>Audit Log</a></li>
+      </ul>
+
+      <!-- ═══════════════ DOCUMENTS TAB ═══════════════ -->
+      <div class="tab-panel active" id="tab-documents">
+        <div class="ems-split-pane">
+          <!-- Left: Folder Tree -->
+          <div class="ems-folder-panel" id="folderPanel">
+            <div class="folder-panel-header">
+              <span class="folder-panel-title">Folders</span>
+              <button class="btn btn-sm btn-link p-0" id="btnNewFolder" title="New Folder"><i class="bi bi-folder-plus"></i></button>
+            </div>
+            <div class="folder-tree-wrap" id="folderTreeWrap">
+              <ul class="folder-tree" id="folderTree"></ul>
+            </div>
+            <div class="folder-virtual-sections">
+              <div class="folder-virtual-label" style="padding:4px 12px 2px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;opacity:.5;">Configuration</div>
+              <div class="folder-virtual-item" data-virtual="doctypes"><i class="bi bi-tags"></i> Document Types</div>
+              <div class="folder-virtual-item" data-virtual="metadata"><i class="bi bi-list-columns-reverse"></i> Metadata Templates</div>
+              <div style="margin:6px 10px;border-top:1px solid var(--color-border-light);"></div>
+              <div class="folder-virtual-item" data-virtual="starred"><i class="bi bi-star"></i> Starred</div>
+              <div class="folder-virtual-item" data-virtual="recent"><i class="bi bi-clock-history"></i> Recent</div>
+              <div class="folder-virtual-item" data-virtual="trash"><i class="bi bi-trash3"></i> Trash</div>
+            </div>
+          </div>
+
+          <!-- Right: Document Area -->
+          <div class="ems-doc-area">
+            <!-- Breadcrumb & Toolbar -->
+            <div class="doc-toolbar" id="docToolbar">
+              <!-- Default toolbar (no selection) -->
+              <div class="doc-toolbar-default" id="docToolbarDefault">
+                <div class="doc-breadcrumb" id="docBreadcrumb">
+                  <span class="breadcrumb-item">Root</span>
+                </div>
+                <div class="doc-toolbar-actions">
+                  <div class="input-group input-group-sm doc-search-wrap">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search documents..." id="docSearchInput">
+                  </div>
+                  <select class="form-select form-select-sm" id="docTypeFilter" style="width:auto;">
+                    <option value="">All Types</option>
+                  </select>
+                  <button class="btn btn-sm btn-primary btn-upload-icon" id="btnUploadDoc" title="Upload Document"><i class="bi bi-cloud-upload"></i></button>
+                  <div class="toolbar-divider"></div>
+                  <button class="btn btn-sm btn-ask-ai-ghost" id="btnAskAiGhost" disabled title="Select one or more documents to start an AI conversation">
+                    <i class="bi bi-stars me-1"></i>
+                    <span class="ghost-label">Ask Your Documents</span>
+                    <span class="ghost-hint ms-1">select files</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Selection bar (shown when 1+ selected) — replaces toolbar in-place -->
+              <div class="doc-selection-bar d-none" id="docSelectionBar">
+                <div class="selection-info">
+                  <button class="selection-clear-x" id="btnSelectionClear" title="Clear selection"><i class="bi bi-x-lg"></i></button>
+                  <span class="selection-count"><strong id="selectionCountNum">0</strong> selected</span>
+                </div>
+                <div class="selection-actions">
+                  <button class="btn-ask-ai" id="btnBulkKnowledgeChat" title="Chat with the selected documents using AI">
+                    <span class="ask-ai-glow"></span>
+                    <i class="bi bi-stars"></i>
+                    <span class="ask-ai-label">Ask Your Documents</span>
+                    <span class="ask-ai-shortcut"><kbd>AI</kbd></span>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary selection-secondary-btn" id="btnBulkMove"><i class="bi bi-folder-symlink me-1"></i><span class="btn-label">Move</span></button>
+                  <button class="btn btn-sm btn-outline-danger selection-secondary-btn" id="btnBulkDelete"><i class="bi bi-trash3 me-1"></i><span class="btn-label">Delete</span></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Document List -->
+            <div class="doc-list-wrap" id="docListWrap">
+              <!-- Subfolder cards (shown when active folder has children) -->
+              <div id="docSubfoldersWrap" class="d-none doc-subfolders-wrap"></div>
+              <table class="table table-hover mb-0 doc-table">
+                <thead>
+                  <tr>
+                    <th style="width:32px;"><input type="checkbox" class="form-check-input" id="selectAllDocs"></th>
+                    <th>Document</th>
+                    <th style="width:120px;">Type</th>
+                    <th style="width:80px;">Version</th>
+                    <th style="width:130px;">Modified</th>
+                    <th style="width:100px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="docTableBody">
+                  <tr><td colspan="6" class="text-center text-muted py-5">Select a folder to view documents</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+
+            <!-- Document Types Management Panel -->
+            <div class="d-none" id="doctypesPanelWrap">
+              <div class="doc-toolbar">
+                <div class="doc-toolbar-default">
+                  <div class="doc-breadcrumb">
+                    <span class="breadcrumb-item"><i class="bi bi-tags me-1"></i>Document Types</span>
+                  </div>
+                  <div class="doc-toolbar-actions">
+                    <button class="btn btn-sm btn-primary" id="btnNewDocType"><i class="bi bi-plus-lg me-1"></i>New Type</button>
+                  </div>
+                </div>
+              </div>
+              <div id="doctypesGrid" style="padding:16px;overflow-y:auto;flex:1;">
+                <div class="text-center text-muted py-5"><i class="bi bi-hourglass-split"></i> Loading...</div>
+              </div>
+            </div>
+
+            <!-- Metadata Fields Management Panel -->
+            <div class="d-none" id="metadataPanelWrap">
+              <div class="doc-toolbar">
+                <div class="doc-toolbar-default">
+                  <div class="doc-breadcrumb">
+                    <span class="breadcrumb-item"><i class="bi bi-list-columns-reverse me-1"></i>Metadata Templates</span>
+                  </div>
+                  <div class="doc-toolbar-actions">
+                    <button class="btn btn-sm btn-primary" id="btnNewMetaField"><i class="bi bi-plus-lg me-1"></i>New Template</button>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:16px;overflow-y:auto;flex:1;">
+                <div class="card border-0 shadow-sm">
+                  <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Collection Name</th>
+                          <th style="width:90px;">Fields</th>
+                          <th>Included Fields</th>
+                          <th style="width:100px;">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="metadataTableBody">
+                        <tr><td colspan="5" class="text-center text-muted py-4">Loading...</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ GROUPS TAB ═══════════════ -->
+      <div class="tab-panel" id="tab-groups">
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+          <h6 class="mb-0 fw-bold">Access Groups</h6>
+          <button class="btn btn-sm btn-primary" id="btnNewGroup"><i class="bi bi-plus-lg me-1"></i>New Group</button>
+        </div>
+        <div class="card border-0 shadow-sm">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Group Name</th>
+                  <th>Description</th>
+                  <th style="width:100px;">Members</th>
+                  <th style="width:120px;">Permissions</th>
+                  <th style="width:100px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="groupsTableBody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading groups...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ USERS TAB ═══════════════ -->
+      <div class="tab-panel" id="tab-users">
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+          <h6 class="mb-0 fw-bold">EMS Users</h6>
+        </div>
+        <div class="card border-0 shadow-sm">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>User</th>
+                  <th>Department</th>
+                  <th>Role</th>
+                  <th>EMS Groups</th>
+                  <th style="width:100px;">Documents</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading users...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ AUDIT TAB ═══════════════ -->
+      <div class="tab-panel" id="tab-audit">
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-3 flex-wrap gap-2">
+          <h6 class="mb-0 fw-bold">Audit Log</h6>
+          <div class="d-flex gap-2 flex-wrap">
+            <select class="form-select form-select-sm" id="auditActionFilter" style="width:auto;">
+              <option value="">All Actions</option>
+              <option value="document.upload">Upload</option>
+              <option value="document.version">Version</option>
+              <option value="document.sign">Sign</option>
+              <option value="document.delete">Delete</option>
+              <option value="document.move">Move</option>
+              <option value="document.lock">Lock</option>
+              <option value="document.unlock">Unlock</option>
+              <option value="folder.create">Folder Create</option>
+              <option value="folder.delete">Folder Delete</option>
+              <option value="group.create">Group Create</option>
+              <option value="group.update">Group Update</option>
+            </select>
+            <input type="date" class="form-control form-control-sm" id="auditDateFrom" style="width:auto;">
+            <input type="date" class="form-control form-control-sm" id="auditDateTo" style="width:auto;">
+          </div>
+        </div>
+        <div class="card border-0 shadow-sm">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:160px;">Timestamp</th>
+                  <th style="width:140px;">User</th>
+                  <th style="width:140px;">Action</th>
+                  <th>Entity</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading audit log...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════ MODALS ═══════════════ -->
+
+<!-- Document Viewer Modal (fullscreen popup) -->
+<div class="modal fade" id="docViewerModal" tabindex="-1">
+  <div class="modal-dialog modal-fullscreen m-0">
+    <div class="modal-content doc-viewer-modal-content">
+      <div class="doc-viewer-header">
+        <button class="btn btn-sm btn-outline-secondary" id="btnBackToList"><i class="bi bi-arrow-left me-1"></i>Back</button>
+        <span class="doc-viewer-title" id="viewerTitle">Document Title</span>
+        <div class="doc-viewer-actions">
+          <button class="btn btn-sm btn-outline-primary" id="btnViewerDownload" title="Download"><i class="bi bi-download"></i></button>
+          <button class="btn btn-sm btn-outline-primary" id="btnViewerSign" title="Sign"><i class="bi bi-pen"></i></button>
+          <button class="btn btn-sm btn-outline-primary" id="btnViewerAnnotate" title="Add Annotation"><i class="bi bi-chat-square-text"></i></button>
+          <button class="btn btn-sm btn-outline-primary" id="btnViewerWatermark" title="Watermark"><i class="bi bi-droplet"></i></button>
+          <button class="btn btn-sm btn-outline-primary" id="btnViewerVersions" title="Versions"><i class="bi bi-clock-history"></i></button>
+          <button class="btn btn-sm btn-outline-primary" id="btnViewerLock" title="Lock"><i class="bi bi-lock"></i></button>
+          <button class="btn btn-sm btn-success d-none" id="btnViewerSave" onclick="EMS_DocViewer.saveAll()" title="Save Changes"><i class="bi bi-floppy me-1"></i>Save</button>
+        </div>
+      </div>
+      <!-- Signature placement banner (hidden until placement mode) -->
+      <div id="signPlacementBanner" class="sig-placement-banner d-none">
+        <i class="bi bi-cursor-fill"></i>
+        <span>Drag the signature to position it on the document</span>
+        <div class="d-flex align-items-center gap-2 ms-3">
+          <label class="mb-0 fw-600 text-nowrap" style="font-size:12px;">Page:</label>
+          <input type="number" id="signPlacementPage" class="form-control form-control-sm" min="1" value="1" style="width:68px;">
+        </div>
+        <div class="ms-auto d-flex gap-2">
+          <button class="btn btn-sm btn-outline-secondary" onclick="EMS_DocViewer.cancelPlacement()">Cancel</button>
+          <button class="btn btn-sm btn-primary" onclick="EMS_DocViewer.confirmPlacement()"><i class="bi bi-check2 me-1"></i>Place Signature</button>
+        </div>
+      </div>
+      <!-- Annotation placement banner (hidden until annotation mode) -->
+      <div id="annotationBanner" class="sig-placement-banner d-none" style="gap:10px;">
+        <i class="bi bi-chat-square-text"></i>
+        <input type="text" id="annotationText" class="form-control form-control-sm" placeholder="Type your annotation…" style="max-width:280px;">
+        <input type="color" id="annotationColor" class="form-control form-control-color form-control-sm" value="#e63946" title="Color" style="width:36px;padding:2px;">
+        <select id="annotationSize" class="form-select form-select-sm" style="width:auto;">
+          <option value="10">Small</option>
+          <option value="13" selected>Medium</option>
+          <option value="17">Large</option>
+        </select>
+        <div class="d-flex align-items-center gap-2 ms-1">
+          <label class="mb-0 text-nowrap" style="font-size:12px;">Page:</label>
+          <input type="number" id="annotationPage" class="form-control form-control-sm" min="1" value="1" style="width:68px;">
+        </div>
+        <div class="ms-auto d-flex gap-2">
+          <button class="btn btn-sm btn-outline-secondary" onclick="EMS_DocViewer.cancelAnnotation()">Cancel</button>
+          <button class="btn btn-sm btn-primary" onclick="EMS_DocViewer.confirmAnnotation()"><i class="bi bi-check2 me-1"></i>Place Annotation</button>
+        </div>
+      </div>
+      <div class="doc-viewer-body" id="docViewerBody">
+        <div class="doc-viewer-placeholder">
+          <i class="bi bi-file-earmark-text" style="font-size:4rem;opacity:.2;"></i>
+          <p class="mt-2 text-muted">Select a document to preview</p>
+        </div>
+      </div>
+      <div class="doc-watermark-overlay d-none" id="watermarkOverlay"></div>
+      <!-- Unsaved changes confirmation overlay -->
+      <div id="unsavedChangesOverlay" class="d-none" style="position:fixed;inset:0;z-index:1056;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:12px;padding:32px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.3);">
+          <div style="font-size:2.5rem;color:#f59e0b;margin-bottom:12px;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+          <h5 style="margin-bottom:8px;font-weight:600;">Unsaved Changes</h5>
+          <p style="color:#6b7280;margin-bottom:24px;">You have unsaved edits that will be lost if you close without saving.</p>
+          <div style="display:flex;gap:12px;justify-content:center;">
+            <button class="btn btn-outline-danger" id="btnDiscardAndClose"><i class="bi bi-x-circle me-1"></i>Discard & Close</button>
+            <button class="btn btn-success" id="btnSaveAndClose"><i class="bi bi-floppy me-1"></i>Save & Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Document Modal -->
+<div class="modal fade" id="uploadDocModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-cloud-upload me-2"></i>Upload Document</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Step 1: Doc Type Selection -->
+        <div id="uploadStep1">
+          <label class="form-label fw-bold">Select Document Type</label>
+          <div class="doc-type-grid" id="docTypeGrid"></div>
+        </div>
+        <!-- Step 2: Metadata + File -->
+        <div id="uploadStep2" class="d-none">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <button class="btn btn-sm btn-outline-secondary" id="btnUploadBack"><i class="bi bi-arrow-left"></i></button>
+            <span class="doc-type-badge" id="selectedTypeBadge"></span>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="uploadTitle">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Folder</label>
+              <select class="form-select" id="uploadFolder"></select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="2" id="uploadDesc"></textarea>
+            </div>
+          </div>
+          <!-- Dynamic metadata fields rendered here -->
+          <div class="row g-3 mt-1" id="metadataFields"></div>
+          <div class="mt-3">
+            <label class="form-label fw-bold">Upload File</label>
+            <div class="upload-drop-zone" id="uploadDropZone">
+              <i class="bi bi-cloud-arrow-up" style="font-size:2rem;opacity:.4;"></i>
+              <p class="mb-1">Drag & drop a file here or click to browse</p>
+              <small class="text-muted">Max file size: 50MB</small>
+              <input type="file" class="d-none" id="uploadFileInput">
+            </div>
+            <div class="selected-file d-none mt-2" id="selectedFileInfo">
+              <i class="bi bi-file-earmark me-1"></i><span id="selectedFileName"></span>
+              <button class="btn btn-sm btn-link text-danger" id="btnRemoveFile"><i class="bi bi-x-lg"></i></button>
+            </div>
+          </div>
+          <div class="mt-3">
+            <label class="form-label">Version Notes</label>
+            <input type="text" class="form-control" id="uploadNotes" placeholder="e.g. Initial upload">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary d-none" id="btnSubmitUpload"><i class="bi bi-cloud-upload me-1"></i>Upload Document</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Folder Modal -->
+<div class="modal fade" id="newFolderModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-folder-plus me-2"></i>New Folder</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Folder Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="newFolderName" placeholder="Enter folder name">
+        <div class="mt-2">
+          <label class="form-label">Color</label>
+          <input type="color" class="form-control form-control-color" id="newFolderColor" value="#001E57">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btnCreateFolder">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Version Modal -->
+<div class="modal fade" id="newVersionModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-arrow-up-circle me-2"></i>Upload New Version</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="upload-drop-zone" id="versionDropZone">
+          <i class="bi bi-cloud-arrow-up" style="font-size:2rem;opacity:.4;"></i>
+          <p class="mb-1">Drag & drop a file or click to browse</p>
+          <input type="file" class="d-none" id="versionFileInput">
+        </div>
+        <div class="selected-file d-none mt-2" id="versionFileInfo">
+          <i class="bi bi-file-earmark me-1"></i><span id="versionFileName"></span>
+        </div>
+        <div class="mt-3">
+          <label class="form-label">Version Notes</label>
+          <input type="text" class="form-control" id="versionNotes" placeholder="What changed in this version?">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="btnSubmitVersion">Upload Version</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Version History Modal -->
+<div class="modal fade" id="versionHistoryModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-clock-history me-2"></i>Version History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="versionHistoryBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Signature Pad Modal -->
+<div class="modal fade" id="signatureModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-pen me-2"></i>Sign Document</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-pills mb-3" id="signTabs">
+          <li class="nav-item"><a class="nav-link active" data-signtab="draw" href="#">Draw Signature</a></li>
+          <li class="nav-item"><a class="nav-link" data-signtab="saved" href="#">Saved Signatures</a></li>
+        </ul>
+        <!-- Draw tab -->
+        <div id="signDrawTab">
+          <div class="signature-canvas-wrap">
+            <canvas id="signatureCanvas" width="600" height="200"></canvas>
+          </div>
+          <div class="d-flex gap-2 mt-2">
+            <input type="color" class="form-control form-control-color" id="signColor" value="#000000" title="Pen color">
+            <select class="form-select form-select-sm" id="signThickness" style="width:auto;">
+              <option value="2">Thin</option>
+              <option value="3" selected>Medium</option>
+              <option value="5">Thick</option>
+            </select>
+            <button class="btn btn-sm btn-outline-secondary" id="btnSignUndo"><i class="bi bi-arrow-counterclockwise"></i> Undo</button>
+            <button class="btn btn-sm btn-outline-danger" id="btnSignClear">Clear</button>
+            <div class="ms-auto">
+              <button class="btn btn-sm btn-outline-primary" id="btnSaveSignature"><i class="bi bi-save me-1"></i>Save for later</button>
+            </div>
+          </div>
+        </div>
+        <!-- Saved signatures tab -->
+        <div id="signSavedTab" class="d-none">
+          <div class="row g-2" id="savedSignaturesList"></div>
+          <div class="text-muted text-center py-3 d-none" id="noSavedSignatures">No saved signatures yet</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="btnApplySignature"><i class="bi bi-cursor me-1"></i>Place on Document</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Watermark Modal -->
+<div class="modal fade" id="watermarkModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-droplet me-2"></i>Watermark</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Text</label>
+          <input type="text" class="form-control" id="watermarkText" value="CONFIDENTIAL">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Opacity (<span id="watermarkOpacityVal">15</span>%)</label>
+          <input type="range" class="form-range" min="5" max="50" value="15" id="watermarkOpacity">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Angle (<span id="watermarkAngleVal">-30</span>&deg;)</label>
+          <input type="range" class="form-range" min="-60" max="0" value="-30" id="watermarkAngle">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-danger btn-sm me-auto" id="btnRemoveWatermark">Remove</button>
+        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btnSaveWatermark">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Document Detail / Properties Modal -->
+<div class="modal fade" id="docDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-info-circle me-2"></i>Document Properties</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="docDetailBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Move Document Modal -->
+<div class="modal fade" id="moveDocModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-folder-symlink me-2"></i>Move to Folder</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <select class="form-select" id="moveFolderSelect"></select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btnConfirmMove">Move</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Group Modal -->
+<div class="modal fade" id="newGroupModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-shield-plus me-2"></i>New Group</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Group Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="groupName">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="2" id="groupDesc"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="btnCreateGroup">Create Group</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Group Detail Modal -->
+<div class="modal fade" id="groupDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Group Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="groupDetailBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- New / Edit Document Type Modal -->
+<div class="modal fade" id="newDocTypeModal" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dtModalTitle"><i class="bi bi-tags me-2"></i>New Document Type</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-4">
+          <!-- Left: Type Info -->
+          <div class="col-md-4">
+            <p class="text-uppercase fw-bold mb-3" style="font-size:11px;letter-spacing:.5px;color:var(--color-text-muted);">Type Details</p>
+            <div class="mb-3">
+              <label class="form-label">Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="dtName" placeholder="e.g. Invoice">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="2" id="dtDesc" placeholder="Short description..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Icon <small class="text-muted">(Bootstrap Icons class)</small></label>
+              <div class="input-group">
+                <span class="input-group-text" style="width:42px;justify-content:center;">
+                  <i id="dtIconPreview" class="bi bi-file-earmark" style="font-size:1.2rem;color:#001E57;"></i>
+                </span>
+                <input type="text" class="form-control" id="dtIcon" value="bi-file-earmark" placeholder="bi-file-earmark">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Color</label>
+              <div class="d-flex gap-2 align-items-center flex-wrap">
+                <input type="color" class="form-control form-control-color" id="dtColor" value="#001E57" style="width:40px;">
+                <div class="d-flex gap-1 flex-wrap">
+                  <span onclick="document.getElementById('dtColor').value='#001E57';document.getElementById('dtIconPreview').style.color='#001E57';" style="width:24px;height:24px;border-radius:4px;background:#001E57;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#DC3545';document.getElementById('dtIconPreview').style.color='#DC3545';" style="width:24px;height:24px;border-radius:4px;background:#DC3545;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#0d6efd';document.getElementById('dtIconPreview').style.color='#0d6efd';" style="width:24px;height:24px;border-radius:4px;background:#0d6efd;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#6f42c1';document.getElementById('dtIconPreview').style.color='#6f42c1';" style="width:24px;height:24px;border-radius:4px;background:#6f42c1;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#FF6B35';document.getElementById('dtIconPreview').style.color='#FF6B35';" style="width:24px;height:24px;border-radius:4px;background:#FF6B35;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#20c997';document.getElementById('dtIconPreview').style.color='#20c997';" style="width:24px;height:24px;border-radius:4px;background:#20c997;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#DF6512';document.getElementById('dtIconPreview').style.color='#DF6512';" style="width:24px;height:24px;border-radius:4px;background:#DF6512;cursor:pointer;"></span>
+                  <span onclick="document.getElementById('dtColor').value='#fd7e14';document.getElementById('dtIconPreview').style.color='#fd7e14';" style="width:24px;height:24px;border-radius:4px;background:#fd7e14;cursor:pointer;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Metadata + Fields -->
+          <div class="col-md-8">
+            <!-- Metadata Template (single) -->
+            <p class="text-uppercase fw-bold mb-2" style="font-size:11px;letter-spacing:.5px;color:var(--color-text-muted);">Metadata Template <span class="text-danger">*</span></p>
+            <select class="form-select mb-1" id="dtCollectionSelect">
+              <option value="">— Select a metadata template —</option>
+            </select>
+            <div id="dtCollectionHint"></div>
+            <div class="mb-3"></div>
+
+            <!-- Field Preview -->
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <p class="text-uppercase fw-bold mb-0" style="font-size:11px;letter-spacing:.5px;color:var(--color-text-muted);">Resulting Fields</p>
+              <span class="badge bg-primary" id="dtFieldCount" style="font-size:10px;">0</span>
+            </div>
+            <div class="card border mb-3" style="max-height:140px;overflow-y:auto;">
+              <div id="dtFieldPreview" style="font-size:12px;">
+                <div class="text-muted text-center py-2" style="font-size:12px;">Select metadata collections above</div>
+              </div>
+            </div>
+
+            <!-- Extra Type-Specific Fields -->
+            <p class="text-uppercase fw-bold mb-2" style="font-size:11px;letter-spacing:.5px;color:var(--color-text-muted);">Extra Type-Specific Fields <small class="text-muted text-lowercase">(not covered by any collection)</small></p>
+            <div class="mb-2" id="dtExtraFieldsList"><div class="text-muted" style="font-size:11px;">No extra fields added</div></div>
+            <div class="card border" style="background:#f8f9fa;">
+              <div class="card-body py-2 px-3">
+                <div class="row g-2 align-items-end">
+                  <div class="col">
+                    <input type="text" class="form-control form-control-sm" id="dtExtraFieldLabel" placeholder="Label">
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control form-control-sm" id="dtExtraFieldKey" placeholder="key_name">
+                  </div>
+                  <div class="col-auto">
+                    <select class="form-select form-select-sm" id="dtExtraFieldType">
+                      <option value="text">Text</option>
+                      <option value="number">Number</option>
+                      <option value="date">Date</option>
+                      <option value="select">Select</option>
+                    </select>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch mb-0">
+                      <input class="form-check-input" type="checkbox" id="dtExtraFieldRequired">
+                      <label class="form-check-label" for="dtExtraFieldRequired" style="font-size:11px;">Req</label>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary" id="btnAddExtraField">Add</button>
+                  </div>
+                </div>
+                <div class="mt-2 d-none" id="dtExtraOptionsWrap">
+                  <input type="text" class="form-control form-control-sm" id="dtExtraOptions" placeholder="Options: comma or newline separated">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="btnSaveDocType"><i class="bi bi-check-lg me-1"></i>Save Type</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New / Edit Metadata Collection Modal -->
+<div class="modal fade" id="metaCollectionModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="metaCollectionModalTitle"><i class="bi bi-collection me-2"></i>New Metadata Collection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Collection Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="colName" placeholder="e.g. Financial Details">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" id="colDesc" placeholder="What this group of fields represents">
+          </div>
+        </div>
+
+        <!-- Fields in this collection -->
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <p class="fw-bold mb-0" style="font-size:13px;">Fields <span class="badge bg-primary ms-1" id="colFieldsCount" style="font-size:10px;">0</span></p>
+        </div>
+        <div class="card border mb-3" style="min-height:60px;max-height:200px;overflow-y:auto;">
+          <div id="colFieldsList">
+            <div class="text-muted text-center py-3" style="font-size:12px;"><i class="bi bi-arrow-down me-1"></i>Add fields using the form below</div>
+          </div>
+        </div>
+
+        <!-- Add field form -->
+        <div class="card border" style="background:#f8f9fa;">
+          <div class="card-body py-2 px-3">
+            <p class="fw-semibold mb-2" style="font-size:12px;"><i class="bi bi-plus-circle me-1"></i>Add Field to Collection</p>
+            <div class="row g-2 align-items-end">
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="colFieldLabel" placeholder="Label *">
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="colFieldKey" placeholder="key_name *">
+              </div>
+              <div class="col-md-2">
+                <select class="form-select form-select-sm" id="colFieldType">
+                  <option value="text">Text</option>
+                  <option value="number">Number</option>
+                  <option value="date">Date</option>
+                  <option value="select">Select</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" id="colFieldRequired">
+                  <label class="form-check-label" for="colFieldRequired" style="font-size:11px;">Required</label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-sm btn-primary" id="btnAddCollectionField">Add</button>
+              </div>
+            </div>
+            <div class="mt-2 d-none" id="colFieldOptionsWrap">
+              <input type="text" class="form-control form-control-sm" id="colFieldOptions" placeholder="Options: comma or newline separated (e.g. Option A, Option B)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="btnSaveMetaCollection"><i class="bi bi-check-lg me-1"></i>Save Collection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Rename Folder Modal -->
+<div class="modal fade" id="renameFolderModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rename Folder</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="renameFolderInput">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btnConfirmRename">Rename</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Knowledge Chat Drawer (fixed right panel) -->
+<div class="kc-backdrop" id="kcBackdrop"></div>
+<div class="kc-drawer" id="knowledgeChatWrap">
+  <div class="kc-drawer-header">
+    <div class="kc-drawer-title-wrap">
+      <div class="kc-header-badge"><i class="bi bi-stars"></i></div>
+      <div>
+        <div class="kc-drawer-title" id="knowledgeChatTitle">Ask Your Documents</div>
+        <div class="kc-drawer-sub" id="kcDocSubtitle">AI-powered Q&amp;A</div>
+      </div>
+    </div>
+    <button class="kc-close-btn" id="btnBackFromChat" title="Close"><i class="bi bi-x-lg"></i></button>
+  </div>
+
+  <!-- Loading state -->
+  <div class="kc-loading-state" id="knowledgeChatLoading">
+    <div class="kc-loading-orb">
+      <i class="bi bi-stars"></i>
+    </div>
+    <div class="kc-loading-label">Reading your documents…</div>
+    <div class="kc-loading-sub">Indexing content for fast Q&amp;A</div>
+    <div class="kc-loading-bar"><div class="kc-loading-bar-fill"></div></div>
+  </div>
+
+  <!-- Chat state (hidden until ready) -->
+  <div class="kc-body d-none" id="kcChatBody">
+    <div class="kc-doc-chips" id="kcDocChips"></div>
+    <div class="kc-messages" id="kcMessages"></div>
+    <div class="kc-suggestions d-none" id="kcSuggestions">
+      <div class="kc-suggestions-label"><i class="bi bi-lightbulb"></i> Try asking</div>
+      <div class="kc-suggestion-grid" id="kcSuggestionGrid"></div>
+    </div>
+    <div class="kc-input-row" id="kcInputRow">
+      <div class="kc-input-wrap">
+        <input type="text" class="form-control" id="kcInput" placeholder="Ask a question about your documents…" autocomplete="off">
+      </div>
+      <button class="btn kc-send-btn" id="kcSendBtn" title="Send"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';</script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/ems/folder-tree.js"></script>
+<script src="/unifiedsmi/js/ems/documents.js"></script>
+<script src="/unifiedsmi/js/ems/groups.js"></script>
+<script src="/unifiedsmi/js/ems/users.js"></script>
+<script src="/unifiedsmi/js/ems/audit.js"></script>
+<script src="/unifiedsmi/js/ems/signature-pad.js"></script>
+<script src="/unifiedsmi/js/ems/doc-viewer.js"></script>
+<script src="/unifiedsmi/js/ems/knowledge-chat.js"></script>
+<script src="/unifiedsmi/js/ems/doctypes-mgr.js"></script>
+<script src="/unifiedsmi/js/ems/metadata-mgr.js"></script>
+<script src="/unifiedsmi/js/ems/index.js"></script>
+</body>
+</html>

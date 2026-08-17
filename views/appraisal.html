@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    /* ═══ Performance Management — Premium Enterprise UI ═══ */
+
+    /* Screen transitions */
+    .pm-screen { display:none; animation: pmFadeIn .25s ease; }
+    .pm-screen.active { display:block; }
+    @keyframes pmFadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Page header */
+    .pm-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+    .pm-header-left h2 { font-size:20px; font-weight:700; color:var(--color-text); margin:0 0 2px; }
+    .pm-header-left .pm-subtitle { font-size:12px; color:var(--color-text-muted); }
+    .pm-actions { display:flex; gap:8px; }
+    .pm-btn { padding:7px 18px; border-radius:6px; font-size:13px; font-weight:600; border:none; cursor:pointer; transition:all .15s; display:inline-flex; align-items:center; gap:6px; }
+    .pm-btn-primary { background:var(--color-primary); color:white; }
+    .pm-btn-primary:hover { background:var(--color-primary-dark); }
+    .pm-btn-success { background:#27ae60; color:white; }
+    .pm-btn-success:hover { background:#219a52; }
+    .pm-btn-danger  { background:#e74c3c; color:white; }
+    .pm-btn-danger:hover  { background:#c0392b; }
+    .pm-btn-warn    { background:#e67e22; color:white; }
+    .pm-btn-warn:hover    { background:#d35400; }
+    .pm-btn-outline { background:white; color:var(--color-text); border:1px solid var(--color-border); }
+    .pm-btn-outline:hover { background:var(--color-surface); }
+    .pm-btn-sm { padding:5px 12px; font-size:12px; }
+
+    /* Tab bar — clean and modern */
+    .pm-tabs { display:flex; background:white; border-radius:var(--radius-md); border:1px solid var(--color-border); overflow:hidden; margin-bottom:24px; box-shadow:var(--shadow-sm); }
+    .pm-tab { flex:1; padding:14px; text-align:center; cursor:pointer; font-size:13px; font-weight:500; color:var(--color-text-muted); display:flex; align-items:center; justify-content:center; gap:8px; border-bottom:3px solid transparent; transition:all .2s; }
+    .pm-tab:not(:last-child) { border-right:1px solid var(--color-border-light); }
+    .pm-tab:hover { color:var(--color-primary); background:var(--color-primary-faint); }
+    .pm-tab.active { color:var(--color-primary); font-weight:700; border-bottom-color:var(--color-primary); background:var(--color-primary-faint); }
+
+    /* Card container */
+    .pm-card { background:white; border:1px solid var(--color-border); border-radius:var(--radius-md); box-shadow:var(--shadow-sm); overflow:hidden; margin-bottom:20px; }
+    .pm-card-header { padding:14px 20px; font-weight:700; font-size:14px; color:var(--color-text); border-bottom:1px solid var(--color-border-light); display:flex; align-items:center; gap:8px; }
+    .pm-card-body { padding:0; }
+
+    /* Plans table */
+    .pm-tbl { width:100%; border-collapse:collapse; font-size:13px; }
+    .pm-tbl th { padding:12px 16px; text-align:left; font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.3px; color:var(--color-text-muted); background:var(--color-surface); border-bottom:1px solid var(--color-border-light); white-space:nowrap; }
+    .pm-tbl td { padding:14px 16px; border-bottom:1px solid var(--color-border-light); vertical-align:middle; }
+    .pm-tbl tr:last-child td { border-bottom:none; }
+    .pm-tbl tr:hover td { background:var(--color-surface-alt); }
+
+    /* Step workflow buttons in table */
+    .step-btn { padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; border:none; cursor:pointer; transition:all .15s; color:white; }
+    .step-btn-set   { background:var(--color-primary); }
+    .step-btn-track { background:var(--color-primary); }
+    .step-btn-ap    { background:var(--color-primary); }
+    .step-btn:hover { filter:brightness(.9); transform:translateY(-1px); box-shadow:0 2px 8px rgba(0,0,0,.15); }
+    .step-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+
+    /* Status pills */
+    .pm-pill { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+    .pill-draft      { background:var(--color-border-light); color:var(--color-text-muted); }
+    .pill-pending    { background:#FEF3CD; color:#856404; }
+    .pill-approved   { background:var(--color-success-light); color:var(--color-success); }
+    .pill-returned   { background:var(--color-danger-light); color:var(--color-danger); }
+    .pill-completed  { background:var(--color-primary-faint); color:var(--color-primary); }
+    .pill-submitted  { background:#D1ECF1; color:#0C5460; }
+
+    /* ═══ Performance History Cards ═══ */
+    .hist-grid { display:flex; flex-wrap:wrap; gap:24px; justify-content:center; padding:20px 0; }
+    .hist-card { width:240px; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-md); transition:all .25s; cursor:pointer; border:1px solid var(--color-border); }
+    .hist-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+    .hist-card-top { background:linear-gradient(135deg, var(--color-primary), var(--color-primary-lighter)); padding:28px 20px; text-align:center; position:relative; }
+    .hist-card-top::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:20px; background:white; border-radius:20px 20px 0 0; }
+    .hist-stars { font-size:26px; letter-spacing:3px; position:relative; z-index:1; }
+    .hist-stars .s-on  { color:#f59e0b; text-shadow:0 1px 3px rgba(0,0,0,.2); }
+    .hist-stars .s-off { color:rgba(255,255,255,.4); }
+    .hist-card-bot { background:white; padding:16px 20px 20px; text-align:center; }
+    .hist-card-year { font-size:18px; font-weight:800; color:var(--color-text); margin-bottom:2px; }
+    .hist-card-date { font-size:11px; color:var(--color-text-muted); margin-bottom:6px; }
+    .hist-card-score { font-size:28px; font-weight:800; color:var(--color-primary); line-height:1; }
+    .hist-card-label { font-size:11px; color:var(--color-text-muted); margin-top:4px; }
+
+    /* ═══ Collapsible accordion sections ═══ */
+    .pm-accord { border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow-sm); }
+    .pm-accord-item { border-bottom:1px solid var(--color-border-light); }
+    .pm-accord-item:last-child { border-bottom:none; }
+    .pm-accord-hdr { display:flex; align-items:center; gap:10px; padding:14px 20px; cursor:pointer; user-select:none; font-weight:600; font-size:14px; color:var(--color-text); background:white; transition:background .15s; }
+    .pm-accord-hdr:hover { background:var(--color-surface); }
+    .pm-accord-hdr .chev { font-size:10px; color:var(--color-primary); transition:transform .2s; }
+    .pm-accord-hdr.open .chev { transform:rotate(90deg); }
+    .pm-accord-body { padding:20px; display:none; background:white; border-top:1px solid var(--color-border-light); }
+    .pm-accord-body.open { display:block; }
+
+    /* ═══ Employee data display ═══ */
+    .emp-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:16px; }
+    .emp-field label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--color-text-muted); margin-bottom:2px; display:block; }
+    .emp-field span { font-size:13px; color:var(--color-text); font-weight:500; }
+
+    /* ═══ Perf rating select ═══ */
+    .perf-sel { border:1px solid var(--color-border); border-radius:6px; padding:6px 30px 6px 10px; font-size:13px; color:var(--color-text); background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23001E57'/%3E%3C/svg%3E") no-repeat right 10px center; -webkit-appearance:none; appearance:none; cursor:pointer; min-width:180px; transition:border-color .15s; }
+    .perf-sel:focus { border-color:var(--color-primary); outline:none; box-shadow:0 0 0 3px var(--color-primary-faint); }
+
+    /* ═══ Forms ═══ */
+    .pm-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.3px; color:var(--color-text-muted); margin-bottom:4px; display:block; }
+    .pm-required { font-size:10px; color:#e74c3c; float:right; font-weight:400; text-transform:none; }
+    .pm-input { border:1px solid var(--color-border); border-radius:6px; padding:8px 12px; font-size:13px; width:100%; transition:border-color .15s; }
+    .pm-input:focus { border-color:var(--color-primary); outline:none; box-shadow:0 0 0 3px var(--color-primary-faint); }
+    .pm-input[readonly], .pm-input:disabled { background:var(--color-surface); color:var(--color-text-muted); }
+    textarea.pm-input { resize:vertical; min-height:60px; }
+
+    /* ═══ Objective modal inner tabs ═══ */
+    .obj-tabs { display:flex; border:1px solid var(--color-border); border-radius:8px; overflow:hidden; margin-bottom:20px; }
+    .obj-tab { flex:1; padding:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:500; color:var(--color-text-muted); border-right:1px solid var(--color-border); transition:all .15s; }
+    .obj-tab:last-child { border-right:none; }
+    .obj-tab:hover { background:var(--color-surface); }
+    .obj-tab.active { color:var(--color-primary); font-weight:700; background:var(--color-primary-faint); }
+    .obj-panel { display:none; }
+    .obj-panel.active { display:block; }
+
+    /* Rating disclaimer */
+    .rating-note { color:#c0392b; font-size:12px; font-style:italic; margin-top:14px; padding:10px 14px; background:#fdf2f2; border-radius:6px; border-left:3px solid #e74c3c; }
+
+    /* Drag-drop zone */
+    .drop-zone { border:2px dashed var(--color-border); border-radius:var(--radius-md); padding:30px; text-align:center; transition:all .2s; cursor:pointer; }
+    .drop-zone:hover { border-color:var(--color-primary); background:var(--color-primary-faint); }
+    .drop-zone h6 { font-size:14px; font-weight:700; color:var(--color-text); margin-bottom:4px; }
+    .drop-zone p  { font-size:12px; color:var(--color-text-muted); margin:0; }
+
+    /* Req type radio */
+    .req-type { margin-bottom:18px; }
+    .req-type-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--color-text-muted); margin-bottom:8px; display:block; }
+    .req-type-opts label { display:inline-flex; align-items:center; gap:6px; margin-right:20px; font-size:13px; cursor:pointer; font-weight:500; }
+    .req-type-opts input[type="radio"] { accent-color:var(--color-primary); }
+
+    /* Pending inbox cards for manager */
+    .inbox-card { background:white; border:1px solid var(--color-border); border-radius:var(--radius-md); padding:16px 20px; margin-bottom:10px; display:flex; align-items:center; gap:16px; box-shadow:var(--shadow-sm); transition:all .15s; }
+    .inbox-card:hover { box-shadow:var(--shadow-md); border-color:var(--color-primary-lighter); }
+    .inbox-icon { width:44px; height:44px; border-radius:10px; background:var(--color-primary-faint); display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--color-primary); flex-shrink:0; }
+    .inbox-info { flex:1; }
+    .inbox-title { font-weight:700; font-size:13px; color:var(--color-text); margin-bottom:2px; }
+    .inbox-meta  { font-size:12px; color:var(--color-text-muted); }
+    .inbox-meta span { margin-right:16px; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><img src="/unifiedsmi/assets/logo.png" alt="Logo" class="sidebar-logo"></div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Performance</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- ═══════ SCREEN: Main — Current Plans + History ═══════ -->
+      <div class="pm-screen active" id="screen-main">
+        <div class="pm-header">
+          <div class="pm-header-left">
+            <h2><i class="bi bi-bar-chart-steps me-2" style="color:var(--color-primary)"></i>Appraisal and Performance Management</h2>
+            <div class="pm-subtitle">Manage your performance plans, track objectives and complete appraisals</div>
+          </div>
+          <div class="pm-actions">
+            <button class="pm-btn pm-btn-outline" onclick="history.back()"><i class="bi bi-arrow-left"></i> Back</button>
+          </div>
+        </div>
+
+        <div class="pm-tabs">
+          <div class="pm-tab active" id="tab-current" onclick="switchMainTab('current')"><i class="bi bi-clipboard-data"></i> Current Plans</div>
+          <div class="pm-tab" id="tab-history" onclick="switchMainTab('history')"><i class="bi bi-trophy"></i> Performance History</div>
+        </div>
+
+        <!-- Current Plans -->
+        <div id="pane-current">
+          <div class="pm-card">
+            <div class="pm-card-body">
+              <table class="pm-tbl" id="plans-table">
+                <thead>
+                  <tr>
+                    <th>Plan Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th style="text-align:center">Set Objectives</th>
+                    <th style="text-align:center">Track Progress</th>
+                    <th style="text-align:center">Appraisal</th>
+                  </tr>
+                </thead>
+                <tbody id="plans-tbody">
+                  <tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="pending-section" class="d-none">
+            <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <i class="bi bi-inbox-fill" style="color:var(--color-primary);font-size:18px"></i>
+              <span style="font-weight:700;font-size:15px;color:var(--color-text)">Pending Team Approvals</span>
+            </div>
+            <div id="pending-list"></div>
+          </div>
+        </div>
+
+        <!-- Performance History -->
+        <div id="pane-history" class="d-none">
+          <div class="hist-grid" id="history-grid">
+            <div class="text-muted fs-sm py-3">No performance history yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ SCREEN: Set Objectives ═══════ -->
+      <div class="pm-screen" id="screen-objectives">
+        <div class="pm-header">
+          <div class="pm-header-left">
+            <h2><i class="bi bi-bullseye me-2" style="color:var(--color-primary)"></i>Performance Management (Setting Objectives)</h2>
+            <div class="pm-subtitle" id="obj-subtitle"></div>
+          </div>
+          <div class="pm-actions" id="obj-actions"></div>
+        </div>
+
+        <div class="pm-accord">
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev"></i> Employee Data</div>
+            <div class="pm-accord-body" id="obj-emp-data"></div>
+          </div>
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr open" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev" style="transform:rotate(90deg)"></i> Objectives</div>
+            <div class="pm-accord-body open">
+              <div style="margin-bottom:14px" id="obj-create-wrap">
+                <button class="pm-btn pm-btn-primary pm-btn-sm" onclick="openObjModal(null)"><i class="bi bi-plus-lg"></i> Create Objective</button>
+                <span class="ms-3 pm-pill pill-draft" id="obj-weight-pill" style="font-size:12px"></span>
+              </div>
+              <div class="pm-card" style="margin-bottom:0;box-shadow:none;border-radius:8px">
+                <div class="pm-card-body">
+                  <table class="pm-tbl">
+                    <thead><tr><th>Objective Name</th><th style="width:100px;text-align:center">Edit</th><th style="width:100px;text-align:center">Delete</th></tr></thead>
+                    <tbody id="obj-list-tbody"><tr><td colspan="3" class="text-muted py-3 text-center">No objectives added yet.</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ SCREEN: Track Progress ═══════ -->
+      <div class="pm-screen" id="screen-track">
+        <div class="pm-header">
+          <div class="pm-header-left">
+            <h2><i class="bi bi-graph-up-arrow me-2" style="color:var(--color-primary)"></i>View and Track Objectives Progress</h2>
+            <div class="pm-subtitle" id="track-subtitle"></div>
+          </div>
+          <div class="pm-actions">
+            <button class="pm-btn pm-btn-primary" onclick="saveTracking()"><i class="bi bi-check-lg"></i> Submit</button>
+            <button class="pm-btn pm-btn-outline" onclick="showScreen('main')">Cancel</button>
+          </div>
+        </div>
+
+        <div class="req-type">
+          <span class="req-type-label">Requester Type</span>
+          <div class="req-type-opts">
+            <label><input type="radio" name="reqType" value="me" checked> Me</label>
+            <label><input type="radio" name="reqType" value="behalf"> On Behalf</label>
+          </div>
+        </div>
+
+        <div class="pm-accord">
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev"></i> Employee Data</div>
+            <div class="pm-accord-body" id="track-emp-data"></div>
+          </div>
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr open" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev" style="transform:rotate(90deg)"></i> Objectives</div>
+            <div class="pm-accord-body open">
+              <div class="pm-card" style="margin-bottom:0;box-shadow:none;border-radius:8px">
+                <div class="pm-card-body">
+                  <table class="pm-tbl">
+                    <thead><tr><th>Objective Name</th><th>Complete (%)</th><th>Actual Achievement Date</th><th style="width:80px;text-align:center">Edit</th></tr></thead>
+                    <tbody id="track-tbody"><tr><td colspan="4" class="text-muted py-3 text-center">No objectives.</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ SCREEN: Appraisal ═══════ -->
+      <div class="pm-screen" id="screen-appraisal">
+        <div class="pm-header">
+          <div class="pm-header-left">
+            <h2><i class="bi bi-clipboard2-check me-2" style="color:var(--color-primary)"></i>Appraisals</h2>
+            <div class="pm-subtitle" id="ap-subtitle"></div>
+          </div>
+          <div class="pm-actions" id="ap-actions"></div>
+        </div>
+
+        <div class="pm-accord">
+          <!-- Employee Data -->
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev"></i> Employee Data</div>
+            <div class="pm-accord-body" id="ap-emp-data"></div>
+          </div>
+
+          <!-- Appraisal Details -->
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev"></i> Appraisal Details</div>
+            <div class="pm-accord-body">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="pm-label">Period Start Date</label>
+                  <input type="date" class="pm-input" id="ap-periodStart">
+                </div>
+                <div class="col-md-4">
+                  <label class="pm-label">Period End Date</label>
+                  <input type="date" class="pm-input" id="ap-periodEnd">
+                </div>
+                <div class="col-md-4">
+                  <label class="pm-label">Type of Appraisal <span class="pm-required">Required</span></label>
+                  <select class="pm-input" id="ap-type">
+                    <option value=""></option><option>Annual</option><option>Mid-Year</option><option>Probationary</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="pm-label">Appraisal Date</label>
+                  <input type="date" class="pm-input" id="ap-date">
+                </div>
+                <div class="col-md-4">
+                  <label class="pm-label">Main Appraiser</label>
+                  <input type="text" class="pm-input" id="ap-appraiser" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Competencies -->
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev"></i> Competencies</div>
+            <div class="pm-accord-body" style="padding:0">
+              <table class="pm-tbl">
+                <thead><tr><th>Competency</th><th>Performance Rating</th><th>Weighting</th></tr></thead>
+                <tbody id="ap-comp-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Objectives -->
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev"></i> Objectives</div>
+            <div class="pm-accord-body" style="padding:0">
+              <table class="pm-tbl">
+                <thead><tr><th>Objective Name</th><th>Start Date</th><th>Weighting Scale</th><th>Target Date</th><th>Achievement Date</th><th>Appraised Performance</th><th style="width:70px;text-align:center">View</th></tr></thead>
+                <tbody id="ap-obj-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Overall Rating -->
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr open" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev" style="transform:rotate(90deg)"></i> Overall Rating and Comments</div>
+            <div class="pm-accord-body open">
+              <button class="pm-btn pm-btn-primary pm-btn-sm" style="margin-bottom:16px" onclick="checkOverallRating()"><i class="bi bi-calculator"></i> Check Overall Rating</button>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="pm-label">Total Overall Rating</label>
+                  <input type="text" class="pm-input" id="ap-totalRating" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="pm-label">Rating Justification <span class="pm-required">Required</span></label>
+                  <textarea class="pm-input" id="ap-justification" rows="2"></textarea>
+                </div>
+                <div class="col-md-6">
+                  <label class="pm-label">Overall Rating</label>
+                  <input type="text" class="pm-input" id="ap-overallRating">
+                </div>
+                <div class="col-md-6">
+                  <label class="pm-label">Appraisee Feedback</label>
+                  <textarea class="pm-input" id="ap-feedback" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="rating-note"><i class="bi bi-info-circle me-1"></i>Please note that this rating is subject to further calibration and verification from your Executive Management</div>
+            </div>
+          </div>
+
+          <!-- Advancement Potential -->
+          <div class="pm-accord-item">
+            <div class="pm-accord-hdr open" onclick="toggleAccord(this)"><i class="bi bi-chevron-right chev" style="transform:rotate(90deg)"></i> Advancement Potential</div>
+            <div class="pm-accord-body open">
+              <div class="mb-3">
+                <label class="pm-label">Behavioral Competencies <span class="pm-required">Required</span></label>
+                <textarea class="pm-input" id="ap-behavioral" rows="3"></textarea>
+              </div>
+              <div>
+                <label class="pm-label">Technical Competencies <span class="pm-required">Required</span></label>
+                <textarea class="pm-input" id="ap-technical" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══ Create/Edit Objective Modal ═══ -->
+<div class="modal fade" id="objModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:var(--radius-md);border:none;box-shadow:var(--shadow-lg)">
+      <div class="modal-header" style="border-bottom:1px solid var(--color-border-light);padding:16px 24px">
+        <h5 class="modal-title" style="font-size:16px;font-weight:700" id="objModalTitle">Create/Edit Objective</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:24px">
+        <div class="row g-3 mb-3">
+          <div class="col-md-4">
+            <label class="pm-label">Objective Name <span class="pm-required">Required</span></label>
+            <input type="text" class="pm-input" id="om-name">
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Weighting Scale <span class="pm-required">Required</span></label>
+            <select class="pm-input" id="om-weight">
+              <option value="">Select...</option>
+              <option>5</option><option>10</option><option>15</option><option>20</option><option>25</option>
+              <option>30</option><option>35</option><option>40</option><option>45</option><option>50</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Start Date <span class="pm-required">Required</span></label>
+            <input type="date" class="pm-input" id="om-startDate">
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Group</label>
+            <select class="pm-input" id="om-group">
+              <option>Customer</option><option>Finance</option><option>HR</option><option>IT</option><option>Operations</option><option>Team</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Priority</label>
+            <select class="pm-input" id="om-priority">
+              <option>High</option><option>Medium</option><option>Low</option>
+            </select>
+          </div>
+          <div class="col-md-4 d-flex align-items-end pb-2">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="om-appraise" checked style="accent-color:var(--color-primary)">
+              <label class="form-check-label" for="om-appraise" style="font-size:13px;font-weight:600">Appraise</label>
+            </div>
+          </div>
+        </div>
+        <div class="obj-tabs">
+          <div class="obj-tab active" onclick="switchObjTab('measurement',this)">Measurement</div>
+          <div class="obj-tab" onclick="switchObjTab('description',this)">Description</div>
+          <div class="obj-tab" onclick="switchObjTab('attachments',this)">Attachments</div>
+        </div>
+        <div class="obj-panel active" id="otp-measurement">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="pm-label">Measurement Style</label>
+              <select class="pm-input" id="om-measureStyle"><option>Quantitative</option><option>Qualitative</option></select>
+            </div>
+            <div class="col-md-4">
+              <label class="pm-label">Measure Name <span class="pm-required">Required</span></label>
+              <input type="text" class="pm-input" id="om-measureName">
+            </div>
+            <div class="col-md-4">
+              <label class="pm-label">Unit of Measure <span class="pm-required">Required</span></label>
+              <select class="pm-input" id="om-unitOfMeasure">
+                <option value="">Select...</option><option>%</option><option>Count</option><option>Score</option><option>Amount</option><option>Days</option><option>Hours</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="pm-label">Type <span class="pm-required">Required</span></label>
+              <select class="pm-input" id="om-measureType">
+                <option value="">Select...</option><option>Percentage</option><option>Number</option><option>Rating</option><option>Yes/No</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="pm-label">Target Value <span class="pm-required">Required</span></label>
+              <input type="text" class="pm-input" id="om-targetValue">
+            </div>
+          </div>
+        </div>
+        <div class="obj-panel" id="otp-description">
+          <textarea class="pm-input" id="om-description" rows="5" placeholder="Describe this objective..."></textarea>
+        </div>
+        <div class="obj-panel" id="otp-attachments">
+          <div class="drop-zone mb-3">
+            <h6><i class="bi bi-cloud-upload me-1"></i>Drag and Drop</h6>
+            <p>Select a file or drop one here.</p>
+          </div>
+          <table class="pm-tbl">
+            <thead><tr><th>Attachment Name</th><th>Attachment Date</th><th>Uploader</th><th>Action</th></tr></thead>
+            <tbody><tr><td colspan="4" style="font-size:12px;color:var(--color-text-muted);padding:12px 16px">No data to display.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer" style="border-top:1px solid var(--color-border-light);padding:12px 24px">
+        <button class="pm-btn pm-btn-primary" id="objModalSave" onclick="saveObjective()"><i class="bi bi-plus-lg"></i> Add</button>
+        <button class="pm-btn pm-btn-outline" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Track Edit Modal ═══ -->
+<div class="modal fade" id="trackModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:var(--radius-md);border:none;box-shadow:var(--shadow-lg)">
+      <div class="modal-header" style="border-bottom:1px solid var(--color-border-light);padding:16px 24px">
+        <h5 class="modal-title" style="font-size:16px;font-weight:700">Edit Objective</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:24px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <i class="bi bi-chevron-down" style="color:var(--color-primary);font-size:12px"></i>
+          <span style="font-weight:700;font-size:14px">Objective Details</span>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="pm-label">Objective Name</label>
+            <input type="text" class="pm-input" id="tm-name" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Complete (%) <span class="pm-required">Required</span></label>
+            <input type="number" class="pm-input" id="tm-complete" min="0" max="100">
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Actual Achievement Date <span class="pm-required">Required</span></label>
+            <input type="date" class="pm-input" id="tm-actualDate">
+          </div>
+          <div class="col-12">
+            <label class="pm-label">Comments/Data Source</label>
+            <textarea class="pm-input" id="tm-comments" rows="3"></textarea>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Aligned With</label>
+            <input type="text" class="pm-input" id="tm-alignedWith" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Weighting Scale</label>
+            <select class="pm-input" id="tm-weight" disabled>
+              <option>5</option><option>10</option><option>15</option><option>20</option><option>25</option>
+              <option>30</option><option>35</option><option>40</option><option>45</option><option>50</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Start Date</label>
+            <input type="date" class="pm-input" id="tm-startDate" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Target Date</label>
+            <input type="date" class="pm-input" id="tm-targetDate" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Achievement Date</label>
+            <input type="date" class="pm-input" id="tm-achieveDate">
+          </div>
+          <div class="col-md-4">
+            <label class="pm-label">Next Reviewer Date</label>
+            <input type="date" class="pm-input" id="tm-nextReviewer">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="border-top:1px solid var(--color-border-light);padding:12px 24px">
+        <button class="pm-btn pm-btn-primary" onclick="saveTrackEdit()"><i class="bi bi-pencil-square"></i> Edit</button>
+        <button class="pm-btn pm-btn-outline" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Objective View Modal ═══ -->
+<div class="modal fade" id="objViewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:var(--radius-md);border:none;box-shadow:var(--shadow-lg)">
+      <div class="modal-header" style="border-bottom:1px solid var(--color-border-light);padding:16px 24px">
+        <h5 class="modal-title" style="font-size:16px;font-weight:700"><i class="bi bi-bullseye me-2" style="color:var(--color-primary)"></i>Objective Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="obj-view-body" style="padding:24px"></div>
+      <div class="modal-footer" style="border-top:1px solid var(--color-border-light);padding:12px 24px">
+        <button class="pm-btn pm-btn-outline" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/appraisal.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "u001",
+    "name": "Ahmed Al-Rashidi",
+    "email": "ahmed@company.com",
+    "password": "demo123",
+    "role": "admin",
+    "department": "Executive",
+    "jobTitle": "Chief Executive Officer",
+    "managerId": "u001",
+    "phone": "+966 50 111 2233",
+    "location": "Riyadh HQ",
+    "joinDate": "2019-03-01",
+    "avatar": "A"
+  },
+  {
+    "id": "u002",
+    "name": "Khalid Al-Mansouri",
+    "email": "khalid@company.com",
+    "password": "demo123",
+    "role": "manager",
+    "department": "Finance",
+    "jobTitle": "Finance Manager",
+    "managerId": "u001",
+    "phone": "+966 50 222 3344",
+    "location": "Riyadh HQ",
+    "joinDate": "2020-06-15",
+    "avatar": "K"
+  },
+  {
+    "id": "u004",
+    "name": "Sara Hassan",
+    "email": "sara@company.com",
+    "password": "demo123",
+    "role": "employee",
+    "department": "Finance",
+    "jobTitle": "Financial Analyst",
+    "managerId": "u002",
+    "phone": "+966 50 444 5566",
+    "location": "Riyadh HQ",
+    "joinDate": "2022-09-01",
+    "avatar": "S"
+  }
+]

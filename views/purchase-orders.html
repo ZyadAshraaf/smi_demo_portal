@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Orders — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    /* Stat cards */
+    .stat-card { background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px 22px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:16px; }
+    .stat-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+    .stat-value { font-size:26px; font-weight:700; line-height:1.1; }
+    .stat-label { font-size:12px; color:var(--color-text-muted); font-weight:600; text-transform:uppercase; letter-spacing:.4px; }
+
+    /* Line items table in modal */
+    .line-items-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .line-items-table th { background:var(--color-surface); padding:8px 10px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--color-text-muted); border-bottom:1px solid var(--color-border); }
+    .line-items-table td { padding:6px 6px; border-bottom:1px solid #f0f2f5; vertical-align:middle; }
+    .line-items-table tr:last-child td { border-bottom:none; }
+
+    /* Totals row */
+    .totals-box { background:var(--color-surface); border:1px solid var(--color-border); border-radius:10px; padding:14px 18px; }
+    .totals-row { display:flex; justify-content:space-between; font-size:13px; padding:3px 0; }
+    .totals-row.grand { font-size:16px; font-weight:700; color:var(--color-primary); border-top:1px solid var(--color-border); margin-top:6px; padding-top:8px; }
+
+    /* Detail Drawer */
+    .po-drawer-overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:1040; opacity:0; pointer-events:none; transition:opacity .25s; }
+    .po-drawer-overlay.open { opacity:1; pointer-events:all; }
+    .po-drawer { position:fixed; top:0; right:0; height:100%; width:480px; max-width:96vw; background:#fff; box-shadow:-8px 0 40px rgba(0,0,0,.12); z-index:1045; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; overflow:hidden; }
+    .po-drawer.open { transform:translateX(0); }
+    .pd-header { padding:22px 24px 18px; border-bottom:1px solid #eef0f3; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+    .pd-header-left { display:flex; align-items:center; gap:12px; }
+    .pd-type-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--color-primary-faint); color:var(--color-primary); flex-shrink:0; }
+    .pd-title { font-size:16px; font-weight:700; color:var(--color-text); margin-bottom:2px; }
+    .pd-subtitle { font-size:12px; color:var(--color-text-muted); }
+    .pd-close { width:32px; height:32px; border-radius:8px; border:none; background:#f4f6f8; color:var(--color-text-muted); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:background .15s; }
+    .pd-close:hover { background:#e8eaed; }
+    .pd-body { flex:1; overflow-y:auto; padding:24px; }
+    .pd-status-banner { border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+    .pd-status-banner.approved { background:#e6f9f0; border:1px solid #a7f3d0; }
+    .pd-status-banner.pending  { background:#fffbeb; border:1px solid #fde68a; }
+    .pd-status-banner.rejected { background:#fde8ea; border:1px solid #fca5a5; }
+    .pd-status-icon { font-size:22px; }
+    .pd-status-icon.approved { color:#1a9e6a; }
+    .pd-status-icon.pending  { color:#d97706; }
+    .pd-status-icon.rejected { color:#dc3545; }
+    .pd-status-text { font-size:14px; font-weight:700; text-transform:capitalize; }
+    .pd-status-text.approved { color:#1a9e6a; }
+    .pd-status-text.pending  { color:#d97706; }
+    .pd-status-text.rejected { color:#dc3545; }
+    .pd-total-box { background:var(--color-primary-faint); border:1px solid rgba(var(--color-primary-rgb),.2); border-radius:12px; padding:16px 18px; margin-bottom:20px; display:flex; align-items:center; gap:14px; }
+    .pd-total-num { font-size:30px; font-weight:800; color:var(--color-primary); line-height:1; }
+    .pd-total-lbl { font-size:13px; color:var(--color-primary); font-weight:600; }
+    .pd-total-sub { font-size:11px; color:var(--color-text-muted); }
+    .pd-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--color-text-muted); margin-bottom:12px; }
+    .pd-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+    .pd-info-item { background:#f8fafc; border:1px solid #eef0f3; border-radius:10px; padding:12px 14px; }
+    .pd-info-lbl { font-size:11px; color:var(--color-text-muted); font-weight:600; margin-bottom:4px; }
+    .pd-info-val { font-size:13px; font-weight:700; color:var(--color-text); }
+    .pd-line-table { width:100%; border-collapse:collapse; font-size:12px; margin-bottom:20px; }
+    .pd-line-table th { background:#f8fafc; padding:7px 10px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--color-text-muted); }
+    .pd-line-table td { padding:8px 10px; border-bottom:1px solid #f0f2f5; }
+    .pd-reason-box { background:#f8fafc; border:1px solid #eef0f3; border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:13px; color:var(--color-text); line-height:1.6; }
+    .pd-review-card { border-radius:12px; padding:14px 16px; margin-bottom:16px; border:1px solid #eef0f3; background:#fff; }
+    .pd-reviewer { display:flex; align-items:center; gap:10px; }
+    .pd-reviewer-avatar { width:34px; height:34px; border-radius:50%; background:var(--color-primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; }
+    .pd-reviewer-name { font-size:13px; font-weight:700; color:var(--color-text); }
+    .pd-review-note { margin-top:10px; padding-top:10px; border-top:1px solid #f0f2f5; font-size:13px; color:var(--color-text-muted); font-style:italic; line-height:1.5; }
+    .pd-timeline { display:flex; flex-direction:column; gap:0; }
+    .pd-tl-item { display:flex; gap:12px; padding-bottom:16px; position:relative; }
+    .pd-tl-item:not(:last-child)::before { content:''; position:absolute; left:11px; top:24px; width:2px; height:calc(100% - 10px); background:#e8ecf0; }
+    .pd-tl-dot { width:24px; height:24px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; margin-top:1px; }
+    .pd-tl-dot.done { background:var(--color-primary); color:#fff; }
+    .pd-tl-dot.active { background:#fff3e0; color:#d97706; border:2px solid #d97706; }
+    .pd-tl-dot.grey { background:#f0f2f5; color:#94a3b8; }
+    .pd-tl-label { font-size:13px; font-weight:600; color:var(--color-text); }
+    .pd-tl-sub { font-size:11px; color:var(--color-text-muted); }
+
+    /* Table row clickable */
+    #myPOsBody tr { cursor:pointer; transition:background .15s; }
+    #myPOsBody tr:hover { background:rgba(var(--color-primary-rgb),.04); }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="sidebar-logo">
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Purchase Orders</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero">
+        <div class="page-hero-bc">Dashboard &rsaquo; Service Catalog &rsaquo; <span>Purchase Orders</span></div>
+        <div class="page-hero-title"><i class="bi bi-file-earmark-text me-2"></i>Purchase Orders</div>
+        <div class="page-hero-sub">Create and track purchase orders through the approval workflow.</div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--color-primary-faint);color:var(--color-primary)"><i class="bi bi-file-earmark-text"></i></div>
+            <div><div class="stat-value" id="statTotal">—</div><div class="stat-label">Total POs</div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#fffbeb;color:#d97706"><i class="bi bi-hourglass-split"></i></div>
+            <div><div class="stat-value" id="statPending" style="color:#d97706">—</div><div class="stat-label">Pending Approval</div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#e6f9f0;color:#1a9e6a"><i class="bi bi-check-circle"></i></div>
+            <div><div class="stat-value" id="statApproved" style="color:#1a9e6a">—</div><div class="stat-label">Approved</div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--color-primary-faint);color:var(--color-primary)"><i class="bi bi-cash-coin"></i></div>
+            <div><div class="stat-value" id="statSpend" style="font-size:18px">—</div><div class="stat-label">Total Spend (AED)</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My POs -->
+      <div class="dark-table-card mb-4">
+        <div class="dark-table-head d-flex align-items-center justify-content-between">
+          <h6><i class="bi bi-list-check me-2"></i>My Purchase Orders</h6>
+          <button class="btn btn-primary btn-sm" id="btnNewPO">
+            <i class="bi bi-plus-lg me-1"></i>New Purchase Order
+          </button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>Vendor</th>
+                <th>Cost Center</th>
+                <th>Required By</th>
+                <th>Items</th>
+                <th class="text-end">Total (AED)</th>
+                <th style="width:110px">Status</th>
+                <th>Reviewed By</th>
+              </tr>
+            </thead>
+            <tbody id="myPOsBody">
+              <tr><td colspan="8" class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ── New PO Modal ─────────────────────────────────────────── -->
+<div class="modal fade" id="newPOModal" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-file-earmark-plus me-2"></i>New Purchase Order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label">Vendor *</label>
+            <select class="form-select" id="poVendor" required>
+              <option value="">Select vendor...</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Delivery Location *</label>
+            <select class="form-select" id="poDelivery" required>
+              <option value="Riyadh HQ">Riyadh HQ</option>
+              <option value="Jeddah Branch">Jeddah Branch</option>
+              <option value="Dammam Office">Dammam Office</option>
+              <option value="Site A">Site A</option>
+              <option value="Warehouse">Warehouse</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Required By *</label>
+            <input type="date" class="form-control" id="poRequiredBy" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Cost Center *</label>
+            <select class="form-select" id="poCostCenter" required>
+              <option value="">Select...</option>
+              <option>Finance</option>
+              <option>IT</option>
+              <option>Operations</option>
+              <option>HR</option>
+              <option>Marketing</option>
+              <option>R&D</option>
+              <option>Sales</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Currency</label>
+            <select class="form-select" id="poCurrency">
+              <option value="AED">AED — UAE Dirham</option>
+              <option value="SAR">SAR — Saudi Riyal</option>
+              <option value="USD">USD — US Dollar</option>
+              <option value="EUR">EUR — Euro</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Payment Terms</label>
+            <select class="form-select" id="poPaymentTerms">
+              <option>Net 15</option>
+              <option selected>Net 30</option>
+              <option>Net 45</option>
+              <option>Net 60</option>
+              <option>Advance</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Tax %</label>
+            <input type="number" class="form-control" id="poTaxPct" value="15" min="0" max="100" step="0.5">
+          </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="mb-3">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <label class="form-label mb-0 fw-700">Line Items *</label>
+            <button type="button" class="btn btn-outline-primary btn-sm" id="btnAddLine">
+              <i class="bi bi-plus-lg me-1"></i>Add Item
+            </button>
+          </div>
+          <div style="overflow-x:auto; border:1px solid var(--color-border); border-radius:10px;">
+            <table class="line-items-table">
+              <thead>
+                <tr>
+                  <th style="min-width:160px">Item *</th>
+                  <th style="min-width:180px">Description</th>
+                  <th style="width:70px">Qty *</th>
+                  <th style="width:80px">Unit</th>
+                  <th style="width:120px">Unit Price *</th>
+                  <th style="width:110px" class="text-end">Line Total</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="lineItemsBody"></tbody>
+            </table>
+          </div>
+          <p class="text-muted fs-xs mt-1" id="lineItemsHint">Add at least one line item.</p>
+        </div>
+
+        <!-- Totals -->
+        <div class="row justify-content-end">
+          <div class="col-md-5">
+            <div class="totals-box">
+              <div class="totals-row"><span class="text-muted">Subtotal</span><span id="poSubtotal" class="fw-600">0.00</span></div>
+              <div class="totals-row"><span class="text-muted" id="poTaxLabel">Tax (15%)</span><span id="poTaxAmt" class="fw-600">0.00</span></div>
+              <div class="totals-row grand"><span>Grand Total</span><span id="poGrandTotal">0.00</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Justification -->
+        <div class="mt-3">
+          <label class="form-label">Justification / Business Reason *</label>
+          <textarea class="form-control" id="poJustification" rows="2" placeholder="Explain the business need for this purchase..." required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSubmitPO">
+          <i class="bi bi-send me-1"></i>Submit for Approval
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Approve / Reject Modal ─────────────────────────────── -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalTitle">Review Purchase Order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3 p-3 rounded" style="background:var(--color-surface);border:1px solid var(--color-border)" id="reviewPOInfo"></div>
+        <div class="mb-3">
+          <label class="form-label">Note (optional)</label>
+          <textarea class="form-control" id="reviewNote" rows="3" placeholder="Add a note for the requestor..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer gap-2">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btnReject"><i class="bi bi-x-lg me-1"></i>Reject</button>
+        <button type="button" class="btn btn-success" id="btnApprove"><i class="bi bi-check-lg me-1"></i>Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Detail Drawer ──────────────────────────────────────── -->
+<div class="po-drawer-overlay" id="poDrawerOverlay"></div>
+<div class="po-drawer" id="poDrawer">
+  <div class="pd-header">
+    <div class="pd-header-left">
+      <div class="pd-type-icon"><i class="bi bi-file-earmark-text"></i></div>
+      <div>
+        <div class="pd-title" id="pdTitle">Purchase Order</div>
+        <div class="pd-subtitle" id="pdSubtitle">Details</div>
+      </div>
+    </div>
+    <button class="pd-close" id="poDrawerClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="pd-body">
+    <div class="pd-status-banner" id="pdStatusBanner">
+      <i class="pd-status-icon" id="pdStatusIcon"></i>
+      <div>
+        <div class="pd-status-text" id="pdStatusText">—</div>
+        <div style="font-size:12px;color:var(--color-text-muted)" id="pdStatusSub">—</div>
+      </div>
+    </div>
+    <div class="pd-total-box">
+      <div>
+        <div class="pd-total-num" id="pdGrandTotal">—</div>
+      </div>
+      <div>
+        <div class="pd-total-lbl" id="pdCurrency">Grand Total</div>
+        <div class="pd-total-sub" id="pdTaxLine">—</div>
+      </div>
+    </div>
+    <div class="pd-section-label">Order Details</div>
+    <div class="pd-info-grid" id="pdInfoGrid"></div>
+    <div class="pd-section-label">Line Items</div>
+    <table class="pd-line-table" id="pdLineTable">
+      <thead><tr><th>Item</th><th>Qty</th><th>Unit Price</th><th class="text-end">Total</th></tr></thead>
+      <tbody id="pdLineBody"></tbody>
+    </table>
+    <div class="pd-section-label">Justification</div>
+    <div class="pd-reason-box" id="pdJustification">—</div>
+    <div id="pdReviewSection">
+      <div class="pd-section-label">Reviewed By</div>
+      <div class="pd-review-card">
+        <div class="pd-reviewer">
+          <div class="pd-reviewer-avatar" id="pdReviewerAvatar">—</div>
+          <div>
+            <div class="pd-reviewer-name" id="pdReviewerName">—</div>
+            <div style="font-size:11px;color:var(--color-text-muted)">Manager</div>
+          </div>
+        </div>
+        <div class="pd-review-note" id="pdReviewNote" style="display:none"></div>
+      </div>
+    </div>
+    <div class="pd-section-label mt-3">Timeline</div>
+    <div class="pd-timeline" id="pdTimeline"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/purchase-orders.js"></script>
+</body>
+</html>

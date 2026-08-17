@@ -1,0 +1,167 @@
+[
+  {
+    "id": "g001",
+    "title": "Increase Department Efficiency by 15%",
+    "description": "Implement process improvements and automation to reduce manual tasks and increase overall team efficiency by 15% by end of Q2 2026.",
+    "ownerId": "u002",
+    "category": "Operational",
+    "startDate": "2026-01-01",
+    "dueDate": "2026-06-30",
+    "progress": 90,
+    "status": "on-track",
+    "keyResults": [
+      {
+        "id": "kr001",
+        "title": "Automate 3 manual reporting processes",
+        "progress": 100,
+        "done": true
+      },
+      {
+        "id": "kr002",
+        "title": "Reduce report generation time by 50%",
+        "progress": 70,
+        "done": false
+      },
+      {
+        "id": "kr003",
+        "title": "Implement digital approval workflow",
+        "progress": 40,
+        "done": false
+      }
+    ],
+    "createdAt": "2026-01-01T08:00:00Z",
+    "updatedAt": "2026-03-30T11:25:15.009Z"
+  },
+  {
+    "id": "g002",
+    "title": "Complete CMA Financial Analysis Certification",
+    "description": "Obtain the Certified Management Accountant (CMA) certification to enhance professional skills and support career growth.",
+    "ownerId": "u004",
+    "category": "Personal Development",
+    "startDate": "2026-01-15",
+    "dueDate": "2026-09-30",
+    "progress": 75,
+    "status": "behind",
+    "keyResults": [
+      {
+        "id": "kr004",
+        "title": "Complete Part 1 study materials",
+        "progress": 60,
+        "done": false
+      },
+      {
+        "id": "kr005",
+        "title": "Pass Part 1 exam",
+        "progress": 0,
+        "done": false
+      },
+      {
+        "id": "kr006",
+        "title": "Complete Part 2 study materials",
+        "progress": 0,
+        "done": false
+      }
+    ],
+    "createdAt": "2026-01-15T09:00:00Z",
+    "updatedAt": "2026-03-25T15:26:42.496Z"
+  },
+  {
+    "id": "g003",
+    "title": "Reduce IT Ticket Resolution Time by 20%",
+    "description": "Improve helpdesk processes and knowledge base to reduce average ticket resolution time from 48h to 38h.",
+    "ownerId": "u005",
+    "category": "Operational",
+    "startDate": "2026-01-01",
+    "dueDate": "2026-03-31",
+    "progress": 80,
+    "status": "at-risk",
+    "keyResults": [
+      {
+        "id": "kr007",
+        "title": "Build IT knowledge base with 50+ articles",
+        "progress": 90,
+        "done": false
+      },
+      {
+        "id": "kr008",
+        "title": "Implement automated ticket triage",
+        "progress": 100,
+        "done": true
+      },
+      {
+        "id": "kr009",
+        "title": "Achieve avg resolution under 38h",
+        "progress": 60,
+        "done": false
+      }
+    ],
+    "createdAt": "2026-01-01T08:00:00Z",
+    "updatedAt": "2026-04-01T12:05:47.450Z"
+  },
+  {
+    "id": "g004",
+    "title": "Achieve 95% Employee Records Compliance",
+    "description": "Ensure all employee records are complete, up-to-date, and compliant with labor regulations by Q1 close.",
+    "ownerId": "u003",
+    "category": "Compliance",
+    "startDate": "2026-01-01",
+    "dueDate": "2026-03-31",
+    "progress": 88,
+    "status": "on-track",
+    "keyResults": [
+      {
+        "id": "kr010",
+        "title": "Audit all employee files",
+        "progress": 100,
+        "done": true
+      },
+      {
+        "id": "kr011",
+        "title": "Update missing emergency contacts",
+        "progress": 75,
+        "done": false
+      },
+      {
+        "id": "kr012",
+        "title": "Complete medical insurance enrollments",
+        "progress": 95,
+        "done": false
+      }
+    ],
+    "createdAt": "2026-01-01T08:00:00Z",
+    "updatedAt": "2026-03-23T08:00:00Z"
+  },
+  {
+    "id": "g005",
+    "title": "Launch Employee Wellness Program",
+    "description": "Design and launch a company-wide wellness program including mental health resources, fitness benefits, and quarterly wellness events.",
+    "ownerId": "u003",
+    "category": "Employee Experience",
+    "startDate": "2026-02-01",
+    "dueDate": "2026-06-30",
+    "progress": 25,
+    "status": "at-risk",
+    "keyResults": [
+      {
+        "id": "kr013",
+        "title": "Survey employees on wellness needs",
+        "progress": 100,
+        "done": true
+      },
+      {
+        "id": "kr014",
+        "title": "Partner with 2 wellness vendors",
+        "progress": 0,
+        "done": false
+      },
+      {
+        "id": "kr015",
+        "title": "Launch program to 80%+ of employees",
+        "progress": 0,
+        "done": false
+      }
+    ],
+    "createdAt": "2026-02-01T09:00:00Z",
+    "updatedAt": "2026-03-10T09:00:00Z"
+  }
+]

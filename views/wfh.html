@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work From Home — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    .balance-card { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); }
+    .balance-label { font-size: 12px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .balance-value { font-size: 36px; font-weight: 700; color: var(--color-primary); line-height: 1.1; }
+    .balance-sub { font-size: 12px; color: var(--color-text-muted); }
+    .balance-bar { height: 6px; border-radius: 3px; background: var(--color-border); margin-top: 10px; }
+    .balance-bar-fill { height: 100%; border-radius: 3px; background: var(--color-primary); transition: width 0.6s ease; }
+
+    /* ── WFH table rows clickable ── */
+    #myWfhBody tr { cursor: pointer; transition: background .15s; }
+    #myWfhBody tr:hover { background: rgba(var(--color-primary-rgb),.04); }
+
+    /* ── Detail Drawer ── */
+    .leave-drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.35);
+      z-index: 1040; opacity: 0; pointer-events: none;
+      transition: opacity .25s;
+    }
+    .leave-drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+    .leave-drawer {
+      position: fixed; top: 0; right: 0; height: 100%;
+      width: 420px; max-width: 95vw;
+      background: #fff;
+      box-shadow: -8px 0 40px rgba(0,0,0,.12);
+      z-index: 1045;
+      transform: translateX(100%);
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .leave-drawer.open { transform: translateX(0); }
+
+    .ld-header {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid #eef0f3;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .ld-header-left { display: flex; align-items: center; gap: 12px; }
+    .ld-type-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; background: var(--color-primary-faint); color: var(--color-primary);
+      flex-shrink: 0;
+    }
+    .ld-title { font-size: 16px; font-weight: 700; color: var(--color-text); margin-bottom: 2px; }
+    .ld-subtitle { font-size: 12px; color: var(--color-text-muted); }
+    .ld-close {
+      width: 32px; height: 32px; border-radius: 8px; border: none;
+      background: #f4f6f8; color: var(--color-text-muted);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; transition: background .15s;
+    }
+    .ld-close:hover { background: #e8eaed; }
+
+    .ld-body { flex: 1; overflow-y: auto; padding: 24px; }
+
+    /* Status banner */
+    .ld-status-banner {
+      border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .ld-status-banner.approved { background: #e6f9f0; border: 1px solid #a7f3d0; }
+    .ld-status-banner.pending  { background: #fffbeb; border: 1px solid #fde68a; }
+    .ld-status-banner.rejected { background: #fde8ea; border: 1px solid #fca5a5; }
+    .ld-status-icon { font-size: 22px; }
+    .ld-status-icon.approved { color: #1a9e6a; }
+    .ld-status-icon.pending  { color: #d97706; }
+    .ld-status-icon.rejected { color: #dc3545; }
+    .ld-status-text { font-size: 14px; font-weight: 700; text-transform: capitalize; }
+    .ld-status-text.approved { color: #1a9e6a; }
+    .ld-status-text.pending  { color: #d97706; }
+    .ld-status-text.rejected { color: #dc3545; }
+    .ld-status-sub { font-size: 12px; color: var(--color-text-muted); }
+
+    /* Info grid */
+    .ld-section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--color-text-muted); margin-bottom: 12px;
+    }
+    .ld-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .ld-info-item {
+      background: #f8fafc; border: 1px solid #eef0f3;
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .ld-info-lbl { font-size: 11px; color: var(--color-text-muted); font-weight: 600; margin-bottom: 4px; }
+    .ld-info-val { font-size: 14px; font-weight: 700; color: var(--color-text); }
+
+    /* Duration highlight */
+    .ld-duration-box {
+      background: var(--color-primary-faint); border: 1px solid rgba(var(--color-primary-rgb),.2);
+      border-radius: 12px; padding: 16px 18px; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .ld-duration-num { font-size: 32px; font-weight: 800; color: var(--color-primary); line-height: 1; }
+    .ld-duration-lbl { font-size: 13px; color: var(--color-primary); font-weight: 600; }
+    .ld-duration-sub { font-size: 11px; color: var(--color-text-muted); }
+
+    /* Reason */
+    .ld-reason-box {
+      background: #f8fafc; border: 1px solid #eef0f3;
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 24px;
+      font-size: 13px; color: var(--color-text); line-height: 1.6;
+    }
+
+    /* Review info */
+    .ld-review-card {
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
+      border: 1px solid #eef0f3; background: #fff;
+    }
+    .ld-reviewer { display: flex; align-items: center; gap: 10px; }
+    .ld-reviewer-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--color-primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .ld-reviewer-name { font-size: 13px; font-weight: 700; color: var(--color-text); }
+    .ld-reviewer-role { font-size: 11px; color: var(--color-text-muted); }
+    .ld-review-note {
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f2f5;
+      font-size: 13px; color: var(--color-text-muted); font-style: italic; line-height: 1.5;
+    }
+
+    /* Timeline */
+    .ld-timeline { display: flex; flex-direction: column; gap: 0; }
+    .ld-tl-item { display: flex; gap: 12px; padding-bottom: 16px; position: relative; }
+    .ld-tl-item:not(:last-child)::before {
+      content: ''; position: absolute; left: 11px; top: 24px;
+      width: 2px; height: calc(100% - 10px); background: #e8ecf0;
+    }
+    .ld-tl-dot {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; margin-top: 1px;
+    }
+    .ld-tl-dot.done   { background: var(--color-primary); color: #fff; }
+    .ld-tl-dot.active { background: #fff3e0; color: #d97706; border: 2px solid #d97706; }
+    .ld-tl-dot.grey   { background: #f0f2f5; color: #94a3b8; }
+    .ld-tl-content {}
+    .ld-tl-label { font-size: 13px; font-weight: 600; color: var(--color-text); }
+    .ld-tl-sub   { font-size: 11px; color: var(--color-text-muted); }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Work From Home</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero">
+        <div class="page-hero-bc">Dashboard &rsaquo; <span>Work From Home</span></div>
+        <div class="page-hero-title"><i class="bi bi-house-door me-2"></i>Work From Home Requests</div>
+        <div class="page-hero-sub">Request remote work days and track manager approvals.</div>
+      </div>
+
+      <!-- WFH Balance Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="balance-card">
+            <div class="balance-label">Used This Month</div>
+            <div class="balance-value" id="balWfhUsed">—</div>
+            <div class="balance-sub">WFH days taken</div>
+            <div class="balance-bar"><div class="balance-bar-fill" id="balWfhBar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="balance-card">
+            <div class="balance-label">Monthly Quota</div>
+            <div class="balance-value" style="color:var(--color-info)">8</div>
+            <div class="balance-sub">days available per month</div>
+            <div class="balance-bar"><div class="balance-bar-fill" style="width:100%;background:var(--color-info)"></div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="balance-card">
+            <div class="balance-label">Remaining</div>
+            <div class="balance-value" id="balWfhRemaining" style="color:var(--color-success)">—</div>
+            <div class="balance-sub">days left this month</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="balance-card d-flex flex-column justify-content-between" style="min-height:100px">
+            <div class="balance-label">Quick Action</div>
+            <button class="btn btn-primary w-100 mt-2" id="btnRequestWfh">
+              <i class="bi bi-house-door me-2"></i>Request WFH
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- My WFH Requests -->
+      <div class="dark-table-card mb-4">
+        <div class="dark-table-head">
+          <h6><i class="bi bi-list-check me-2"></i>My WFH Requests</h6>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>From</th>
+                <th>To</th>
+                <th style="width:60px">Days</th>
+                <th>Reason</th>
+                <th>Submitted</th>
+                <th style="width:110px">Status</th>
+              </tr>
+            </thead>
+            <tbody id="myWfhBody">
+              <tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Request WFH Modal -->
+<div class="modal fade" id="requestWfhModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-house-door me-2"></i>New WFH Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="wfhForm">
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="form-label">Start Date *</label>
+              <input type="date" class="form-control" id="wfhStart" required>
+            </div>
+            <div class="col-6">
+              <label class="form-label">End Date *</label>
+              <input type="date" class="form-control" id="wfhEnd" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="p-3 rounded" style="background:var(--color-primary-faint);border:1px solid var(--color-border)">
+              <span class="fw-600" style="color:var(--color-primary)">Duration: <span id="wfhDaysCalc">—</span> working day(s)</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Reason</label>
+            <textarea class="form-control" id="wfhReason" rows="3" placeholder="Optional: explain why you need to work from home"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSubmitWfh">
+          <i class="bi bi-send me-1"></i>Submit Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Approve/Reject Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalTitle">Review WFH Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3 p-3 rounded" style="background:var(--color-surface);border:1px solid var(--color-border)" id="reviewWfhInfo"></div>
+        <div class="mb-3">
+          <label class="form-label">Note (optional)</label>
+          <textarea class="form-control" id="reviewNote" rows="3" placeholder="Add a note for the employee..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer gap-2">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger"  id="btnReject"><i class="bi bi-x-lg me-1"></i>Reject</button>
+        <button type="button" class="btn btn-success" id="btnApprove"><i class="bi bi-check-lg me-1"></i>Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WFH Detail Drawer -->
+<div class="leave-drawer-overlay" id="wfhDrawerOverlay"></div>
+<div class="leave-drawer" id="wfhDrawer">
+  <div class="ld-header">
+    <div class="ld-header-left">
+      <div class="ld-type-icon"><i class="bi bi-house-door"></i></div>
+      <div>
+        <div class="ld-title" id="wdTitle">Work From Home</div>
+        <div class="ld-subtitle" id="wdSubtitle">Details</div>
+      </div>
+    </div>
+    <button class="ld-close" id="wfhDrawerClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="ld-body">
+
+    <!-- Status Banner -->
+    <div class="ld-status-banner" id="wdStatusBanner">
+      <i class="ld-status-icon" id="wdStatusIcon"></i>
+      <div>
+        <div class="ld-status-text" id="wdStatusText">—</div>
+        <div class="ld-status-sub"  id="wdStatusSub">—</div>
+      </div>
+    </div>
+
+    <!-- Duration highlight -->
+    <div class="ld-duration-box">
+      <div>
+        <div class="ld-duration-num" id="wdDays">—</div>
+      </div>
+      <div>
+        <div class="ld-duration-lbl">Working Days</div>
+        <div class="ld-duration-sub" id="wdDateRange">—</div>
+      </div>
+    </div>
+
+    <!-- Info grid -->
+    <div class="ld-section-label">Request Details</div>
+    <div class="ld-info-grid">
+      <div class="ld-info-item">
+        <div class="ld-info-lbl">Start Date</div>
+        <div class="ld-info-val" id="wdStart">—</div>
+      </div>
+      <div class="ld-info-item">
+        <div class="ld-info-lbl">End Date</div>
+        <div class="ld-info-val" id="wdEnd">—</div>
+      </div>
+      <div class="ld-info-item" style="grid-column:1/-1">
+        <div class="ld-info-lbl">Submitted</div>
+        <div class="ld-info-val" id="wdSubmitted">—</div>
+      </div>
+    </div>
+
+    <!-- Reason -->
+    <div class="ld-section-label">Reason</div>
+    <div class="ld-reason-box" id="wdReason">—</div>
+
+    <!-- Reviewer -->
+    <div id="wdReviewSection">
+      <div class="ld-section-label">Reviewed By</div>
+      <div class="ld-review-card">
+        <div class="ld-reviewer">
+          <div class="ld-reviewer-avatar" id="wdReviewerAvatar">—</div>
+          <div>
+            <div class="ld-reviewer-name" id="wdReviewerName">—</div>
+            <div class="ld-reviewer-role">Manager</div>
+          </div>
+        </div>
+        <div class="ld-review-note" id="wdReviewNote" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="ld-section-label mt-3">Timeline</div>
+    <div class="ld-timeline" id="wdTimeline"></div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/wfh.js"></script>
+</body>
+</html>

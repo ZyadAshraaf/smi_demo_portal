@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Travel — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    .travel-content { background: #f4f7fb; min-height: calc(100vh - 62px); padding: 28px; }
+
+    /* Header */
+    .tv-header { margin-bottom: 28px; }
+    .tv-header .bc { font-size: 12px; color: var(--color-text-muted); margin-bottom: 4px; }
+    .tv-header h2 { font-size: 22px; font-weight: 700; color: var(--color-text); margin: 0 0 3px; }
+    .tv-header p  { font-size: 13px; color: var(--color-text-muted); margin: 0; }
+
+    /* Cards */
+    .tv-card {
+      background: #fff; border-radius: 16px; border: 1px solid #e8ecf0;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06); overflow: hidden;
+    }
+    .tv-card-header {
+      padding: 20px 22px 0; display: flex; align-items: flex-start;
+      justify-content: space-between; border-bottom: 1px solid #f0f3f6; padding-bottom: 14px;
+    }
+    .tv-card-title { font-size: 14px; font-weight: 700; color: var(--color-text); margin-bottom: 2px; }
+    .tv-card-sub   { font-size: 12px; color: var(--color-text-muted); }
+    .tv-card-body  { padding: 18px 22px 22px; }
+
+    /* KPI */
+    .tv-kpi { padding: 22px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: box-shadow .2s, transform .2s; height: 100%; }
+    .tv-kpi:hover { box-shadow: 0 6px 24px rgba(0,0,0,.1); transform: translateY(-2px); }
+    .tv-kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--color-text-muted); margin-bottom: 6px; }
+    .tv-kpi-value { font-size: 28px; font-weight: 800; color: var(--color-text); line-height: 1; margin-bottom: 6px; }
+    .tv-kpi-sub   { font-size: 11px; color: var(--color-text-muted); }
+    .tv-kpi-icon  { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; }
+    .tv-kpi-icon.blue   { background: linear-gradient(135deg,#2563eb,#60a5fa); }
+    .tv-kpi-icon.orange { background: linear-gradient(135deg,#d97706,#fbbf24); }
+    .tv-kpi-icon.green  { background: linear-gradient(135deg,#059669,#34d399); }
+    .tv-kpi-icon.violet { background: linear-gradient(135deg,#7c3aed,#a78bfa); }
+
+    /* Wizard Steps */
+    .wizard-steps {
+      display: flex; gap: 0; margin-bottom: 28px; position: relative;
+      background: #f8fafc; border-radius: 12px; padding: 4px; border: 1px solid #e8ecf0;
+    }
+    .wizard-step {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 600;
+      color: var(--color-text-muted); cursor: default; transition: all .3s;
+    }
+    .wizard-step .step-num {
+      width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; background: #e2e8f0; color: #94a3b8; transition: all .3s;
+    }
+    .wizard-step.active { background: #fff; color: var(--color-primary); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .wizard-step.active .step-num { background: var(--color-primary); color: #fff; }
+    .wizard-step.done { color: #059669; }
+    .wizard-step.done .step-num { background: #059669; color: #fff; }
+
+    /* Flight Card */
+    .flight-card {
+      border: 2px solid #e8ecf0; border-radius: 14px; padding: 18px 20px;
+      cursor: pointer; transition: all .2s; margin-bottom: 12px; background: #fff;
+    }
+    .flight-card:hover { border-color: var(--color-primary-lighter); box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .flight-card.selected { border-color: var(--color-primary); background: var(--color-primary-faint); }
+    .flight-card .airline-badge {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
+      border-radius: 8px; font-size: 11px; font-weight: 700; background: #f1f5f9;
+    }
+    .flight-card .flight-price {
+      font-size: 22px; font-weight: 800; color: var(--color-primary); white-space: nowrap;
+    }
+    .flight-card .flight-price small { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
+    .flight-time { font-size: 18px; font-weight: 700; color: var(--color-text); }
+    .flight-city { font-size: 11px; color: var(--color-text-muted); font-weight: 600; }
+    .flight-line { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
+    .flight-line .fl-dur { font-size: 10px; color: var(--color-text-muted); font-weight: 600; }
+    .flight-line .fl-bar { width: 100%; height: 2px; background: #e2e8f0; position: relative; }
+    .flight-line .fl-bar::after { content: ''; position: absolute; right: -2px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); }
+    .flight-line .fl-stops { font-size: 10px; color: #d97706; font-weight: 600; }
+    .flight-tag { font-size: 10px; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+    .flight-tag.refund { background: #ecfdf5; color: #059669; }
+    .flight-tag.no-refund { background: #fef2f2; color: #dc3545; }
+    .flight-tag.seats { background: #fff7ed; color: #d97706; }
+
+    /* Hotel Card */
+    .hotel-card {
+      border: 2px solid #e8ecf0; border-radius: 14px; padding: 18px 20px;
+      cursor: pointer; transition: all .2s; margin-bottom: 12px; background: #fff;
+    }
+    .hotel-card:hover { border-color: var(--color-primary-lighter); box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .hotel-card.selected { border-color: var(--color-primary); background: var(--color-primary-faint); }
+    .hotel-stars { color: #fbbf24; font-size: 13px; letter-spacing: 1px; }
+    .hotel-name  { font-size: 15px; font-weight: 700; color: var(--color-text); }
+    .hotel-area  { font-size: 12px; color: var(--color-text-muted); }
+    .hotel-price { font-size: 20px; font-weight: 800; color: var(--color-primary); }
+    .hotel-price small { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
+    .hotel-amenity {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 600; color: var(--color-text-muted);
+      padding: 3px 8px; border-radius: 6px; background: #f8fafc; border: 1px solid #e8ecf0;
+    }
+    .hotel-rating { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; }
+    .hotel-rating .score { background: var(--color-primary); color: #fff; padding: 2px 6px; border-radius: 6px; font-size: 11px; }
+
+    /* Cost Summary */
+    .cost-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f3f6; font-size: 13px; }
+    .cost-row:last-child { border: none; }
+    .cost-row .cost-label { color: var(--color-text-muted); font-weight: 600; }
+    .cost-row .cost-val   { font-weight: 700; color: var(--color-text); }
+    .cost-total { display: flex; justify-content: space-between; padding: 14px 0; font-size: 16px; font-weight: 800; border-top: 2px solid var(--color-primary); margin-top: 8px; }
+    .cost-total .cost-val { color: var(--color-primary); }
+
+    /* Policy compliance */
+    .policy-check { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; padding: 6px 0; }
+    .policy-check .pc-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .policy-check.pass .pc-icon { background: #ecfdf5; color: #059669; }
+    .policy-check.warn .pc-icon { background: #fff7ed; color: #d97706; }
+    .policy-check.fail .pc-icon { background: #fef2f2; color: #dc3545; }
+
+    /* Loading shimmer */
+    .shimmer-line {
+      height: 14px; border-radius: 6px; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .search-loading {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 20px; text-align: center; gap: 16px;
+    }
+    .search-loading .spinner-ring {
+      width: 48px; height: 48px; border: 4px solid #e8ecf0;
+      border-top-color: var(--color-primary); border-radius: 50%; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .search-loading p { font-size: 13px; font-weight: 600; color: var(--color-text-muted); }
+
+    /* Table */
+    .tv-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .tv-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--color-text-muted); padding: 10px 14px; border-bottom: 1px solid #e8ecf0; }
+    .tv-table td { font-size: 13px; padding: 14px; border-bottom: 1px solid #f0f3f6; vertical-align: middle; }
+    .tv-table tbody tr:hover { background: #f8fafc; }
+    .tv-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .tv-badge.pending  { background: #fff7ed; color: #d97706; }
+    .tv-badge.approved { background: #ecfdf5; color: #059669; }
+    .tv-badge.rejected { background: #fef2f2; color: #dc3545; }
+
+    /* Itinerary preview */
+    .itin-timeline { position: relative; padding-left: 28px; }
+    .itin-timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: #e2e8f0; }
+    .itin-item { position: relative; padding: 10px 0; }
+    .itin-item::before {
+      content: ''; position: absolute; left: -22px; top: 14px; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--color-primary); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--color-primary-lighter);
+    }
+    .itin-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--color-text-muted); }
+    .itin-value { font-size: 13px; font-weight: 600; color: var(--color-text); }
+
+    /* Btn */
+    .btn-primary-tv {
+      background: var(--color-primary); color: #fff; border: none; border-radius: 10px;
+      padding: 10px 24px; font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all .2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary-tv:hover { background: var(--color-primary-dark); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.15); }
+    .btn-outline-tv {
+      background: transparent; color: var(--color-text); border: 2px solid #e2e8f0; border-radius: 10px;
+      padding: 10px 24px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s;
+    }
+    .btn-outline-tv:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+    .empty-state { text-align: center; padding: 48px 20px; }
+    .empty-state i { font-size: 48px; color: #cbd5e1; margin-bottom: 12px; }
+    .empty-state h5 { font-size: 15px; font-weight: 700; color: var(--color-text); margin-bottom: 4px; }
+    .empty-state p { font-size: 13px; color: var(--color-text-muted); }
+
+    /* Detail drawer */
+    .tv-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 1040; opacity: 0; pointer-events: none; transition: opacity .25s; }
+    .tv-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .tv-drawer {
+      position: fixed; top: 0; right: -500px; width: 480px; max-width: 95vw; height: 100vh;
+      background: #fff; z-index: 1050; box-shadow: -8px 0 30px rgba(0,0,0,.12);
+      transition: right .3s cubic-bezier(.4,0,.2,1); overflow-y: auto;
+    }
+    .tv-drawer.open { right: 0; }
+    .tv-drawer-head { padding: 20px 24px; border-bottom: 1px solid #e8ecf0; display: flex; justify-content: space-between; align-items: center; }
+    .tv-drawer-body { padding: 24px; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><img src="/unifiedsmi/assets/logo.png" alt="Logo" class="sidebar-logo"></div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Business Travel</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="travel-content">
+
+      <!-- Page Header -->
+      <div class="tv-header d-flex align-items-start justify-content-between flex-wrap gap-3">
+        <div>
+          <div class="bc">Services &rsaquo; Business Travel</div>
+          <h2>Business Travel Requests</h2>
+          <p>Search flights, compare hotels, and submit travel requests with full cost estimates.</p>
+        </div>
+        <button class="btn-primary-tv" id="btnNewTrip"><i class="bi bi-plus-lg"></i> New Trip Request</button>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="row g-3 mb-4" id="kpiRow">
+        <div class="col-6 col-xl-3">
+          <div class="tv-card tv-kpi">
+            <div>
+              <div class="tv-kpi-label">Total Trips</div>
+              <div class="tv-kpi-value" id="kpiTotal">—</div>
+              <div class="tv-kpi-sub">All requests</div>
+            </div>
+            <div class="tv-kpi-icon blue"><i class="bi bi-airplane"></i></div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="tv-card tv-kpi">
+            <div>
+              <div class="tv-kpi-label">Pending Approval</div>
+              <div class="tv-kpi-value" id="kpiPending">—</div>
+              <div class="tv-kpi-sub">Awaiting review</div>
+            </div>
+            <div class="tv-kpi-icon orange"><i class="bi bi-hourglass-split"></i></div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="tv-card tv-kpi">
+            <div>
+              <div class="tv-kpi-label">Approved</div>
+              <div class="tv-kpi-value" id="kpiApproved">—</div>
+              <div class="tv-kpi-sub">Ready to travel</div>
+            </div>
+            <div class="tv-kpi-icon green"><i class="bi bi-check-circle"></i></div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="tv-card tv-kpi">
+            <div>
+              <div class="tv-kpi-label">Total Budget</div>
+              <div class="tv-kpi-value" id="kpiBudget">—</div>
+              <div class="tv-kpi-sub">Estimated spend</div>
+            </div>
+            <div class="tv-kpi-icon violet"><i class="bi bi-wallet2"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Travel Requests Table -->
+      <div class="tv-card mb-4" id="tableSection">
+        <div class="tv-card-header">
+          <div>
+            <div class="tv-card-title">My Travel Requests</div>
+            <div class="tv-card-sub">Track all your business trip submissions</div>
+          </div>
+        </div>
+        <div class="tv-card-body" id="tableBody">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════
+           NEW TRIP WIZARD (hidden by default)
+           ═══════════════════════════════════════════════════ -->
+      <div id="wizardSection" style="display:none">
+        <!-- Wizard Steps Indicator -->
+        <div class="wizard-steps" id="wizardSteps">
+          <div class="wizard-step active" data-step="1"><span class="step-num">1</span><span class="d-none d-md-inline">Trip Details</span></div>
+          <div class="wizard-step" data-step="2"><span class="step-num">2</span><span class="d-none d-md-inline">Select Flights</span></div>
+          <div class="wizard-step" data-step="3"><span class="step-num">3</span><span class="d-none d-md-inline">Select Hotel</span></div>
+          <div class="wizard-step" data-step="4"><span class="step-num">4</span><span class="d-none d-md-inline">Review & Submit</span></div>
+        </div>
+
+        <!-- Step 1: Trip Details -->
+        <div class="wizard-panel" id="step1">
+          <div class="row g-3">
+            <div class="col-12 col-lg-8">
+              <div class="tv-card">
+                <div class="tv-card-header">
+                  <div><div class="tv-card-title"><i class="bi bi-geo-alt me-2"></i>Trip Details</div><div class="tv-card-sub">Enter your travel information</div></div>
+                </div>
+                <div class="tv-card-body">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" style="font-size:12px">Origin City</label>
+                      <select class="form-select" id="tripOrigin"><option value="Riyadh" selected>Riyadh</option><option value="Jeddah">Jeddah</option><option value="Dammam">Dammam</option></select>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" style="font-size:12px">Destination</label>
+                      <select class="form-select" id="tripDest"></select>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" style="font-size:12px">Departure Date</label>
+                      <input type="date" class="form-control" id="tripDepart">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" style="font-size:12px">Return Date</label>
+                      <input type="date" class="form-control" id="tripReturn">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label fw-semibold" style="font-size:12px">Travel Class</label>
+                      <select class="form-select" id="tripClass">
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                        <option value="first">First Class</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label fw-semibold" style="font-size:12px">Number of Travelers</label>
+                      <input type="number" class="form-control" id="tripTravelers" min="1" max="10" value="1">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label fw-semibold" style="font-size:12px">Trip Duration</label>
+                      <input type="text" class="form-control" id="tripDays" readonly placeholder="—">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fw-semibold" style="font-size:12px">Purpose of Travel</label>
+                      <textarea class="form-control" id="tripPurpose" rows="3" placeholder="Describe the business purpose of this trip..."></textarea>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between mt-4">
+                    <button class="btn-outline-tv" id="btnCancelWizard"><i class="bi bi-x-lg"></i> Cancel</button>
+                    <button class="btn-primary-tv" id="btnSearchFlights"><i class="bi bi-search"></i> Search Flights</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="tv-card" style="height:100%">
+                <div class="tv-card-header">
+                  <div><div class="tv-card-title"><i class="bi bi-shield-check me-2"></i>Travel Policy</div><div class="tv-card-sub">Company guidelines</div></div>
+                </div>
+                <div class="tv-card-body" id="policyInfo">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Flight Selection -->
+        <div class="wizard-panel" id="step2" style="display:none">
+          <div class="row g-3">
+            <div class="col-12 col-lg-8">
+              <!-- Outbound Flights -->
+              <div class="tv-card mb-3">
+                <div class="tv-card-header">
+                  <div><div class="tv-card-title"><i class="bi bi-airplane me-2"></i>Outbound Flight</div><div class="tv-card-sub" id="outboundRoute">—</div></div>
+                </div>
+                <div class="tv-card-body" id="outboundFlights"></div>
+              </div>
+              <!-- Return Flights -->
+              <div class="tv-card">
+                <div class="tv-card-header">
+                  <div><div class="tv-card-title"><i class="bi bi-airplane me-2" style="transform:scaleX(-1)"></i>Return Flight</div><div class="tv-card-sub" id="returnRoute">—</div></div>
+                </div>
+                <div class="tv-card-body" id="returnFlights"></div>
+              </div>
+              <div class="d-flex justify-content-between mt-3">
+                <button class="btn-outline-tv" id="btnBackToStep1"><i class="bi bi-arrow-left"></i> Back</button>
+                <button class="btn-primary-tv" id="btnToHotels" disabled><i class="bi bi-building"></i> Search Hotels</button>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="tv-card" style="position:sticky;top:80px">
+                <div class="tv-card-header"><div><div class="tv-card-title"><i class="bi bi-receipt me-2"></i>Running Total</div></div></div>
+                <div class="tv-card-body" id="runningTotal">
+                  <div style="color:var(--color-text-muted);font-size:13px;text-align:center;padding:20px 0">Select flights to see cost estimate</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Hotel Selection -->
+        <div class="wizard-panel" id="step3" style="display:none">
+          <div class="row g-3">
+            <div class="col-12 col-lg-8">
+              <div class="tv-card">
+                <div class="tv-card-header">
+                  <div><div class="tv-card-title"><i class="bi bi-building me-2"></i>Hotels in <span id="hotelCity">—</span></div><div class="tv-card-sub" id="hotelDates">—</div></div>
+                </div>
+                <div class="tv-card-body" id="hotelResults"></div>
+              </div>
+              <div class="d-flex justify-content-between mt-3">
+                <button class="btn-outline-tv" id="btnBackToStep2"><i class="bi bi-arrow-left"></i> Back</button>
+                <button class="btn-primary-tv" id="btnToReview" disabled><i class="bi bi-eye"></i> Review Trip</button>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="tv-card" style="position:sticky;top:80px">
+                <div class="tv-card-header"><div><div class="tv-card-title"><i class="bi bi-receipt me-2"></i>Running Total</div></div></div>
+                <div class="tv-card-body" id="runningTotal2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Submit -->
+        <div class="wizard-panel" id="step4" style="display:none">
+          <div class="row g-3">
+            <div class="col-12 col-lg-7">
+              <div class="tv-card mb-3">
+                <div class="tv-card-header"><div><div class="tv-card-title"><i class="bi bi-map me-2"></i>Trip Itinerary</div></div></div>
+                <div class="tv-card-body" id="itinerarySummary"></div>
+              </div>
+              <div class="tv-card">
+                <div class="tv-card-header"><div><div class="tv-card-title"><i class="bi bi-shield-check me-2"></i>Policy Compliance</div></div></div>
+                <div class="tv-card-body" id="policyChecks"></div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-5">
+              <div class="tv-card mb-3">
+                <div class="tv-card-header"><div><div class="tv-card-title"><i class="bi bi-calculator me-2"></i>Cost Breakdown</div></div></div>
+                <div class="tv-card-body" id="finalCost"></div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <button class="btn-outline-tv" id="btnBackToStep3"><i class="bi bi-arrow-left"></i> Back</button>
+                <button class="btn-primary-tv" id="btnSubmitTrip"><i class="bi bi-send"></i> Submit Request</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Detail Drawer -->
+<div class="tv-drawer-overlay" id="drawerOverlay"></div>
+<div class="tv-drawer" id="detailDrawer">
+  <div class="tv-drawer-head">
+    <h5 style="font-size:16px;font-weight:700;margin:0">Trip Details</h5>
+    <button class="btn-close" id="btnCloseDrawer"></button>
+  </div>
+  <div class="tv-drawer-body" id="drawerBody"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/travel.js"></script>
+</body>
+</html>

@@ -1,0 +1,1129 @@
+[
+  {
+    "id": "t002",
+    "title": "Submit Q1 2026 Budget Report",
+    "description": "Compile and submit the Q1 2026 departmental budget report to Finance Director by end of March.",
+    "sourceSystem": "Accounting",
+    "type": "task",
+    "priority": "critical",
+    "status": "pending",
+    "assignedTo": "u004",
+    "createdBy": "u002",
+    "dueDate": "2026-03-31",
+    "createdAt": "2026-03-01T08:00:00Z",
+    "updatedAt": "2026-03-22T14:30:00Z",
+    "metadata": {},
+    "history": [
+      {
+        "action": "created",
+        "by": "u002",
+        "at": "2026-03-01T08:00:00Z",
+        "note": "Task assigned to Sara Hassan"
+      },
+      {
+        "action": "status-changed",
+        "by": "u004",
+        "at": "2026-03-15T10:00:00Z",
+        "note": "Started working on the report"
+      }
+    ],
+    "comments": [
+      {
+        "by": "u002",
+        "at": "2026-03-22T14:30:00Z",
+        "text": "Please include the variance analysis in the report."
+      }
+    ],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t003",
+    "title": "Review CRM Opportunity \u2014 Al-Farhan Deal",
+    "description": "Review the Al-Farhan Group opportunity in CRM. Deal value: SAR 2.4M. Approval required before proposal submission.",
+    "sourceSystem": "CRM",
+    "type": "approval",
+    "priority": "high",
+    "status": "pending",
+    "assignedTo": "u002",
+    "createdBy": "u006",
+    "dueDate": "2026-03-28",
+    "createdAt": "2026-03-19T11:00:00Z",
+    "updatedAt": "2026-03-19T11:00:00Z",
+    "metadata": {
+      "dealValue": "2400000",
+      "currency": "SAR"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u006",
+        "at": "2026-03-19T11:00:00Z",
+        "note": "Opportunity created and pending manager review"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t004",
+    "title": "Quarterly Inventory Count \u2014 Warehouse Zone B",
+    "description": "Conduct physical inventory count for Warehouse Zone B and reconcile with system records.",
+    "sourceSystem": "Warehouse",
+    "type": "task",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u005",
+    "createdBy": "u006",
+    "dueDate": "2026-03-30",
+    "createdAt": "2026-03-18T09:00:00Z",
+    "updatedAt": "2026-03-18T09:00:00Z",
+    "metadata": {
+      "zone": "B",
+      "sku_count": 847
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u006",
+        "at": "2026-03-18T09:00:00Z",
+        "note": "Quarterly count initiated"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t006",
+    "title": "Complete New Employee Onboarding Checklist",
+    "description": "Complete all items on the onboarding checklist: system access setup, policy acknowledgment, orientation sessions, and equipment assignment.",
+    "sourceSystem": "HR",
+    "type": "task",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u005",
+    "createdBy": "u003",
+    "dueDate": "2026-03-25",
+    "createdAt": "2026-02-15T09:00:00Z",
+    "updatedAt": "2026-03-20T11:00:00Z",
+    "metadata": {
+      "progress": 75
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u003",
+        "at": "2026-02-15T09:00:00Z",
+        "note": "Onboarding initiated for Omar Al-Farsi"
+      }
+    ],
+    "comments": [
+      {
+        "by": "u003",
+        "at": "2026-03-20T11:00:00Z",
+        "text": "Please complete the IT Security Awareness training."
+      }
+    ],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t008",
+    "title": "Process Vendor Invoice \u2014 Vendor #2847",
+    "description": "Process and approve payment for Vendor #2847 (Al-Khalid Supplies). Invoice amount: SAR 48,500.",
+    "sourceSystem": "Accounting",
+    "type": "approval",
+    "priority": "high",
+    "status": "completed",
+    "assignedTo": "u004",
+    "createdBy": "u002",
+    "dueDate": "2026-03-20",
+    "createdAt": "2026-03-15T10:00:00Z",
+    "updatedAt": "2026-03-19T15:30:00Z",
+    "metadata": {
+      "invoiceAmount": 48500,
+      "vendorId": "V2847"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u002",
+        "at": "2026-03-15T10:00:00Z",
+        "note": "Invoice received and assigned for processing"
+      },
+      {
+        "action": "completed",
+        "by": "u004",
+        "at": "2026-03-19T15:30:00Z",
+        "note": "Invoice processed and payment initiated"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t009",
+    "title": "Schedule Q1 Performance Review Meetings",
+    "description": "Coordinate and schedule individual performance review meetings with all direct reports for Q1 2026.",
+    "sourceSystem": "HR",
+    "type": "task",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u002",
+    "createdBy": "u003",
+    "dueDate": "2026-04-05",
+    "createdAt": "2026-03-22T09:00:00Z",
+    "updatedAt": "2026-03-22T09:00:00Z",
+    "metadata": {
+      "directReports": 3
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u003",
+        "at": "2026-03-22T09:00:00Z",
+        "note": "Q1 review cycle initiated by HR"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t010",
+    "title": "Update Emergency Contact Information",
+    "description": "Please update your emergency contact information in the HR system as part of the annual records update.",
+    "sourceSystem": "HR",
+    "type": "task",
+    "priority": "low",
+    "status": "pending",
+    "assignedTo": "u004",
+    "createdBy": "u003",
+    "dueDate": "2026-03-31",
+    "createdAt": "2026-03-20T08:00:00Z",
+    "updatedAt": "2026-03-20T08:00:00Z",
+    "metadata": {},
+    "history": [
+      {
+        "action": "created",
+        "by": "u003",
+        "at": "2026-03-20T08:00:00Z",
+        "note": "Annual records update campaign"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "t012",
+    "title": "Submit Q1 Travel Expense Report",
+    "description": "Submit expense report for Q1 travel to Jeddah branch (Feb 14\u201316). Total claimed: SAR 3,850.",
+    "sourceSystem": "Accounting",
+    "type": "task",
+    "priority": "medium",
+    "status": "escalated",
+    "assignedTo": "u004",
+    "createdBy": "u004",
+    "dueDate": "2026-03-15",
+    "createdAt": "2026-03-01T09:00:00Z",
+    "updatedAt": "2026-03-23T09:00:00Z",
+    "metadata": {
+      "amount": 3850
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-03-01T09:00:00Z",
+        "note": "Expense report created"
+      },
+      {
+        "action": "escalated",
+        "by": "u002",
+        "at": "2026-03-23T09:00:00Z",
+        "note": "Task overdue \u2014 escalated to HR for follow-up"
+      }
+    ],
+    "comments": [],
+    "escalated": true,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TWFH008",
+    "title": "Approve WFH Request \u2014 Khalid Al-Mansouri",
+    "description": "Khalid Al-Mansouri has requested to work from home for 2 day(s) (2026-04-21 to 2026-04-22). Reason: Home office setup \u2014 awaiting ergonomic chair delivery.",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u001",
+    "createdBy": "u002",
+    "dueDate": "2026-04-21",
+    "createdAt": "2026-04-02T16:00:00.000Z",
+    "updatedAt": "2026-04-02T16:00:00.000Z",
+    "metadata": {
+      "wfhId": "W008",
+      "requestDetails": {
+        "userName": "Khalid Al-Mansouri",
+        "startDate": "2026-04-21",
+        "endDate": "2026-04-22",
+        "days": 2,
+        "reason": "Home office setup \u2014 awaiting ergonomic chair delivery.",
+        "submittedAt": "2026-04-02T16:00:00.000Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u002",
+        "at": "2026-04-02T16:00:00.000Z",
+        "note": "WFH request submitted"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T6C03E774",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 3 day(s) (2026-04-15 to 2026-04-17). Reason: Family matter",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "completed",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-15",
+    "createdAt": "2026-04-14T03:48:55.448Z",
+    "updatedAt": "2026-04-14T03:50:01.821Z",
+    "metadata": {
+      "leaveId": "L61FCA88C",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-04-15",
+        "endDate": "2026-04-17",
+        "days": 3,
+        "reason": "Family matter",
+        "submittedAt": "2026-04-14T03:48:55.447Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-14T03:48:55.448Z",
+        "note": "Submitted via My Assistant"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-14T03:50:01.821Z",
+        "note": "Leave request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T954BA7DA",
+    "title": "Approve WFH Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested to work from home for 2 day(s) (2026-04-22 to 2026-04-23). Reason: Not provided",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-22",
+    "createdAt": "2026-04-14T03:50:41.224Z",
+    "updatedAt": "2026-04-14T03:50:41.224Z",
+    "metadata": {
+      "wfhId": "WD7CDD379",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "startDate": "2026-04-22",
+        "endDate": "2026-04-23",
+        "days": 2,
+        "reason": "",
+        "submittedAt": "2026-04-14T03:50:41.224Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-14T03:50:41.224Z",
+        "note": "WFH request submitted"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T1790ED26",
+    "title": "Approve Business Trip \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested a business trip to Abha for 4 day(s) (2026-04-24 to 2026-04-27). Purpose: sd. Total estimated cost: SAR 3,220.",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-24",
+    "createdAt": "2026-04-14T12:36:28.957Z",
+    "updatedAt": "2026-04-14T12:36:28.957Z",
+    "metadata": {
+      "travelId": "TR-56B5C5E1"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-14T12:36:28.957Z",
+        "note": "Business travel request submitted"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T67EA612F",
+    "title": "Approve WFH Request \u2014 Sara Hassan",
+    "description": "Sara Hassan has requested to work from home for 1 day(s) (2026-04-17 to 2026-04-18). Reason: Not provided",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "completed",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-04-17",
+    "createdAt": "2026-04-17T09:46:42.638Z",
+    "updatedAt": "2026-04-17T09:46:53.066Z",
+    "metadata": {
+      "wfhId": "W6ABBDB2A",
+      "requestDetails": {
+        "userName": "Sara Hassan",
+        "startDate": "2026-04-17",
+        "endDate": "2026-04-18",
+        "days": 1,
+        "reason": "",
+        "submittedAt": "2026-04-17T09:46:42.638Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-04-17T09:46:42.638Z",
+        "note": "WFH request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-17T09:46:53.066Z",
+        "note": "WFH request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T7F94A1E2",
+    "title": "Approve Purchase Order \u2014 PO-2026-0005",
+    "description": "Sara Hassan submitted PO-2026-0005 to Riyadh Industrial Trading for SAR 115.00. Cost Center: IT.",
+    "sourceSystem": "Procurement",
+    "type": "approval",
+    "priority": "medium",
+    "status": "completed",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-04-30",
+    "createdAt": "2026-04-17T09:50:13.502Z",
+    "updatedAt": "2026-04-17T09:53:20.398Z",
+    "metadata": {
+      "poId": "PO63124EC2"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-04-17T09:50:13.502Z",
+        "note": "Purchase Order submitted for approval"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-17T09:53:20.398Z",
+        "note": "PO approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T77A38D0C",
+    "title": "Approve Material Requisition \u2014 MR-2026-0004",
+    "description": "Sara Hassan (Finance) requested 1 material line(s) (1 total units) for Riyadh HQ. Required by: 2026-04-22.",
+    "sourceSystem": "Warehouse",
+    "type": "approval",
+    "priority": "high",
+    "status": "completed",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-04-22",
+    "createdAt": "2026-04-17T09:54:11.730Z",
+    "updatedAt": "2026-04-17T09:54:24.632Z",
+    "metadata": {
+      "mrqId": "MRF7C1861A"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-04-17T09:54:11.730Z",
+        "note": "Material Requisition submitted for approval"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-17T09:54:24.632Z",
+        "note": "Requisition approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T12EBE801",
+    "title": "Approve Leave Request \u2014 Sara Hassan",
+    "description": "Sara Hassan has requested emergency leave for 4 day(s) (2026-04-21 to 2026-04-24). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "rejected",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-04-21",
+    "createdAt": "2026-04-17T10:02:02.581Z",
+    "updatedAt": "2026-04-19T15:27:26.846Z",
+    "metadata": {
+      "leaveId": "LCE81DF00",
+      "requestDetails": {
+        "userName": "Sara Hassan",
+        "type": "emergency",
+        "startDate": "2026-04-21",
+        "endDate": "2026-04-24",
+        "days": 4,
+        "reason": "",
+        "submittedAt": "2026-04-17T10:02:02.581Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-04-17T10:02:02.581Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "rejected",
+        "by": "u001",
+        "at": "2026-04-19T15:27:26.846Z",
+        "note": "Leave request rejected"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TB83CD7E3",
+    "title": "Approve WFH Request \u2014 Sara Hassan",
+    "description": "Sara Hassan has requested to work from home for 4 day(s) (2026-04-18 to 2026-04-23). Reason: Not provided",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-04-18",
+    "createdAt": "2026-04-17T10:03:15.245Z",
+    "updatedAt": "2026-04-19T15:27:24.214Z",
+    "metadata": {
+      "wfhId": "W9F5A31A3",
+      "requestDetails": {
+        "userName": "Sara Hassan",
+        "startDate": "2026-04-18",
+        "endDate": "2026-04-23",
+        "days": 4,
+        "reason": "",
+        "submittedAt": "2026-04-17T10:03:15.245Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-04-17T10:03:15.245Z",
+        "note": "WFH request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-19T15:27:24.214Z",
+        "note": "WFH request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T88DD678A",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-04-23 to 2026-04-25). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-23",
+    "createdAt": "2026-04-20T09:13:23.250Z",
+    "updatedAt": "2026-04-20T09:13:34.610Z",
+    "metadata": {
+      "leaveId": "LB9261143",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-04-23",
+        "endDate": "2026-04-25",
+        "days": 2,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-04-20T09:13:23.250Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-20T09:13:23.250Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-20T09:13:34.610Z",
+        "note": "Leave request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T233D8B7B",
+    "title": "Approve Leave Request \u2014 Sara Hassan",
+    "description": "Sara Hassan has requested annual leave for 3 day(s) (2026-06-01 to 2026-06-03). Reason: test",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "pending",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-06-01",
+    "createdAt": "2026-04-20T09:36:40.977Z",
+    "updatedAt": "2026-04-20T09:36:40.977Z",
+    "metadata": {
+      "leaveId": "L322B903E",
+      "requestDetails": {
+        "userName": "Sara Hassan",
+        "type": "annual",
+        "startDate": "2026-06-01",
+        "endDate": "2026-06-03",
+        "days": 3,
+        "reason": "test",
+        "customFields": {},
+        "submittedAt": "2026-04-20T09:36:40.977Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-04-20T09:36:40.977Z",
+        "note": "Leave request submitted"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T5CF72AFA",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-04-21 to 2026-04-22). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-21",
+    "createdAt": "2026-04-21T09:48:09.944Z",
+    "updatedAt": "2026-04-21T09:48:18.852Z",
+    "metadata": {
+      "leaveId": "L1D387497",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-04-21",
+        "endDate": "2026-04-22",
+        "days": 2,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-04-21T09:48:09.944Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-21T09:48:09.944Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-21T09:48:18.852Z",
+        "note": "Leave request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T187F3110",
+    "title": "Approve WFH Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested to work from home for 1 day(s) (2026-04-24 to 2026-04-25). Reason: Not provided",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-24",
+    "createdAt": "2026-04-21T09:48:28.879Z",
+    "updatedAt": "2026-04-21T09:48:33.799Z",
+    "metadata": {
+      "wfhId": "W2CCB1BBF",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "startDate": "2026-04-24",
+        "endDate": "2026-04-25",
+        "days": 1,
+        "reason": "",
+        "submittedAt": "2026-04-21T09:48:28.879Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-21T09:48:28.879Z",
+        "note": "WFH request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-21T09:48:33.799Z",
+        "note": "WFH request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T742E1666",
+    "title": "Approve Business Trip \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested a business trip to Abha for 4 day(s) (2026-05-01 to 2026-05-04). Purpose: klhkjh. Total estimated cost: SAR 3,160.",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "completed",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-01",
+    "createdAt": "2026-04-21T09:48:59.391Z",
+    "updatedAt": "2026-04-21T09:49:06.527Z",
+    "metadata": {
+      "travelId": "TR-4941A0F5"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-21T09:48:59.391Z",
+        "note": "Business travel request submitted"
+      },
+      {
+        "action": "updated",
+        "by": "u001",
+        "at": "2026-04-21T09:49:06.527Z",
+        "note": "Marked as complete"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T36DA7AF2",
+    "title": "Approve Purchase Order \u2014 PO-2026-0007",
+    "description": "Ahmed Al-Rashidi submitted PO-2026-0007 to Al Futtaim Office Solutions for USD 115.00. Cost Center: HR.",
+    "sourceSystem": "Procurement",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-04-24",
+    "createdAt": "2026-04-21T09:49:31.951Z",
+    "updatedAt": "2026-04-21T09:49:35.749Z",
+    "metadata": {
+      "poId": "PO624E5CB4"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-21T09:49:31.951Z",
+        "note": "Purchase Order submitted for approval"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-21T09:49:35.749Z",
+        "note": "PO approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TF296F0EA",
+    "title": "Approve Material Requisition \u2014 MR-2026-0006",
+    "description": "Ahmed Al-Rashidi (Executive) requested 1 material line(s) (1 total units) for Riyadh HQ. Required by: 2026-05-01.",
+    "sourceSystem": "Warehouse",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-01",
+    "createdAt": "2026-04-21T09:49:50.635Z",
+    "updatedAt": "2026-04-21T09:49:54.079Z",
+    "metadata": {
+      "mrqId": "MR6B7DE2A6"
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-04-21T09:49:50.635Z",
+        "note": "Material Requisition submitted for approval"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-04-21T09:49:54.079Z",
+        "note": "Requisition approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TC381ECB0",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested marriage leave for 10 day(s) (2026-05-03 to 2026-05-14). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-03",
+    "createdAt": "2026-05-01T00:58:47.494Z",
+    "updatedAt": "2026-05-01T02:39:33.467Z",
+    "metadata": {
+      "leaveId": "LF5D7AB89",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "marriage",
+        "startDate": "2026-05-03",
+        "endDate": "2026-05-14",
+        "days": 10,
+        "reason": "",
+        "customFields": {
+          "weddingDate": "2026-05-04"
+        },
+        "submittedAt": "2026-05-01T00:58:47.494Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-01T00:58:47.494Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-05-01T02:39:33.467Z",
+        "note": "Leave request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TDAF4ECC5",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-05-06 to 2026-05-07). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-06",
+    "createdAt": "2026-05-06T07:02:18.411Z",
+    "updatedAt": "2026-05-06T07:02:46.155Z",
+    "metadata": {
+      "leaveId": "L219EF6DD",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-05-06",
+        "endDate": "2026-05-07",
+        "days": 2,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-05-06T07:02:18.411Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T07:02:18.411Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-05-06T07:02:46.155Z",
+        "note": "Leave request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T77C1DA2C",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-05-10 to 2026-05-11). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-10",
+    "createdAt": "2026-05-06T07:07:32.981Z",
+    "updatedAt": "2026-05-06T07:07:49.775Z",
+    "metadata": {
+      "leaveId": "L4279AFE9",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-05-10",
+        "endDate": "2026-05-11",
+        "days": 2,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-05-06T07:07:32.981Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T07:07:32.981Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u001",
+        "at": "2026-05-06T07:07:49.775Z",
+        "note": "Leave request approved"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TA2917ADB",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 1 day(s) (2026-05-07 to 2026-05-07). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "rejected",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-07",
+    "createdAt": "2026-05-06T07:22:46.504Z",
+    "updatedAt": "2026-05-06T07:23:19.277Z",
+    "metadata": {
+      "leaveId": "L73A59067",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-05-07",
+        "endDate": "2026-05-07",
+        "days": 1,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-05-06T07:22:46.504Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T07:22:46.504Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "rejected",
+        "by": "u001",
+        "at": "2026-05-06T07:23:19.277Z",
+        "note": "Leave request rejected"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T073E2F1E",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 1 day(s) (2026-05-11 to 2026-05-11). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "rejected",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-11",
+    "createdAt": "2026-05-06T07:24:43.857Z",
+    "updatedAt": "2026-05-06T07:29:41.868Z",
+    "metadata": {
+      "leaveId": "LD8E9A603",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-05-11",
+        "endDate": "2026-05-11",
+        "days": 1,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-05-06T07:24:43.857Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T07:24:43.857Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "rejected",
+        "by": "u001",
+        "at": "2026-05-06T07:29:41.868Z",
+        "note": "Leave request rejected"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "TC9CEE357",
+    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "description": "Ahmed Al-Rashidi has requested annual leave for 1 day(s) (2026-05-18 to 2026-05-18). Reason: ",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "rejected",
+    "assignedTo": "u001",
+    "createdBy": "u001",
+    "dueDate": "2026-05-18",
+    "createdAt": "2026-05-06T07:28:41.734Z",
+    "updatedAt": "2026-05-06T07:29:44.916Z",
+    "metadata": {
+      "leaveId": "L279CB719",
+      "requestDetails": {
+        "userName": "Ahmed Al-Rashidi",
+        "type": "annual",
+        "startDate": "2026-05-18",
+        "endDate": "2026-05-18",
+        "days": 1,
+        "reason": "",
+        "customFields": {},
+        "submittedAt": "2026-05-06T07:28:41.734Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T07:28:41.734Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "rejected",
+        "by": "u001",
+        "at": "2026-05-06T07:29:44.916Z",
+        "note": "Leave request rejected"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  }
+]

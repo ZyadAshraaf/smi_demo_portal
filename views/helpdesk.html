@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Desk — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    .ticket-card { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow-sm); cursor: pointer; transition: all 0.2s; border-left: 4px solid transparent; }
+    .ticket-card:hover { box-shadow: var(--shadow-md); border-left-color: var(--color-primary); }
+    .ticket-card.priority-critical { border-left-color: var(--color-danger); }
+    .ticket-card.priority-high     { border-left-color: #fd7e14; }
+    .ticket-card.priority-medium   { border-left-color: var(--color-warning); }
+    .ticket-card.priority-low      { border-left-color: var(--color-success); }
+    .ticket-no { font-size: 11px; font-weight: 700; color: var(--color-text-muted); font-family: monospace; }
+    .ticket-title { font-size: 14px; font-weight: 700; color: var(--color-text); margin: 4px 0; }
+    .ticket-meta  { font-size: 12px; color: var(--color-text-muted); }
+    .comment-item { padding: 12px 0; border-bottom: 1px solid var(--color-border-light); }
+    .comment-item:last-child { border-bottom: none; }
+    .comment-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .comment-author { font-size: 12px; font-weight: 600; color: var(--color-text); }
+    .comment-time   { font-size: 11px; color: var(--color-text-muted); }
+    .comment-text   { font-size: 13px; color: var(--color-text); line-height: 1.5; }
+    .history-item { font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--color-border-light); }
+    .history-item:last-child { border-bottom: none; }
+    .history-action { font-weight: 600; color: var(--color-primary); text-transform: capitalize; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Help Desk</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero">
+        <div class="page-hero-bc">Dashboard &rsaquo; <span>Help Desk</span></div>
+        <div class="page-hero-title"><i class="bi bi-headset me-2"></i>Help Desk</div>
+        <div class="page-hero-sub">Submit and track IT support tickets. We're here to help.</div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4"><div class="stat-card"><div class="stat-icon info"><i class="bi bi-ticket-detailed"></i></div><div><div class="stat-value" id="statOpen">—</div><div class="stat-label">Open Tickets</div></div></div></div>
+        <div class="col-6 col-md-4"><div class="stat-card"><div class="stat-icon success"><i class="bi bi-check-circle"></i></div><div><div class="stat-value" id="statResolved">—</div><div class="stat-label">Resolved</div></div></div></div>
+        <div class="col-6 col-md-4"><div class="stat-card"><div class="stat-icon danger"><i class="bi bi-exclamation-diamond"></i></div><div><div class="stat-value" id="statCritical">—</div><div class="stat-label">Critical</div></div></div></div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex gap-2">
+          <select class="form-select form-select-sm" id="filterTicketStatus" style="width:auto">
+            <option value="">All Status</option>
+            <option value="open">Open</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="reopened">Reopened</option>
+            <option value="closed">Closed</option>
+          </select>
+          <select class="form-select form-select-sm" id="filterTicketPriority" style="width:auto">
+            <option value="">All Priorities</option>
+            <option>critical</option><option>high</option><option>medium</option><option>low</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" id="btnNewTicket"><i class="bi bi-plus-lg me-1"></i>New Ticket</button>
+      </div>
+
+      <div id="ticketsList">
+        <div class="text-center py-5"><div class="spinner-border" style="color:var(--color-primary)"></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- New Ticket Modal -->
+<div class="modal fade" id="newTicketModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-ticket-detailed me-2"></i>Submit Support Ticket</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div class="mb-3"><label class="form-label">Title *</label><input type="text" class="form-control" id="ticketTitle" placeholder="Brief summary of the issue"></div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6"><label class="form-label">Category</label>
+            <select class="form-select" id="ticketCategory">
+              <option>Access & Permissions</option><option>Hardware</option><option>Software</option>
+              <option>Network</option><option>Training</option><option>General</option>
+            </select>
+          </div>
+          <div class="col-md-6"><label class="form-label">Priority</label>
+            <select class="form-select" id="ticketPriority">
+              <option value="low">Low</option><option value="medium" selected>Medium</option>
+              <option value="high">High</option><option value="critical">Critical</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3"><label class="form-label">Description *</label><textarea class="form-control" id="ticketDesc" rows="5" placeholder="Describe the issue in detail. Include steps to reproduce, error messages, and impact."></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSubmitTicket"><i class="bi bi-send me-1"></i>Submit Ticket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ticket Detail Modal -->
+<div class="modal fade" id="ticketDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-ticket-detailed me-2"></i><span id="ticketDetailNo"></span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body" id="ticketDetailBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary   d-none" id="btnStartWork"><i class="bi bi-play-fill me-1"></i>Start Working</button>
+        <button type="button" class="btn btn-success   d-none" id="btnResolveTicket"><i class="bi bi-check-lg me-1"></i>Mark Resolved</button>
+        <button type="button" class="btn btn-warning   d-none" id="btnReopenTicket"><i class="bi bi-arrow-counterclockwise me-1"></i>Reopen</button>
+        <button type="button" class="btn btn-secondary d-none" id="btnCloseTicket"><i class="bi bi-lock me-1"></i>Close Ticket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/helpdesk.js"></script>
+</body>
+</html>

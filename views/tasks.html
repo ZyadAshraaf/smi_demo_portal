@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tasks — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    .filter-bar { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 14px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--shadow-sm); }
+    .filter-bar .form-control, .filter-bar .form-select { font-size: 13px; border-radius: var(--radius-md); border-color: var(--color-border); }
+    .filter-bar .form-control:focus, .filter-bar .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb),0.12); }
+    .search-input { min-width: 220px; flex: 1; }
+    .task-table-wrap { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .task-title-cell { font-weight: 600; font-size: 13px; color: var(--color-text); max-width: 280px; }
+    .task-desc-preview { font-size: 11px; color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px; margin-top: 2px; }
+    .overdue-indicator { color: var(--color-danger); font-size: 11px; font-weight: 600; }
+    .history-item { font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--color-border-light); }
+    .history-item:last-child { border-bottom: none; }
+    .history-action { font-weight: 600; color: var(--color-primary); text-transform: capitalize; }
+    .comment-bubble { background: var(--color-surface); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 8px; }
+    .comment-meta { font-size: 11px; color: var(--color-text-muted); margin-bottom: 4px; }
+    .comment-text { font-size: 13px; }
+    .tab-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .stat-pill { background: white; border: 1px solid var(--color-border); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
+    .stat-pill.active, .stat-pill:hover { background: var(--color-primary); border-color: var(--color-primary); color: white; }
+    .stat-pill span { background: rgba(0,0,0,0.1); border-radius: 10px; padding: 1px 6px; font-size: 11px; margin-left: 4px; }
+
+    /* System group header rows */
+    .task-group-header { pointer-events: none; }
+    .task-group-header td {
+      padding: 0 !important;
+      border: none !important;
+      background: transparent !important;
+    }
+    .task-group-header:not(:first-child) td { padding-top: 8px !important; }
+    .task-group-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px 8px;
+      background: linear-gradient(90deg, var(--color-primary-faint, #eaf6f5) 0%, transparent 100%);
+      border-left: 3px solid var(--color-primary);
+      border-bottom: 1px solid var(--color-border);
+      margin: 0;
+    }
+    .task-group-label-text {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+    .task-group-label-icon {
+      font-size: 14px;
+      color: var(--color-primary);
+      opacity: 0.8;
+    }
+    .task-group-count {
+      background: var(--color-primary);
+      color: white;
+      border-radius: 20px;
+      padding: 1px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    /* Row separators */
+    .table-custom tbody tr.task-row { border-bottom: 1px solid var(--color-border-light); }
+    .table-custom tbody tr.task-row:last-child { border-bottom: none; }
+    .table-custom tbody tr.task-row:hover { background: var(--color-primary-faint, #eaf6f5); }
+
+    /* Fix: dark-table-card makes thead text semi-transparent white — restore readable dark text */
+    .dark-table-card .table-custom thead th {
+      background: #fff !important;
+      color: var(--color-text-muted, #6c757d) !important;
+      border-bottom: 1px solid var(--color-border, #dee2e6) !important;
+      border-right: none !important;
+    }
+
+    /* Fix: dark-table-card forces white text on all tds, but task rows have a white background.
+       Override with enough specificity (031) to beat the dark-table rule (021). */
+    .dark-table-card .table-custom .task-row td {
+      color: var(--color-text);
+    }
+    .dark-table-card .table-custom .task-row .fs-sm,
+    .dark-table-card .table-custom .task-row .task-desc-preview {
+      color: var(--color-text-muted) !important;
+    }
+    .dark-table-card .table-custom .task-row .overdue-indicator {
+      color: var(--color-danger) !important;
+    }
+    /* Restore badge colours overridden by dark-table-card (specificity 030 beats 021) */
+    .dark-table-card .task-row .badge-priority-critical { color: #B02A37; }
+    .dark-table-card .task-row .badge-priority-high     { color: var(--color-danger); }
+    .dark-table-card .task-row .badge-priority-medium   { color: #92600A; }
+    .dark-table-card .task-row .badge-priority-low      { color: var(--color-success); }
+    .dark-table-card .task-row .badge-status-pending    { color: #92600A; }
+    .dark-table-card .task-row .badge-status-completed  { color: var(--color-success); }
+    .dark-table-card .task-row .badge-status-escalated  { color: var(--color-danger); }
+    .dark-table-card .task-row .badge-sys-HR            { color: #1a56db; }
+    .dark-table-card .task-row .badge-sys-Accounting    { color: #166534; }
+    .dark-table-card .task-row .badge-sys-CRM           { color: #6b21a8; }
+    .dark-table-card .task-row .badge-sys-Warehouse     { color: #b45309; }
+    .dark-table-card .task-row .badge-sys-IT            { color: var(--color-primary-dark); }
+    .dark-table-card .task-row .badge-sys-Manual        { color: #475569; }
+
+    /* Action cell */
+    .task-action-cell { display: flex; align-items: center; gap: 6px; }
+    .task-action-cell .btn-view { font-size: 12px; padding: 3px 10px; white-space: nowrap; }
+    .task-action-cell .dropdown-toggle::after { display: none; }
+    .task-action-cell .btn-more { padding: 3px 8px; font-size: 13px; line-height: 1; }
+    .task-action-cell .dropdown-item { font-size: 13px; padding: 7px 14px; }
+    .task-action-cell .dropdown-item i { width: 16px; }
+    .task-action-cell .dropdown-item.text-danger:hover { background: #fff0f0; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">My Tasks</h1>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search..." id="topbarSearch">
+        </div>
+        <button class="icon-btn" title="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-dot d-none" id="notifDot"></span>
+        </button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero">
+        <div class="page-hero-bc">Dashboard &rsaquo; <span>My Tasks</span></div>
+        <div class="page-hero-title"><i class="bi bi-check2-square me-2"></i>My Tasks</div>
+        <div class="page-hero-sub">Manage, delegate and track all your assigned tasks.</div>
+      </div>
+      <!-- Quick Status Pills -->
+      <div class="tab-stats" id="statusPills">
+        <div class="stat-pill active" data-filter="all">All <span id="countAll">0</span></div>
+        <div class="stat-pill" data-filter="pending">Pending <span id="countPending">0</span></div>
+        <div class="stat-pill" data-filter="closed">Closed <span id="countCompleted">0</span></div>
+        <div class="stat-pill" data-filter="escalated">Escalated <span id="countEscalated">0</span></div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar" style="flex-wrap:wrap;gap:8px">
+        <input type="text" class="form-control search-input" id="searchInput" placeholder="Search tasks...">
+        <select class="form-select" id="filterSystem" style="width:auto">
+          <option value="">All Systems</option>
+          <option>HR</option><option>Accounting</option><option>CRM</option>
+          <option>Warehouse</option><option>Manual</option>
+        </select>
+        <select class="form-select" id="filterPriority" style="width:auto">
+          <option value="">All Priorities</option>
+          <option>critical</option><option>high</option><option>medium</option><option>low</option>
+        </select>
+        <div class="d-flex align-items-center gap-2" style="flex-shrink:0">
+          <i class="bi bi-calendar3" style="color:var(--color-text-muted);font-size:13px"></i>
+          <input type="date" class="form-control form-control-sm" id="filterDateFrom" title="Created from" style="width:140px">
+          <span style="color:var(--color-text-muted);font-size:12px">→</span>
+          <input type="date" class="form-control form-control-sm" id="filterDateTo" title="Created to" style="width:140px">
+          <button class="btn btn-outline-secondary btn-sm" id="btnClearDates" title="Clear dates"><i class="bi bi-x"></i></button>
+        </div>
+        <div class="ms-auto d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm" id="btnRefresh"><i class="bi bi-arrow-clockwise"></i></button>
+          <button class="btn btn-primary btn-sm" id="btnCreateTask"><i class="bi bi-plus-lg me-1"></i>New Task</button>
+        </div>
+      </div>
+
+      <!-- Tasks Table -->
+      <div class="dark-table-card">
+        <div class="dark-table-head">
+          <h6><i class="bi bi-check2-square me-2"></i>Task List</h6>
+        </div>
+        <div class="task-table-wrap" style="border-radius:0;box-shadow:none;border:none;background:#fff">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th style="width:90px">Priority</th>
+              <th>Task</th>
+              <th style="width:90px">System</th>
+              <th style="width:100px">Created</th>
+              <th style="width:100px">Due Date</th>
+              <th style="width:110px">Status</th>
+              <th style="width:140px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tasksTableBody">
+            <tr><td colspan="6" class="text-center py-5"><div class="spinner-border" style="color:var(--color-primary)"></div></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="mt-2 fs-sm text-muted" id="taskCount"></div>
+    </main>
+  </div>
+</div>
+
+<!-- Task Detail Modal -->
+<!-- Task Detail Modal -->
+<div class="modal fade" id="taskDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg" id="taskDetailDialog">
+    <div class="modal-content" id="taskDetailContent">
+
+      <!-- ── Normal mode ─────────────────────────────── -->
+      <div id="taskNormalView">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-check2-square me-2"></i><span id="detailTitle">Task Detail</span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="detailBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary   d-none" id="btnHdStartWork"><i class="bi bi-play-fill me-1"></i>Start Working</button>
+          <button type="button" class="btn btn-success   d-none" id="btnHdResolve"><i class="bi bi-check-lg me-1"></i>Mark Resolved</button>
+          <button type="button" class="btn btn-warning   d-none" id="btnHdReopen"><i class="bi bi-arrow-counterclockwise me-1"></i>Reopen</button>
+          <button type="button" class="btn btn-secondary d-none" id="btnHdClose"><i class="bi bi-lock me-1"></i>Close Ticket</button>
+          <button type="button" class="btn btn-outline-primary d-none" id="btnViewEmsDoc"><i class="bi bi-eye me-1"></i>Review Document</button>
+          <button type="button" class="btn btn-danger d-none" id="btnRejectLeave"><i class="bi bi-x-lg me-1"></i>Reject</button>
+          <button type="button" class="btn btn-success d-none" id="btnApproveLeave"><i class="bi bi-check-lg me-1"></i>Approve</button>
+          <button type="button" class="btn btn-success" id="btnCompleteTask"><i class="bi bi-check-lg me-1"></i>Mark Complete</button>
+        </div>
+      </div>
+
+      <!-- ── Document review split view (hidden by default) ─── -->
+      <div id="taskReviewView" class="d-none task-review-view">
+        <!-- Header bar -->
+        <div class="task-review-header">
+          <button class="task-review-back" id="btnExitReview">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <div class="task-review-header-info">
+            <span class="task-review-doc-title" id="reviewDocTitle"></span>
+            <span id="reviewStatusBadge" class="task-review-badge">Pending Approval</span>
+          </div>
+          <div class="task-review-header-actions">
+            <button class="btn btn-sm btn-danger" id="btnRejectReview"><i class="bi bi-x-lg me-1"></i>Reject</button>
+            <button class="btn btn-sm btn-success" id="btnApproveReview"><i class="bi bi-check-lg me-1"></i>Approve</button>
+            <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="modal"></button>
+          </div>
+        </div>
+        <!-- Split body -->
+        <div class="task-review-body">
+          <!-- Left: task info -->
+          <div class="task-review-sidebar">
+            <div class="task-review-sidebar-inner" id="reviewSidebarBody"></div>
+          </div>
+          <!-- Right: PDF viewer -->
+          <div class="task-review-pdf-panel">
+            <!-- Version selector toolbar -->
+            <div class="task-review-version-bar" id="reviewVersionBar" style="display:none;align-items:center;gap:10px;padding:8px 16px;background:var(--color-surface);border-bottom:1px solid var(--color-border);flex-shrink:0;">
+              <i class="bi bi-clock-history" style="color:var(--color-primary);font-size:14px;flex-shrink:0;"></i>
+              <label for="reviewVersionSelect" style="font-size:12px;font-weight:700;color:var(--color-text-muted);white-space:nowrap;margin:0;">Viewing version:</label>
+              <select id="reviewVersionSelect" class="form-select form-select-sm" style="font-size:12px;max-width:320px;"></select>
+            </div>
+            <div class="task-review-pdf-scroller" id="reviewPdfScroller">
+              <div class="task-review-pdf-loading" id="reviewPdfLoading">
+                <div class="spinner-border text-secondary" role="status"></div>
+                <div class="mt-2 text-muted" style="font-size:13px;">Loading document…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Create Task Modal -->
+<div class="modal fade" id="createTaskModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-plus-square me-2"></i>Create New Task</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createTaskForm">
+          <div class="mb-3"><label class="form-label">Title *</label><input type="text" class="form-control" id="newTaskTitle" required></div>
+          <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control" id="newTaskDesc" rows="3"></textarea></div>
+          <div class="row g-3 mb-3">
+            <div class="col-6"><label class="form-label">System</label>
+              <select class="form-select" id="newTaskSystem">
+                <option>Manual</option><option>HR</option><option>Accounting</option><option>CRM</option><option>Warehouse</option><option>IT</option>
+              </select>
+            </div>
+            <div class="col-6"><label class="form-label">Priority</label>
+              <select class="form-select" id="newTaskPriority">
+                <option value="medium">Medium</option><option value="low">Low</option><option value="high">High</option><option value="critical">Critical</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-6"><label class="form-label">Assign To</label><select class="form-select" id="newTaskAssignee"></select></div>
+            <div class="col-6"><label class="form-label">Due Date</label><input type="date" class="form-control" id="newTaskDue"></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSaveTask"><i class="bi bi-check-lg me-1"></i>Create Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delegate Modal -->
+<div class="modal fade" id="delegateModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-arrow-left-right me-2"></i>Delegate Task</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div class="mb-3"><label class="form-label">Delegate To *</label><select class="form-select" id="delegateUser"></select></div>
+        <div class="mb-3"><label class="form-label">Reason</label><textarea class="form-control" id="delegateReason" rows="3" placeholder="Why are you delegating this task?"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmDelegate">Delegate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reassign Modal -->
+<div class="modal fade" id="reassignModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-person-check me-2"></i>Reassign Task</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div class="mb-3"><label class="form-label">Reassign To *</label><select class="form-select" id="reassignUser"></select></div>
+        <div class="mb-3"><label class="form-label">Reason</label><textarea class="form-control" id="reassignReason" rows="3" placeholder="Reason for reassignment..."></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-warning" id="btnConfirmReassign">Reassign</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Escalate Modal -->
+<div class="modal fade" id="escalateModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header" style="background:var(--color-danger)"><h5 class="modal-title text-white"><i class="bi bi-exclamation-triangle me-2"></i>Escalate Task</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <p class="text-muted fs-sm">This will escalate the task and notify your manager. Please provide a reason.</p>
+        <div class="mb-3"><label class="form-label">Escalation Reason *</label><textarea class="form-control" id="escalateReason" rows="3" placeholder="Describe the issue requiring escalation..."></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmEscalate"><i class="bi bi-exclamation-triangle me-1"></i>Escalate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comment Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-chat-dots me-2"></i>Add Comment</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <textarea class="form-control" id="commentText" rows="4" placeholder="Write your comment..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSaveComment"><i class="bi bi-send me-1"></i>Post Comment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+<script>if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';</script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/tasks.js"></script>
+</body>
+</html>

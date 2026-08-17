@@ -1,0 +1,83 @@
+[
+  {
+    "id": "GRP1A2B3C01",
+    "name": "Finance Team",
+    "description": "Full access to finance-related folders and documents",
+    "members": [
+      "u001",
+      "u002",
+      "u003"
+    ],
+    "permissions": [
+      {
+        "folderId": "FLD1A2B3C01",
+        "level": "write",
+        "inherited": true
+      }
+    ],
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T10:00:00Z",
+    "updatedAt": "2026-04-07T09:18:32.898Z"
+  },
+  {
+    "id": "GRP1A2B3C02",
+    "name": "HR Department",
+    "description": "Access to human resources folders",
+    "members": [
+      "u001",
+      "u003"
+    ],
+    "permissions": [
+      {
+        "folderId": "FLD1A2B3C04",
+        "level": "admin",
+        "inherited": true
+      }
+    ],
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T10:05:00Z",
+    "updatedAt": "2026-01-15T10:05:00Z"
+  },
+  {
+    "id": "GRP1A2B3C03",
+    "name": "Legal Reviewers",
+    "description": "Read access to legal documents for review",
+    "members": [
+      "u001",
+      "u002",
+      "u004"
+    ],
+    "permissions": [
+      {
+        "folderId": "FLD1A2B3C07",
+        "level": "read",
+        "inherited": true
+      }
+    ],
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T10:10:00Z",
+    "updatedAt": "2026-01-15T10:10:00Z"
+  },
+  {
+    "id": "GRP1A2B3C04",
+    "name": "All Staff",
+    "description": "Basic read access to operations documents",
+    "members": [
+      "u001",
+      "u002",
+      "u003",
+      "u004",
+      "u005"
+    ],
+    "permissions": [
+      {
+        "folderId": "FLD1A2B3C08",
+        "level": "read",
+        "inherited": true
+      }
+    ],
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T10:15:00Z",
+    "updatedAt": "2026-01-15T10:15:00Z"
+  }
+]

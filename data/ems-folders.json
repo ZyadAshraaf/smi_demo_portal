@@ -1,0 +1,134 @@
+[
+  {
+    "id": "FLD00000001",
+    "name": "Root",
+    "parentId": null,
+    "createdBy": "u001",
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "color": null,
+    "icon": "bi-folder",
+    "sortOrder": 0
+  },
+  {
+    "id": "FLD1A2B3C01",
+    "name": "Finance",
+    "parentId": "FLD00000001",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:00:00Z",
+    "updatedAt": "2026-01-15T09:00:00Z",
+    "color": "#198D87",
+    "icon": "bi-folder",
+    "sortOrder": 1
+  },
+  {
+    "id": "FLD1A2B3C02",
+    "name": "Invoices",
+    "parentId": "FLD1A2B3C01",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:05:00Z",
+    "updatedAt": "2026-01-15T09:05:00Z",
+    "color": null,
+    "icon": "bi-folder",
+    "sortOrder": 1
+  },
+  {
+    "id": "FLD1A2B3C03",
+    "name": "Contracts",
+    "parentId": "FLD1A2B3C01",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:10:00Z",
+    "updatedAt": "2026-01-15T09:10:00Z",
+    "color": null,
+    "icon": "bi-folder",
+    "sortOrder": 2
+  },
+  {
+    "id": "FLD1A2B3C04",
+    "name": "Human Resources",
+    "parentId": "FLD00000001",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:15:00Z",
+    "updatedAt": "2026-01-15T09:15:00Z",
+    "color": "#E91E63",
+    "icon": "bi-folder",
+    "sortOrder": 2
+  },
+  {
+    "id": "FLD1A2B3C05",
+    "name": "Policies",
+    "parentId": "FLD1A2B3C04",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:20:00Z",
+    "updatedAt": "2026-01-15T09:20:00Z",
+    "color": null,
+    "icon": "bi-folder",
+    "sortOrder": 1
+  },
+  {
+    "id": "FLD1A2B3C06",
+    "name": "Employee Records",
+    "parentId": "FLD1A2B3C04",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:25:00Z",
+    "updatedAt": "2026-01-15T09:25:00Z",
+    "color": null,
+    "icon": "bi-folder",
+    "sortOrder": 2
+  },
+  {
+    "id": "FLD1A2B3C07",
+    "name": "Legal",
+    "parentId": "FLD00000001",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:30:00Z",
+    "updatedAt": "2026-01-15T09:30:00Z",
+    "color": "#2C3E50",
+    "icon": "bi-folder",
+    "sortOrder": 3
+  },
+  {
+    "id": "FLD1A2B3C08",
+    "name": "Operations",
+    "parentId": "FLD00000001",
+    "createdBy": "u001",
+    "createdAt": "2026-01-15T09:35:00Z",
+    "updatedAt": "2026-01-15T09:35:00Z",
+    "color": "#FF6B35",
+    "icon": "bi-folder",
+    "sortOrder": 4
+  },
+  {
+    "id": "FLDFA11C9C2",
+    "name": "Marketing",
+    "parentId": "FLD00000001",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T18:00:42.985Z",
+    "updatedAt": "2026-05-01T18:00:42.985Z",
+    "color": "#198d87",
+    "icon": "bi-folder",
+    "sortOrder": 5
+  },
+  {
+    "id": "FLDB816D261",
+    "name": "Commercial",
+    "parentId": "FLD00000001",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T23:43:24.476Z",
+    "updatedAt": "2026-05-01T23:43:24.476Z",
+    "color": "#198d87",
+    "icon": "bi-folder",
+    "sortOrder": 6
+  },
+  {
+    "id": "FLD68992BD0",
+    "name": "Proposals",
+    "parentId": "FLDB816D261",
+    "createdBy": "u001",
+    "createdAt": "2026-05-01T23:43:43.611Z",
+    "updatedAt": "2026-05-01T23:43:43.611Z",
+    "color": "#198d87",
+    "icon": "bi-folder",
+    "sortOrder": 1
+  }
+]

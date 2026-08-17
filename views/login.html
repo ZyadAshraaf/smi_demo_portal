@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* SMI brand navy, used as the accent over the dark hero photo.
+         Paired with a light halo/shadow (and light chip backgrounds for
+         icons) so the dark navy stays legible against the dark photo. */
+      --accent-navy: var(--color-primary, #001E57);
+      --accent-navy-rgb: var(--color-primary-rgb, 0, 30, 87);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      zoom : 0.9
+    }
+
+    /* ── Full-bleed background image ───────────────────────── */
+    .bg-full {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+    .bg-full img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 10%;
+      filter: brightness(0.82) saturate(1.15);
+      animation: slowZoom 30s ease-in-out infinite alternate;
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.06); }
+    }
+
+    /* Overlay for readability */
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background:
+        /* darken bottom for text */
+        linear-gradient(0deg,
+          rgba(0,0,0,0.6) 0%,
+          rgba(0,0,0,0.1) 40%,
+          transparent 65%),
+        /* darken top for topbar */
+        linear-gradient(180deg,
+          rgba(0,0,0,0.3) 0%,
+          transparent 20%),
+        /* right-side darken behind card */
+        radial-gradient(ellipse at 85% 50%,
+          rgba(0,0,0,0.25) 0%,
+          transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ── Floating top bar ──────────────────────────────────── */
+    .img-topbar {
+      position: fixed;
+      top: 20px; left: 24px; right: 24px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      animation: fadeIn 1s ease 0.2s both;
+    }
+
+    .itb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .itb-brand img { height: 32px; filter: brightness(0) invert(1); opacity: 0.95; }
+
+    .itb-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 16px; }
+
+    .itb-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .itb-chip i { font-size: 11px; }
+
+    .itb-right {
+      margin-left: auto;
+      text-align: right;
+    }
+    .itb-clock {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .itb-date {
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* ── Page layout ───────────────────────────────────────── */
+    .login-page {
+      position: relative;
+      z-index: 5;
+      height: 100vh;
+      display: flex;
+    }
+
+    /* ── Left: Welcome text overlay ────────────────────────── */
+    .welcome-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 44px 48px;
+      animation: fadeSlideUp 0.8s ease 0.4s both;
+    }
+
+    /* Soft glow (no outline) so dark SMI navy stays legible over a busy photo */
+    .wp-eyebrow,
+    .wp-headline .accent,
+    .pc-countdown,
+    .pt.cur .pt-n,
+    .pt.cur .pt-t {
+      text-shadow: 0 2px 14px rgba(255,255,255,.55);
+    }
+
+    .wp-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wp-eyebrow::before {
+      content: '';
+      width: 28px; height: 2px;
+      background: var(--accent-navy);
+      border-radius: 2px;
+      box-shadow: 0 0 6px rgba(255,255,255,.5);
+    }
+
+    .wp-headline {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      line-height: 1.08;
+      margin-bottom: 14px;
+      letter-spacing: -0.03em;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .wp-headline .accent {
+      color: var(--accent-navy);
+    }
+
+    .wp-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      max-width: 380px;
+      margin-bottom: 24px;
+    }
+
+    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 12px;
+      padding: 10px 14px;
+      transition: all 0.3s;
+    }
+    .stat-pill:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+    .sp-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255,255,255,0.9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--accent-navy);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+    .sp-label { font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 600; margin-bottom: 1px; }
+    .sp-value { font-size: 14px; font-weight: 700; color: #fff; }
+
+    .prayer-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 480px;
+    }
+    .pc-mosque { font-size: 22px; flex-shrink: 0; }
+    .pc-next-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); margin-bottom: 1px; }
+    .pc-next-name  { font-size: 16px; font-weight: 700; color: white; line-height: 1.1; }
+    .pc-countdown  { font-size: 10px; color: var(--accent-navy); font-weight: 600; margin-top: 2px; }
+    .prayer-times  { margin-left: auto; display: flex; gap: 12px; }
+    .pt { text-align: center; }
+    .pt-n { font-size: 8px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .pt-t { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); }
+    .pt.cur .pt-n { color: var(--accent-navy); opacity: 0.9; }
+    .pt.cur .pt-t { color: var(--accent-navy); }
+
+    /* ── Right: Floating glass card ────────────────────────── */
+    .card-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 32px 24px;
+      flex-shrink: 0;
+      animation: fadeScaleIn 0.6s ease 0.3s both;
+    }
+
+    .login-card {
+      width: 400px;
+      max-height: calc(100vh - 112px);
+      overflow-y: auto;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.4);
+      opacity: 0.9;
+      border-radius: 24px;
+      padding: 36px 32px 28px;
+      box-shadow:
+        0 24px 48px rgba(0,0,0,0.2),
+        0 8px 16px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .lc-logo {
+      text-align: center;
+      margin-bottom: 22px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .lc-logo img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+      margin: 0 auto 14px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+    }
+    .lc-logo h1 {
+      color: #1a2332;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 3px;
+      letter-spacing: -0.02em;
+    }
+    .lc-logo p { color: #94a3b8; font-size: 12px; margin: 0; font-weight: 500; }
+
+    .lc-welcome {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .lc-welcome h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a2332;
+      margin: 0 0 3px;
+    }
+    .lc-welcome p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    .lc-label {
+      display: block;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .gi-wrap {
+      display: flex;
+      border-radius: 11px;
+      overflow: hidden;
+      border: 1.5px solid #e2e8f0;
+      transition: all 0.25s;
+      background: rgba(255,255,255,0.8);
+    }
+    .gi-wrap:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb),0.08);
+      background: #fff;
+    }
+    .gi-icon {
+      display: flex;
+      align-items: center;
+      padding: 0 13px;
+      background: rgba(248,250,252,0.8);
+      color: #94a3b8;
+      font-size: 14px;
+      border-right: 1.5px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+    .gi-btn {
+      display: flex;
+      align-items: center;
+      padding: 0 13px;
+      background: rgba(248,250,252,0.8);
+      color: #94a3b8;
+      font-size: 13px;
+      border: none;
+      border-left: 1.5px solid #e2e8f0;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .gi-btn:hover { color: var(--color-primary); }
+    .gi-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 12px 13px;
+      color: #1a2332;
+      font-size: 13px;
+      font-family: inherit;
+      min-width: 0;
+    }
+    .gi-field::placeholder { color: #c1c9d4; }
+
+    .btn-signin {
+      width: 100%;
+      padding: 13px;
+      background: var(--color-primary);
+      border: none;
+      border-radius: 11px;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 4px 14px rgba(var(--color-primary-rgb),0.3);
+      letter-spacing: 0.02em;
+    }
+    .btn-signin:hover:not(:disabled) {
+      background: var(--color-primary-dark);
+      box-shadow: 0 6px 22px rgba(var(--color-primary-rgb),0.4);
+      transform: translateY(-1px);
+    }
+    .btn-signin:active:not(:disabled) { transform: translateY(0); }
+    .btn-signin:disabled { opacity: 0.6; cursor: default; }
+
+    .lc-or {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0;
+      color: #c1c9d4;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .lc-or::before, .lc-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .demo-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1.5px solid #e8ecf0;
+      background: rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .demo-chip:hover {
+      border-color: var(--color-primary);
+      background: rgba(var(--color-primary-rgb),0.04);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(var(--color-primary-rgb),0.08);
+    }
+    .demo-chip.full-width { grid-column: 1 / -1; }
+    .dc-avatar {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 11px; font-weight: 700; flex-shrink: 0;
+    }
+    .dc-name { font-size: 11px; font-weight: 600; color: #1a2332; line-height: 1.2; }
+    .dc-role { font-size: 9px; color: var(--color-primary); font-weight: 600; }
+
+    .lc-error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #DC2626;
+      border-radius: 10px;
+      font-size: 13px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    .lc-footer {
+      text-align: center;
+      color: #b0b9c4;
+      font-size: 9px;
+      margin-top: 16px;
+      font-weight: 500;
+    }
+
+    /* ── Animations ─────────────────────────────────────────── */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeScaleIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ── Responsive ────────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .welcome-area { display: none; }
+      .card-area { flex: 1; padding: 24px; }
+      .login-card { width: 100%; max-width: 400px; }
+    }
+    @media (max-width: 500px) {
+      .card-area { padding: 16px; }
+      .login-card { padding: 28px 22px 22px; border-radius: 20px; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .img-topbar { top: 12px; left: 12px; right: 12px; }
+      .itb-chip { display: none; }
+      .itb-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Full-bleed background ──────────────────────────────── -->
+  <div class="bg-full">
+    <img src="/unifiedsmi/assets/login-bg.jpg" alt="Kingdom Tower, Riyadh">
+  </div>
+  <div class="bg-overlay"></div>
+
+  <!-- ── Floating top bar ───────────────────────────────────── -->
+  <div class="img-topbar">
+    <div class="itb-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="Saudi Mechanical Industries Co.">
+    </div>
+    <div class="itb-sep"></div>
+    <div class="itb-chip"><i class="bi bi-geo-alt-fill"></i> Riyadh, KSA</div>
+    <div class="itb-chip"><i class="bi bi-cloud-sun-fill" style="color:#f0c040"></i> 29°C</div>
+    <div class="itb-right">
+      <div class="itb-clock" id="topClock">--:--</div>
+      <div class="itb-date" id="topDate">--</div>
+    </div>
+  </div>
+
+  <!-- ── Main layout ────────────────────────────────────────── -->
+  <div class="login-page">
+
+    <!-- Left: Welcome text over image -->
+    <div class="welcome-area">
+      <div class="wp-eyebrow">Enterprise Self-Service Platform</div>
+      <h2 class="wp-headline">
+        Your Unified<br>
+        <span class="accent">Workspace</span><br>
+        Awaits.
+      </h2>
+      <p class="wp-sub">
+        One intelligent hub for HR, Finance, Operations, and more.
+        Streamline your workday and stay connected.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-pill">
+          <div class="sp-icon"><i class="bi bi-people-fill"></i></div>
+          <div><div class="sp-label">Employees</div><div class="sp-value">1,240+</div></div>
+        </div>
+        <div class="stat-pill">
+          <div class="sp-icon"><i class="bi bi-grid-fill"></i></div>
+          <div><div class="sp-label">Modules</div><div class="sp-value">12 Active</div></div>
+        </div>
+        <div class="stat-pill">
+          <div class="sp-icon"><i class="bi bi-building"></i></div>
+          <div><div class="sp-label">Departments</div><div class="sp-value">18 Units</div></div>
+        </div>
+      </div>
+
+      <div class="prayer-card">
+        <div class="pc-mosque">🕌</div>
+        <div>
+          <div class="pc-next-label">Next Prayer</div>
+          <div class="pc-next-name" id="pcNextName">—</div>
+          <div class="pc-countdown" id="pcCountdown">Loading…</div>
+        </div>
+        <div class="prayer-times" id="prayerTimesRow">
+          <div class="pt" id="ptFajrWrap"><div class="pt-n">Fajr</div><div class="pt-t" id="ptFajr">—</div></div>
+          <div class="pt" id="ptDhuhrWrap"><div class="pt-n">Dhuhr</div><div class="pt-t" id="ptDhuhr">—</div></div>
+          <div class="pt" id="ptAsrWrap"><div class="pt-n">Asr</div><div class="pt-t" id="ptAsr">—</div></div>
+          <div class="pt" id="ptMaghribWrap"><div class="pt-n">Maghrib</div><div class="pt-t" id="ptMaghrib">—</div></div>
+          <div class="pt" id="ptIshaWrap"><div class="pt-n">Isha</div><div class="pt-t" id="ptIsha">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Floating glass login card -->
+    <div class="card-area">
+      <div class="login-card">
+
+        <div class="lc-logo">
+          <img src="/unifiedsmi/assets/logo.png" alt="Saudi Mechanical Industries Co.">
+          <h1>Unified Workspace</h1>
+          <p>Enterprise Self-Service Portal</p>
+        </div>
+
+        <div class="lc-welcome">
+          <h2>Welcome back</h2>
+          <p>Sign in to continue to your workspace</p>
+        </div>
+
+        <div id="loginError" class="lc-error d-none"></div>
+
+        <form id="loginForm">
+          <div style="margin-bottom:14px">
+            <label class="lc-label" for="email">Email</label>
+            <div class="gi-wrap">
+              <span class="gi-icon"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="gi-field" id="email" placeholder="name@company.com" autocomplete="email" required>
+            </div>
+          </div>
+          <div style="margin-bottom:20px">
+            <label class="lc-label" for="password">Password</label>
+            <div class="gi-wrap">
+              <span class="gi-icon"><i class="bi bi-lock"></i></span>
+              <input type="password" class="gi-field" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button type="button" class="gi-btn" id="togglePass">
+                <i class="bi bi-eye" id="togglePassIcon"></i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn-signin" id="loginBtn">
+            <span id="loginBtnText">Sign In</span>
+            <span id="loginSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+          </button>
+        </form>
+
+        <div class="lc-or">Quick Access</div>
+
+        <div class="demo-grid">
+          <div class="demo-chip" onclick="fillDemo('ahmed@company.com','demo123')">
+            <div class="dc-avatar">A</div>
+            <div><div class="dc-name">Ahmed Al-Rashidi</div><div class="dc-role">CEO</div></div>
+          </div>
+          <div class="demo-chip" onclick="fillDemo('khalid@company.com','demo123')">
+            <div class="dc-avatar">K</div>
+            <div><div class="dc-name">Khalid Al-Mansouri</div><div class="dc-role">Manager</div></div>
+          </div>
+          <div class="demo-chip full-width" onclick="fillDemo('sara@company.com','demo123')">
+            <div class="dc-avatar">S</div>
+            <div><div class="dc-name">Sara Hassan</div><div class="dc-role">Employee</div></div>
+          </div>
+        </div>
+
+        <div class="lc-footer">© 2026 Unified Workspace · All rights reserved.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (async () => {
+      if (window.microsoftTeams) {
+        try { await microsoftTeams.app.initialize(); microsoftTeams.app.notifySuccess(); } catch {}
+      }
+    })();
+
+    const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2,'0');
+      const m = String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('topClock').textContent = `${h}:${m}`;
+      document.getElementById('topDate').textContent  =
+        `${DAYS[now.getDay()]}, ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    function fillDemo(email, pass) {
+      document.getElementById('email').value    = email;
+      document.getElementById('password').value = pass;
+    }
+
+    document.getElementById('togglePass').addEventListener('click', function () {
+      const inp  = document.getElementById('password');
+      const icon = document.getElementById('togglePassIcon');
+      if (inp.type === 'password') { inp.type = 'text';     icon.className = 'bi bi-eye-slash'; }
+      else                         { inp.type = 'password'; icon.className = 'bi bi-eye'; }
+    });
+
+    // ── Prayer times ────────────────────────────────────────────
+    const PRAYER_API = 'https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=SA&method=4';
+    const PRAYERS = [
+      { key: 'Fajr',    id: 'ptFajr',    wrap: 'ptFajrWrap' },
+      { key: 'Dhuhr',   id: 'ptDhuhr',   wrap: 'ptDhuhrWrap' },
+      { key: 'Asr',     id: 'ptAsr',     wrap: 'ptAsrWrap' },
+      { key: 'Maghrib', id: 'ptMaghrib', wrap: 'ptMaghribWrap' },
+      { key: 'Isha',    id: 'ptIsha',    wrap: 'ptIshaWrap' },
+    ];
+
+    function toMinutes(t) {
+      // handles "HH:MM" or "HH:MM AM/PM"
+      const parts = t.trim().split(/[\s:]/);
+      let h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      if (parts[2]) {
+        const ampm = parts[2].toUpperCase();
+        if (ampm === 'PM' && h !== 12) h += 12;
+        if (ampm === 'AM' && h === 12) h = 0;
+      }
+      return h * 60 + m;
+    }
+
+    function fmt12(t) {
+      const mins = toMinutes(t);
+      const h = Math.floor(mins / 60) % 24;
+      const m = mins % 60;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12  = h % 12 || 12;
+      return `${h12}:${String(m).padStart(2,'0')}`;
+    }
+
+    let _prayerMins = [];
+
+    function updatePrayerCountdown() {
+      if (!_prayerMins.length) return;
+      const now = new Date();
+      const nowMins = now.getHours() * 60 + now.getMinutes();
+      let nextIdx = _prayerMins.findIndex(p => p.mins > nowMins);
+      if (nextIdx === -1) nextIdx = 0; // wrap to Fajr after Isha
+
+      PRAYERS.forEach((p, i) => {
+        document.getElementById(p.wrap).classList.toggle('cur', i === nextIdx);
+      });
+
+      const diff = nextIdx === 0 && _prayerMins[0].mins <= nowMins
+        ? (_prayerMins[0].mins + 1440 - nowMins)
+        : (_prayerMins[nextIdx].mins - nowMins);
+
+      const hh = Math.floor(diff / 60);
+      const mm = diff % 60;
+      const countdown = hh > 0 ? `In ${hh}h ${mm}m` : `In ${mm} minutes`;
+
+      document.getElementById('pcNextName').textContent  = PRAYERS[nextIdx].key;
+      document.getElementById('pcCountdown').textContent = countdown;
+    }
+
+    async function fetchPrayerTimes() {
+      try {
+        const res  = await fetch(PRAYER_API);
+        const json = await res.json();
+        // try common response shapes
+        const timings = json.data?.timings || json.timings || json.data?.times || json;
+        PRAYERS.forEach(p => {
+          const raw = timings[p.key] || timings[p.key.toLowerCase()];
+          if (raw) {
+            document.getElementById(p.id).textContent = fmt12(raw);
+          }
+        });
+        _prayerMins = PRAYERS.map(p => {
+          const raw = timings[p.key] || timings[p.key.toLowerCase()] || '00:00';
+          return { key: p.key, mins: toMinutes(raw) };
+        });
+        updatePrayerCountdown();
+        setInterval(updatePrayerCountdown, 60000);
+      } catch (err) {
+        document.getElementById('pcCountdown').textContent = 'Unavailable';
+      }
+    }
+    fetchPrayerTimes();
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn  = document.getElementById('loginBtn');
+      const spin = document.getElementById('loginSpinner');
+      const err  = document.getElementById('loginError');
+      const text = document.getElementById('loginBtnText');
+
+      text.textContent = 'Signing in…';
+      spin.classList.remove('d-none');
+      btn.disabled = true;
+      err.classList.add('d-none');
+
+      try {
+        const res = await fetch('/unifiedsmi/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            email:    document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          window.location.href = '/unifiedsmi/';
+        } else {
+          err.textContent = data.message || 'Invalid credentials. Please try again.';
+          err.classList.remove('d-none');
+        }
+      } catch {
+        err.textContent = 'Connection error. Please try again.';
+        err.classList.remove('d-none');
+      } finally {
+        text.textContent = 'Sign In';
+        spin.classList.add('d-none');
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

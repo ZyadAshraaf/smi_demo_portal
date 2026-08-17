@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Agent — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    .voice-layout { display: flex; gap: 20px; height: calc(100vh - 140px); }
+    .voice-sidebar { width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; }
+    .chat-sidebar-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--color-text-muted); margin-bottom: 4px; }
+    .info-card { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px 16px; }
+    .info-card-title { font-size: 12px; font-weight: 700; color: var(--color-text); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .info-card-title i { color: var(--color-primary); }
+    .tip-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--color-text-muted); margin-bottom: 8px; }
+    .tip-item:last-child { margin-bottom: 0; }
+    .tip-item i { color: var(--color-primary); margin-top: 1px; flex-shrink: 0; }
+    .api-notice { background: var(--color-primary-faint); border: 1px dashed var(--color-primary); border-radius: var(--radius-md); padding: 8px 12px; font-size: 11px; color: var(--color-primary); display: flex; align-items: center; gap: 6px; }
+
+    /* Main voice panel */
+    .voice-main { flex: 1; display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .chat-header { padding: 16px 20px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px; background: var(--color-primary-faint); }
+    .chat-header-icon { width: 38px; height: 38px; background: var(--color-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+    .chat-header-badge { margin-left: auto; background: var(--color-primary-faint); border: 1px solid var(--color-border); color: var(--color-primary); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+
+    /* Voice stage */
+    .voice-stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 32px; }
+    .mic-ring-outer { width: 160px; height: 160px; border-radius: 50%; border: 2px solid var(--color-border); display: flex; align-items: center; justify-content: center; position: relative; transition: border-color 0.3s; }
+    .mic-ring-outer.listening { border-color: var(--color-primary); animation: pulse-ring 1.5s ease-in-out infinite; }
+    .mic-ring-inner { width: 120px; height: 120px; border-radius: 50%; background: var(--color-surface); border: 2px solid var(--color-border); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .mic-ring-outer.listening .mic-ring-inner { background: var(--color-primary-faint); border-color: var(--color-primary); }
+    .mic-btn { width: 80px; height: 80px; border-radius: 50%; border: none; background: var(--color-primary); color: white; font-size: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 4px 16px rgba(var(--color-primary-rgb),0.35); }
+    .mic-btn:hover { background: var(--color-primary-dark); transform: scale(1.05); }
+    .mic-btn.active { background: #dc2626; box-shadow: 0 4px 16px rgba(220,38,38,0.35); animation: mic-pulse 1s ease-in-out infinite; }
+    @keyframes pulse-ring { 0%,100%{box-shadow:0 0 0 0 rgba(var(--color-primary-rgb),0.15)} 50%{box-shadow:0 0 0 18px rgba(var(--color-primary-rgb),0)} }
+    @keyframes mic-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+
+    .voice-status { font-size: 15px; font-weight: 600; color: var(--color-text); text-align: center; }
+    .voice-status-sub { font-size: 12px; color: var(--color-text-muted); text-align: center; }
+
+    /* Waveform bars */
+    .waveform { display: flex; align-items: center; gap: 4px; height: 32px; opacity: 0; transition: opacity 0.3s; }
+    .waveform.visible { opacity: 1; }
+    .wave-bar { width: 4px; border-radius: 2px; background: var(--color-primary); animation: wave 1s ease-in-out infinite; }
+    .wave-bar:nth-child(1) { animation-delay: 0s; }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(6) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(7) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(8) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(9) { animation-delay: 0s; }
+    @keyframes wave { 0%,100%{height:6px} 50%{height:28px} }
+
+    /* Transcript area */
+    .transcript-area { border-top: 1px solid var(--color-border); padding: 16px 20px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .transcript-msg { display: flex; gap: 10px; font-size: 13px; }
+    .transcript-msg.user { flex-direction: row-reverse; }
+    .transcript-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    .transcript-msg.bot  .transcript-avatar { background: var(--color-primary); color: white; }
+    .transcript-msg.user .transcript-avatar { background: var(--color-secondary); color: white; }
+    .transcript-bubble { padding: 8px 12px; border-radius: 12px; line-height: 1.5; max-width: 80%; }
+    .transcript-msg.bot  .transcript-bubble { background: var(--color-surface); border: 1px solid var(--color-border); border-top-left-radius: 3px; }
+    .transcript-msg.user .transcript-bubble { background: var(--color-primary); color: white; border-top-right-radius: 3px; }
+    .transcript-label { font-size: 10px; color: var(--color-text-muted); margin-top: 3px; }
+    .transcript-msg.user .transcript-label { text-align: right; }
+
+    @media (max-width:768px) { .voice-layout { flex-direction: column; height: auto; } .voice-sidebar { width: 100%; } }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Voice Agent</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero" style="margin-bottom:18px">
+        <div class="page-hero-bc">Dashboard &rsaquo; AI Use Cases &rsaquo; <span>Voice Agent</span></div>
+        <div class="page-hero-title"><i class="bi bi-telephone-outbound me-2"></i>Leave Request Voice Agent</div>
+        <div class="page-hero-sub">Speak naturally to submit your leave request — real-time voice processing, instant confirmation.</div>
+      </div>
+
+      <div class="voice-layout">
+        <!-- Sidebar -->
+        <div class="voice-sidebar">
+          <div class="chat-sidebar-label">Tips</div>
+          <div class="info-card">
+            <div class="info-card-title"><i class="bi bi-lightbulb"></i> What to say</div>
+            <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>State the type of leave you need</span></div>
+            <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Mention start and end dates clearly</span></div>
+            <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Add reason if required by policy</span></div>
+            <div class="tip-item"><i class="bi bi-check-circle-fill"></i><span>Say "confirm" to submit your request</span></div>
+          </div>
+
+          <div class="chat-sidebar-label" style="margin-top:4px">Example Phrases</div>
+          <div class="info-card">
+            <div class="info-card-title"><i class="bi bi-mic"></i> Try saying</div>
+            <div class="tip-item"><i class="bi bi-quote"></i><span>"I need annual leave from April 5th to April 10th"</span></div>
+            <div class="tip-item"><i class="bi bi-quote"></i><span>"Book sick leave for tomorrow"</span></div>
+            <div class="tip-item"><i class="bi bi-quote"></i><span>"Request emergency leave for Monday"</span></div>
+          </div>
+
+          <div class="api-notice">
+            <i class="bi bi-plug"></i>
+            API connection pending
+          </div>
+        </div>
+
+        <!-- Voice Main Panel -->
+        <div class="voice-main">
+          <div class="chat-header">
+            <div class="chat-header-icon"><i class="bi bi-telephone-outbound"></i></div>
+            <div>
+              <div class="fw-700" style="font-size:15px">Voice Agent</div>
+              <div class="fs-sm text-muted">Real-time voice leave request processing</div>
+            </div>
+            <span class="chat-header-badge"><i class="bi bi-circle-fill me-1" style="font-size:8px;color:#f59e0b"></i>API Pending</span>
+          </div>
+
+          <!-- Voice Interaction Stage -->
+          <div class="voice-stage">
+            <div class="mic-ring-outer" id="micRing">
+              <div class="mic-ring-inner">
+                <button class="mic-btn" id="micBtn" title="Click to speak">
+                  <i class="bi bi-mic-fill" id="micIcon"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="waveform" id="waveform">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+
+            <div>
+              <div class="voice-status" id="voiceStatus">Click the mic to start</div>
+              <div class="voice-status-sub" id="voiceStatusSub">The agent will listen and process your leave request</div>
+            </div>
+          </div>
+
+          <!-- Transcript -->
+          <div class="transcript-area" id="transcriptArea"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script>
+const VoiceAgent = (() => {
+  let active = false;
+  let recognition = null;
+
+  const micBtn    = document.getElementById('micBtn');
+  const micIcon   = document.getElementById('micIcon');
+  const micRing   = document.getElementById('micRing');
+  const waveform  = document.getElementById('waveform');
+  const status    = document.getElementById('voiceStatus');
+  const statusSub = document.getElementById('voiceStatusSub');
+  const transcript = document.getElementById('transcriptArea');
+
+  function setListening(on) {
+    active = on;
+    micBtn.classList.toggle('active', on);
+    micRing.classList.toggle('listening', on);
+    waveform.classList.toggle('visible', on);
+    micIcon.className = on ? 'bi bi-stop-fill' : 'bi bi-mic-fill';
+    status.textContent    = on ? 'Listening...' : 'Click the mic to start';
+    statusSub.textContent = on ? 'Speak clearly — say your leave request' : 'The agent will listen and process your leave request';
+  }
+
+  function addTranscript(role, text) {
+    const div = document.createElement('div');
+    div.className = `transcript-msg ${role}`;
+    const icon = role === 'bot' ? 'bi-telephone-outbound' : 'bi-person';
+    const label = role === 'bot' ? 'Voice Agent' : 'You';
+    div.innerHTML = `
+      <div class="transcript-avatar"><i class="bi ${icon}"></i></div>
+      <div>
+        <div class="transcript-bubble">${text}</div>
+        <div class="transcript-label">${label}</div>
+      </div>`;
+    transcript.appendChild(div);
+    transcript.scrollTop = transcript.scrollHeight;
+  }
+
+  function simulateResponse(spokenText) {
+    status.textContent    = 'Processing...';
+    statusSub.textContent = 'Sending to voice agent backend';
+    micIcon.className = 'bi bi-hourglass-split';
+
+    setTimeout(() => {
+      addTranscript('bot',
+        `<em style="color:var(--color-text-muted)">Request received: "<strong>${spokenText}</strong>"<br>
+        The Voice Agent API is not yet connected. Once the real-time endpoint is configured, I'll process your leave request and confirm the booking instantly.</em>`
+      );
+      setListening(false);
+      micIcon.className = 'bi bi-mic-fill';
+    }, 1800);
+  }
+
+  function toggle() {
+    if (active) {
+      if (recognition) recognition.stop();
+      setListening(false);
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+
+      recognition.onstart = () => setListening(true);
+
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        addTranscript('user', text);
+        setListening(false);
+        simulateResponse(text);
+      };
+
+      recognition.onerror = () => {
+        setListening(false);
+        status.textContent    = 'Could not hear you — try again';
+        statusSub.textContent = 'Make sure your microphone is allowed';
+      };
+
+      recognition.onend = () => { if (active) setListening(false); };
+      recognition.start();
+    } else {
+      // Browser doesn't support SpeechRecognition — simulate for demo
+      setListening(true);
+      setTimeout(() => {
+        const demo = 'I need annual leave from April 5th to April 10th';
+        addTranscript('user', demo);
+        setListening(false);
+        simulateResponse(demo);
+      }, 2500);
+    }
+  }
+
+  function init() {
+    micBtn.addEventListener('click', toggle);
+  }
+
+  return { init };
+})();
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await Layout.init('voice-agent');
+  VoiceAgent.init();
+});
+</script>
+</body>
+</html>

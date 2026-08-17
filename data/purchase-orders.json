@@ -1,0 +1,265 @@
+[
+  {
+    "id": "PO1A2B3C4D",
+    "poNumber": "PO-2026-0001",
+    "userId": "u004",
+    "vendorId": "V006",
+    "vendorName": "Saudi Office World",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-20",
+    "costCenter": "Finance",
+    "currency": "AED",
+    "paymentTerms": "Net 30",
+    "lineItems": [
+      {
+        "item": "Executive Desk Chair",
+        "description": "Ergonomic high-back chair for finance team",
+        "qty": 4,
+        "unit": "pcs",
+        "unitPrice": 650,
+        "lineTotal": 2600
+      },
+      {
+        "item": "Bookshelf (3-tier)",
+        "description": "For document storage in office",
+        "qty": 2,
+        "unit": "pcs",
+        "unitPrice": 380,
+        "lineTotal": 760
+      }
+    ],
+    "subtotal": 3360,
+    "taxPct": 15,
+    "taxAmount": 504,
+    "grandTotal": 3864,
+    "justification": "Replacement of damaged furniture in Finance department meeting area.",
+    "status": "approved",
+    "taskId": null,
+    "submittedAt": "2026-04-05T08:30:00Z",
+    "reviewedBy": "u002",
+    "reviewedAt": "2026-04-06T10:15:00Z",
+    "reviewNote": "Approved. Please coordinate delivery with admin team."
+  },
+  {
+    "id": "PO2B3C4D5E",
+    "poNumber": "PO-2026-0002",
+    "userId": "u005",
+    "vendorId": "V002",
+    "vendorName": "Arabian IT Systems",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-28",
+    "costCenter": "IT",
+    "currency": "AED",
+    "paymentTerms": "Net 45",
+    "lineItems": [
+      {
+        "item": "Laptop (Business Grade)",
+        "description": "Dell Latitude 5540, i7, 16GB RAM, 512GB SSD",
+        "qty": 3,
+        "unit": "pcs",
+        "unitPrice": 4200,
+        "lineTotal": 12600
+      },
+      {
+        "item": "Docking Station",
+        "description": "USB-C universal docking station",
+        "qty": 3,
+        "unit": "pcs",
+        "unitPrice": 850,
+        "lineTotal": 2550
+      }
+    ],
+    "subtotal": 15150,
+    "taxPct": 15,
+    "taxAmount": 2272.5,
+    "grandTotal": 17422.5,
+    "justification": "New laptops required for Q2 IT team expansion — 3 new hires joining May 2026.",
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-10T09:00:00Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "PO3C4D5E6F",
+    "poNumber": "PO-2026-0003",
+    "userId": "u004",
+    "vendorId": "V001",
+    "vendorName": "Al Futtaim Office Solutions",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-22",
+    "costCenter": "Finance",
+    "currency": "AED",
+    "paymentTerms": "Net 30",
+    "lineItems": [
+      {
+        "item": "A4 Paper (Case of 5 reams)",
+        "description": "80gsm white paper",
+        "qty": 10,
+        "unit": "case",
+        "unitPrice": 55,
+        "lineTotal": 550
+      },
+      {
+        "item": "Toner Cartridges",
+        "description": "HP LaserJet compatible toner",
+        "qty": 4,
+        "unit": "pcs",
+        "unitPrice": 120,
+        "lineTotal": 480
+      }
+    ],
+    "subtotal": 1030,
+    "taxPct": 15,
+    "taxAmount": 154.5,
+    "grandTotal": 1184.5,
+    "justification": "Monthly stationery and printing consumables replenishment for Finance team.",
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-12T11:20:00Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "PO4D5E6F7G",
+    "poNumber": "PO-2026-0004",
+    "userId": "u003",
+    "vendorId": "V003",
+    "vendorName": "Gulf Business Supplies",
+    "deliveryLocation": "Jeddah Branch",
+    "requiredBy": "2026-04-15",
+    "costCenter": "HR",
+    "currency": "AED",
+    "paymentTerms": "Advance",
+    "lineItems": [
+      {
+        "item": "Welcome Kit Materials",
+        "description": "Branded folders, notebooks, pens for new hire welcome kits",
+        "qty": 25,
+        "unit": "set",
+        "unitPrice": 85,
+        "lineTotal": 2125
+      }
+    ],
+    "subtotal": 2125,
+    "taxPct": 15,
+    "taxAmount": 318.75,
+    "grandTotal": 2443.75,
+    "justification": "Q2 onboarding kits for 25 new hires joining across departments.",
+    "status": "rejected",
+    "taskId": null,
+    "submittedAt": "2026-04-02T14:00:00Z",
+    "reviewedBy": "u002",
+    "reviewedAt": "2026-04-03T09:30:00Z",
+    "reviewNote": "Please source from preferred supplier Nassar Trading Est. with better pricing. Resubmit."
+  },
+  {
+    "id": "PO63124EC2",
+    "poNumber": "PO-2026-0005",
+    "userId": "u004",
+    "vendorId": "V004",
+    "vendorName": "Riyadh Industrial Trading",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-30",
+    "costCenter": "IT",
+    "currency": "SAR",
+    "paymentTerms": "Net 60",
+    "lineItems": [
+      {
+        "item": "XTEST",
+        "description": "fdsfsdfsdf",
+        "qty": 1,
+        "unit": "box",
+        "unitPrice": 100,
+        "lineTotal": 100
+      }
+    ],
+    "subtotal": 100,
+    "taxPct": 15,
+    "taxAmount": 15,
+    "grandTotal": 115,
+    "justification": "rtrtrt",
+    "status": "approved",
+    "taskId": "T7F94A1E2",
+    "submittedAt": "2026-04-17T09:50:13.501Z",
+    "reviewedBy": "u001",
+    "reviewedAt": "2026-04-17T09:53:20.398Z",
+    "reviewNote": ""
+  },
+  {
+    "id": "PO059BB881",
+    "poNumber": "PO-2026-0006",
+    "userId": "u001",
+    "vendorId": "V002",
+    "vendorName": "Arabian IT Systems",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-28",
+    "costCenter": "IT",
+    "currency": "SAR",
+    "paymentTerms": "Net 45",
+    "lineItems": [
+      {
+        "item": "x",
+        "description": "",
+        "qty": 1,
+        "unit": "pcs",
+        "unitPrice": 100,
+        "lineTotal": 100
+      },
+      {
+        "item": "y",
+        "description": "",
+        "qty": 1,
+        "unit": "pcs",
+        "unitPrice": 50,
+        "lineTotal": 50
+      }
+    ],
+    "subtotal": 150,
+    "taxPct": 15,
+    "taxAmount": 22.5,
+    "grandTotal": 172.5,
+    "justification": "dfidgjhdf",
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-19T16:16:34.034Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "PO624E5CB4",
+    "poNumber": "PO-2026-0007",
+    "userId": "u001",
+    "vendorId": "V001",
+    "vendorName": "Al Futtaim Office Solutions",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-24",
+    "costCenter": "HR",
+    "currency": "USD",
+    "paymentTerms": "Net 45",
+    "lineItems": [
+      {
+        "item": "x",
+        "description": "sadfsdf",
+        "qty": 1,
+        "unit": "pcs",
+        "unitPrice": 100,
+        "lineTotal": 100
+      }
+    ],
+    "subtotal": 100,
+    "taxPct": 15,
+    "taxAmount": 15,
+    "grandTotal": 115,
+    "justification": "vhgfjmv nb",
+    "status": "approved",
+    "taskId": "T36DA7AF2",
+    "submittedAt": "2026-04-21T09:49:31.951Z",
+    "reviewedBy": "u001",
+    "reviewedAt": "2026-04-21T09:49:35.749Z",
+    "reviewNote": ""
+  }
+]

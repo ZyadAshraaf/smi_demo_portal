@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "a7e3c1d9-4f82-4b6a-9e15-3d8f0c991a47",
+  "developer": {
+    "name": "WIND-IS",
+    "websiteUrl": "https://commercial.windinfosys.com/unifiedsmi",
+    "privacyUrl": "https://commercial.windinfosys.com/unifiedsmi/privacy",
+    "termsOfUseUrl": "https://commercial.windinfosys.com/unifiedsmi/terms"
+  },
+  "name": {
+    "short": "Wind Workplace",
+    "full": "Wind Workplace \u2014 Unified Workplace"
+  },
+  "description": {
+    "short": "Your unified workplace inside Microsoft Teams.",
+    "full": "Wind Workplace brings tasks, services, AI assistance, and analytics from your Unified Workplace solution directly into Microsoft Teams."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#001E57",
+  "staticTabs": [
+    {
+      "entityId": "tasks-tab",
+      "name": "My Tasks",
+      "contentUrl": "https://commercial.windinfosys.com/unifiedsmi/tasks?embed=1",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "quick-services-tab",
+      "name": "Quick Services",
+      "contentUrl": "https://commercial.windinfosys.com/unifiedsmi/quick-services?embed=1",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "assistant-tab",
+      "name": "My Assistant",
+      "contentUrl": "https://commercial.windinfosys.com/unifiedsmi/leave-assistant?embed=1",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "analytics-tab",
+      "name": "Analytics",
+      "contentUrl": "https://commercial.windinfosys.com/unifiedsmi/analytics?embed=1",
+      "scopes": ["personal"]
+    }
+  ],
+  "configurableTabs": [],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": [
+    "commercial.windinfosys.com"
+  ],
+  "activities": {
+    "activityTypes": [
+      {
+        "type": "leaveRequest",
+        "description": "A new leave request was submitted",
+        "templateText": "{actor} submitted a {leaveType} leave request for {days} day(s) ({dates})"
+      },
+      {
+        "type": "leaveDecision",
+        "description": "A leave request was approved or rejected",
+        "templateText": "{actor} {decision} your {leaveType} leave request ({dates})"
+      },
+      {
+        "type": "taskAssigned",
+        "description": "A new task has been assigned",
+        "templateText": "{actor} assigned you a new task: {taskTitle}"
+      }
+    ]
+  },
+  "showLoadingIndicator": false
+}

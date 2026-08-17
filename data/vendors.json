@@ -1,0 +1,12 @@
+[
+  { "id": "V001", "name": "Al Futtaim Office Solutions", "contact": "procurement@alfuttaim.ae", "paymentTerms": "Net 30", "category": "Office Supplies", "country": "UAE" },
+  { "id": "V002", "name": "Arabian IT Systems", "contact": "sales@arabianit.sa", "paymentTerms": "Net 45", "category": "IT Equipment", "country": "KSA" },
+  { "id": "V003", "name": "Gulf Business Supplies", "contact": "orders@gulfbiz.com", "paymentTerms": "Net 30", "category": "General Supplies", "country": "UAE" },
+  { "id": "V004", "name": "Riyadh Industrial Trading", "contact": "info@riyadhit.sa", "paymentTerms": "Net 60", "category": "Industrial", "country": "KSA" },
+  { "id": "V005", "name": "Emirates Tech Solutions", "contact": "tech@emiratestech.ae", "paymentTerms": "Advance", "category": "Technology", "country": "UAE" },
+  { "id": "V006", "name": "Saudi Office World", "contact": "procurement@sow.sa", "paymentTerms": "Net 30", "category": "Office Furniture", "country": "KSA" },
+  { "id": "V007", "name": "Nassar Trading Est.", "contact": "nassar@nassar.sa", "paymentTerms": "Net 15", "category": "General Trading", "country": "KSA" },
+  { "id": "V008", "name": "MENA Logistics Corp", "contact": "ops@menalogistics.com", "paymentTerms": "Net 45", "category": "Logistics", "country": "KSA" },
+  { "id": "V009", "name": "Al-Jadeed Electronics", "contact": "sales@aljadeed.sa", "paymentTerms": "Net 30", "category": "Electronics", "country": "KSA" },
+  { "id": "V010", "name": "Horizon Procurement Co.", "contact": "info@horizonprocure.ae", "paymentTerms": "Net 60", "category": "Multi-Category", "country": "UAE" }
+]

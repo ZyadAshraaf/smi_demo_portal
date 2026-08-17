@@ -1,0 +1,16 @@
+{
+  "name": "Unified Workspace",
+  "short_name": "Workspace",
+  "start_url": "/unifiedsmi/m/home",
+  "scope": "/unifiedsmi/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#001E57",
+  "icons": [
+    { "src": "/unifiedsmi/assets/pwa-icon.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/unifiedsmi/assets/pwa-icon.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/unifiedsmi/assets/pwa-icon.png", "sizes": "1024x1024", "type": "image/png" },
+    { "src": "/unifiedsmi/assets/pwa-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

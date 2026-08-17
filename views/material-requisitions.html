@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Material Requisitions — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    /* Stat cards */
+    .stat-card { background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px 22px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:16px; }
+    .stat-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+    .stat-value { font-size:26px; font-weight:700; line-height:1.1; }
+    .stat-label { font-size:12px; color:var(--color-text-muted); font-weight:600; text-transform:uppercase; letter-spacing:.4px; }
+
+    /* Material catalog */
+    .catalog-search-wrap { position:relative; }
+    .catalog-results { border:1px solid var(--color-border); border-radius:10px; max-height:260px; overflow-y:auto; background:#fff; }
+    .catalog-category { padding:6px 14px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--color-text-muted); background:var(--color-surface); border-bottom:1px solid var(--color-border-light); }
+    .catalog-item { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; cursor:pointer; border-bottom:1px solid #f4f6f8; transition:background .12s; gap:10px; }
+    .catalog-item:hover { background:var(--color-primary-faint); }
+    .catalog-item:last-child { border-bottom:none; }
+    .catalog-item-info { flex:1; min-width:0; }
+    .catalog-item-name { font-size:13px; font-weight:600; color:var(--color-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .catalog-item-meta { font-size:11px; color:var(--color-text-muted); }
+    .stock-badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
+    .stock-ok  { background:#e6f9f0; color:#1a9e6a; }
+    .stock-low { background:#fffbeb; color:#d97706; }
+    .stock-out { background:#fde8ea; color:#dc3545; }
+
+    /* Selected items table */
+    .selected-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .selected-table th { background:var(--color-surface); padding:8px 10px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--color-text-muted); border-bottom:1px solid var(--color-border); }
+    .selected-table td { padding:8px 10px; border-bottom:1px solid #f0f2f5; vertical-align:middle; }
+    .selected-table tr:last-child td { border-bottom:none; }
+
+    /* Priority badge */
+    .priority-badge-urgent  { background:#fde8ea; color:#dc3545; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+    .priority-badge-normal  { background:#e6f9f0; color:#1a9e6a; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+
+    /* Detail Drawer */
+    .mr-drawer-overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:1040; opacity:0; pointer-events:none; transition:opacity .25s; }
+    .mr-drawer-overlay.open { opacity:1; pointer-events:all; }
+    .mr-drawer { position:fixed; top:0; right:0; height:100%; width:480px; max-width:96vw; background:#fff; box-shadow:-8px 0 40px rgba(0,0,0,.12); z-index:1045; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; overflow:hidden; }
+    .mr-drawer.open { transform:translateX(0); }
+    .md-header { padding:22px 24px 18px; border-bottom:1px solid #eef0f3; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+    .md-header-left { display:flex; align-items:center; gap:12px; }
+    .md-type-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--color-primary-faint); color:var(--color-primary); flex-shrink:0; }
+    .md-title { font-size:16px; font-weight:700; color:var(--color-text); margin-bottom:2px; }
+    .md-subtitle { font-size:12px; color:var(--color-text-muted); }
+    .md-close { width:32px; height:32px; border-radius:8px; border:none; background:#f4f6f8; color:var(--color-text-muted); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:background .15s; }
+    .md-close:hover { background:#e8eaed; }
+    .md-body { flex:1; overflow-y:auto; padding:24px; }
+    .md-status-banner { border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+    .md-status-banner.approved { background:#e6f9f0; border:1px solid #a7f3d0; }
+    .md-status-banner.pending  { background:#fffbeb; border:1px solid #fde68a; }
+    .md-status-banner.rejected { background:#fde8ea; border:1px solid #fca5a5; }
+    .md-status-icon.approved { color:#1a9e6a; }
+    .md-status-icon.pending  { color:#d97706; }
+    .md-status-icon.rejected { color:#dc3545; }
+    .md-status-text { font-size:14px; font-weight:700; text-transform:capitalize; }
+    .md-status-text.approved { color:#1a9e6a; }
+    .md-status-text.pending  { color:#d97706; }
+    .md-status-text.rejected { color:#dc3545; }
+    .md-summary-box { background:var(--color-primary-faint); border:1px solid rgba(var(--color-primary-rgb),.2); border-radius:12px; padding:16px 18px; margin-bottom:20px; display:flex; align-items:center; gap:14px; }
+    .md-summary-num { font-size:30px; font-weight:800; color:var(--color-primary); line-height:1; }
+    .md-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--color-text-muted); margin-bottom:12px; }
+    .md-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+    .md-info-item { background:#f8fafc; border:1px solid #eef0f3; border-radius:10px; padding:12px 14px; }
+    .md-info-lbl { font-size:11px; color:var(--color-text-muted); font-weight:600; margin-bottom:4px; }
+    .md-info-val { font-size:13px; font-weight:700; color:var(--color-text); }
+    .md-line-table { width:100%; border-collapse:collapse; font-size:12px; margin-bottom:20px; }
+    .md-line-table th { background:#f8fafc; padding:7px 10px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--color-text-muted); }
+    .md-line-table td { padding:8px 10px; border-bottom:1px solid #f0f2f5; }
+    .md-reason-box { background:#f8fafc; border:1px solid #eef0f3; border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:13px; color:var(--color-text); line-height:1.6; }
+    .md-review-card { border-radius:12px; padding:14px 16px; margin-bottom:16px; border:1px solid #eef0f3; background:#fff; }
+    .md-reviewer { display:flex; align-items:center; gap:10px; }
+    .md-reviewer-avatar { width:34px; height:34px; border-radius:50%; background:var(--color-primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; }
+    .md-review-note { margin-top:10px; padding-top:10px; border-top:1px solid #f0f2f5; font-size:13px; color:var(--color-text-muted); font-style:italic; line-height:1.5; }
+    .md-timeline { display:flex; flex-direction:column; gap:0; }
+    .md-tl-item { display:flex; gap:12px; padding-bottom:16px; position:relative; }
+    .md-tl-item:not(:last-child)::before { content:''; position:absolute; left:11px; top:24px; width:2px; height:calc(100% - 10px); background:#e8ecf0; }
+    .md-tl-dot { width:24px; height:24px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; margin-top:1px; }
+    .md-tl-dot.done { background:var(--color-primary); color:#fff; }
+    .md-tl-dot.active { background:#fff3e0; color:#d97706; border:2px solid #d97706; }
+    .md-tl-dot.grey { background:#f0f2f5; color:#94a3b8; }
+    .md-tl-label { font-size:13px; font-weight:600; color:var(--color-text); }
+    .md-tl-sub { font-size:11px; color:var(--color-text-muted); }
+
+    /* Table row clickable */
+    #myMRQsBody tr { cursor:pointer; transition:background .15s; }
+    #myMRQsBody tr:hover { background:rgba(var(--color-primary-rgb),.04); }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="sidebar-logo">
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Material Requisitions</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero">
+        <div class="page-hero-bc">Dashboard &rsaquo; Service Catalog &rsaquo; <span>Material Requisitions</span></div>
+        <div class="page-hero-title"><i class="bi bi-boxes me-2"></i>Material Requisitions</div>
+        <div class="page-hero-sub">Request materials and supplies from internal warehouse stock.</div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--color-primary-faint);color:var(--color-primary)"><i class="bi bi-boxes"></i></div>
+            <div><div class="stat-value" id="statTotal">—</div><div class="stat-label">Total Requests</div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#fffbeb;color:#d97706"><i class="bi bi-hourglass-split"></i></div>
+            <div><div class="stat-value" id="statPending" style="color:#d97706">—</div><div class="stat-label">Pending Approval</div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#e6f9f0;color:#1a9e6a"><i class="bi bi-check-circle"></i></div>
+            <div><div class="stat-value" id="statApproved" style="color:#1a9e6a">—</div><div class="stat-label">Approved</div></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--color-primary-faint);color:var(--color-primary)"><i class="bi bi-stack"></i></div>
+            <div><div class="stat-value" id="statItems">—</div><div class="stat-label">Items Requested</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Requisitions -->
+      <div class="dark-table-card mb-4">
+        <div class="dark-table-head d-flex align-items-center justify-content-between">
+          <h6><i class="bi bi-list-check me-2"></i>My Requisitions</h6>
+          <button class="btn btn-primary btn-sm" id="btnNewMRQ">
+            <i class="bi bi-plus-lg me-1"></i>New Requisition
+          </button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>MRQ Number</th>
+                <th>Department</th>
+                <th>Required By</th>
+                <th>Priority</th>
+                <th>Items</th>
+                <th>Delivery Location</th>
+                <th style="width:110px">Status</th>
+                <th>Reviewed By</th>
+              </tr>
+            </thead>
+            <tbody id="myMRQsBody">
+              <tr><td colspan="8" class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ── New MRQ Modal ─────────────────────────────────────── -->
+<div class="modal fade" id="newMRQModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-boxes me-2"></i>New Material Requisition</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label">Department *</label>
+            <input type="text" class="form-control" id="mrqDepartment" placeholder="e.g. Finance">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Delivery Location *</label>
+            <select class="form-select" id="mrqDelivery" required>
+              <option value="Riyadh HQ">Riyadh HQ</option>
+              <option value="Jeddah Branch">Jeddah Branch</option>
+              <option value="Dammam Office">Dammam Office</option>
+              <option value="Site A">Site A</option>
+              <option value="Warehouse">Warehouse</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Required By *</label>
+            <input type="date" class="form-control" id="mrqRequiredBy" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Priority</label>
+            <select class="form-select" id="mrqPriority">
+              <option value="normal">Normal</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Project Code <span class="text-muted">(optional)</span></label>
+            <input type="text" class="form-control" id="mrqProject" placeholder="e.g. PRJ-2026-001">
+          </div>
+        </div>
+
+        <!-- Material Search -->
+        <div class="mb-3">
+          <label class="form-label fw-700">Search &amp; Add Materials *</label>
+          <div class="row g-2 mb-2">
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="matSearch" placeholder="Search by name or code...">
+            </div>
+            <div class="col-md-4">
+              <select class="form-select" id="matCategory">
+                <option value="all">All Categories</option>
+                <option>Stationery</option>
+                <option>IT Consumables</option>
+                <option>Safety / PPE</option>
+                <option>Tools</option>
+                <option>Office Supplies</option>
+              </select>
+            </div>
+          </div>
+          <div class="catalog-results" id="catalogResults">
+            <div class="catalog-category">Loading catalog...</div>
+          </div>
+        </div>
+
+        <!-- Selected Items -->
+        <div id="selectedItemsWrap" class="d-none mb-3">
+          <label class="form-label fw-700">Selected Items</label>
+          <div style="border:1px solid var(--color-border);border-radius:10px;overflow:hidden">
+            <table class="selected-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Material</th>
+                  <th>Category</th>
+                  <th style="width:90px">UoM</th>
+                  <th style="width:90px">Qty *</th>
+                  <th style="width:90px">In Stock</th>
+                  <th style="width:36px"></th>
+                </tr>
+              </thead>
+              <tbody id="selectedItemsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Justification -->
+        <div>
+          <label class="form-label">Justification / Purpose *</label>
+          <textarea class="form-control" id="mrqJustification" rows="2" placeholder="Describe the purpose of this requisition..." required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSubmitMRQ">
+          <i class="bi bi-send me-1"></i>Submit for Approval
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Approve / Reject Modal ─────────────────────────────── -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalTitle">Review Requisition</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3 p-3 rounded" style="background:var(--color-surface);border:1px solid var(--color-border)" id="reviewMRQInfo"></div>
+        <div class="mb-3">
+          <label class="form-label">Note (optional)</label>
+          <textarea class="form-control" id="reviewNote" rows="3" placeholder="Add a note for the requestor..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer gap-2">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btnReject"><i class="bi bi-x-lg me-1"></i>Reject</button>
+        <button type="button" class="btn btn-success" id="btnApprove"><i class="bi bi-check-lg me-1"></i>Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Detail Drawer ──────────────────────────────────────── -->
+<div class="mr-drawer-overlay" id="mrDrawerOverlay"></div>
+<div class="mr-drawer" id="mrDrawer">
+  <div class="md-header">
+    <div class="md-header-left">
+      <div class="md-type-icon"><i class="bi bi-boxes"></i></div>
+      <div>
+        <div class="md-title" id="mdTitle">Material Requisition</div>
+        <div class="md-subtitle" id="mdSubtitle">Details</div>
+      </div>
+    </div>
+    <button class="md-close" id="mrDrawerClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="md-body">
+    <div class="md-status-banner" id="mdStatusBanner">
+      <i class="md-status-icon" id="mdStatusIcon" style="font-size:22px"></i>
+      <div>
+        <div class="md-status-text" id="mdStatusText">—</div>
+        <div style="font-size:12px;color:var(--color-text-muted)" id="mdStatusSub">—</div>
+      </div>
+    </div>
+    <div class="md-summary-box">
+      <div>
+        <div class="md-summary-num" id="mdTotalItems">—</div>
+      </div>
+      <div>
+        <div style="font-size:13px;color:var(--color-primary);font-weight:600">Material Line(s) Requested</div>
+        <div style="font-size:11px;color:var(--color-text-muted)" id="mdTotalQty">—</div>
+      </div>
+    </div>
+    <div class="md-section-label">Requisition Details</div>
+    <div class="md-info-grid" id="mdInfoGrid"></div>
+    <div class="md-section-label">Requested Materials</div>
+    <table class="md-line-table" id="mdLineTable">
+      <thead><tr><th>Code</th><th>Material</th><th>UoM</th><th class="text-end">Qty</th><th class="text-end">In Stock</th></tr></thead>
+      <tbody id="mdLineBody"></tbody>
+    </table>
+    <div class="md-section-label">Justification</div>
+    <div class="md-reason-box" id="mdJustification">—</div>
+    <div id="mdReviewSection">
+      <div class="md-section-label">Reviewed By</div>
+      <div class="md-review-card">
+        <div class="md-reviewer">
+          <div class="md-reviewer-avatar" id="mdReviewerAvatar">—</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--color-text)" id="mdReviewerName">—</div>
+            <div style="font-size:11px;color:var(--color-text-muted)">Manager</div>
+          </div>
+        </div>
+        <div class="md-review-note" id="mdReviewNote" style="display:none"></div>
+      </div>
+    </div>
+    <div class="md-section-label mt-3">Timeline</div>
+    <div class="md-timeline" id="mdTimeline"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/material-requisitions.js"></script>
+</body>
+</html>

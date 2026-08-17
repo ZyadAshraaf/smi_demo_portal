@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Services — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    /* ── Tab Pills ── */
+    .qs-tabs { display: flex; gap: 6px; margin-bottom: 24px; }
+    .qs-tab {
+      padding: 10px 22px; border-radius: 50px; border: 2px solid var(--color-border);
+      background: #fff; color: var(--color-text-muted); font-weight: 600; font-size: 14px;
+      cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 8px;
+    }
+    .qs-tab:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .qs-tab.active {
+      background: var(--color-primary); color: #fff; border-color: var(--color-primary);
+    }
+    .qs-panel { display: none; }
+    .qs-panel.active { display: block; }
+
+    /* ── Inline Form Card ── */
+    .qs-form-card {
+      background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+      padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 24px;
+    }
+    .qs-form-card .form-label { font-size: 13px; font-weight: 600; color: var(--color-text-muted); }
+    .qs-form-card .form-control:focus,
+    .qs-form-card .form-select:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb),.15);
+    }
+    .qs-days-badge {
+      background: var(--color-primary-faint); border: 1px solid rgba(var(--color-primary-rgb),.2);
+      border-radius: 10px; padding: 10px 16px; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .qs-days-badge .num { font-size: 22px; font-weight: 800; color: var(--color-primary); line-height: 1; }
+    .qs-days-badge .lbl { font-size: 12px; color: var(--color-primary); font-weight: 600; }
+
+    /* ── Table rows clickable ── */
+    #qsLeavesBody tr, #qsWfhBody tr { cursor: pointer; transition: background .15s; }
+    #qsLeavesBody tr:hover, #qsWfhBody tr:hover { background: rgba(var(--color-primary-rgb),.04); }
+
+    /* ── Detail Drawer ── */
+    .qs-drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.35);
+      z-index: 1040; opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .qs-drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+    .qs-drawer {
+      position: fixed; top: 0; right: 0; height: 100%;
+      width: 420px; max-width: 95vw; background: #fff;
+      box-shadow: -8px 0 40px rgba(0,0,0,.12);
+      z-index: 1045; transform: translateX(100%);
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .qs-drawer.open { transform: translateX(0); }
+
+    .ld-header {
+      padding: 22px 24px 18px; border-bottom: 1px solid #eef0f3;
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .ld-header-left { display: flex; align-items: center; gap: 12px; }
+    .ld-type-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; background: var(--color-primary-faint); color: var(--color-primary); flex-shrink: 0;
+    }
+    .ld-title { font-size: 16px; font-weight: 700; color: var(--color-text); margin-bottom: 2px; text-transform: capitalize; }
+    .ld-subtitle { font-size: 12px; color: var(--color-text-muted); }
+    .ld-close {
+      width: 32px; height: 32px; border-radius: 8px; border: none;
+      background: #f4f6f8; color: var(--color-text-muted);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; transition: background .15s;
+    }
+    .ld-close:hover { background: #e8eaed; }
+    .ld-body { flex: 1; overflow-y: auto; padding: 24px; }
+
+    .ld-status-banner {
+      border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .ld-status-banner.approved { background: #e6f9f0; border: 1px solid #a7f3d0; }
+    .ld-status-banner.pending  { background: #fffbeb; border: 1px solid #fde68a; }
+    .ld-status-banner.rejected { background: #fde8ea; border: 1px solid #fca5a5; }
+    .ld-status-icon { font-size: 22px; }
+    .ld-status-icon.approved { color: #1a9e6a; }
+    .ld-status-icon.pending  { color: #d97706; }
+    .ld-status-icon.rejected { color: #dc3545; }
+    .ld-status-text { font-size: 14px; font-weight: 700; text-transform: capitalize; }
+    .ld-status-text.approved { color: #1a9e6a; }
+    .ld-status-text.pending  { color: #d97706; }
+    .ld-status-text.rejected { color: #dc3545; }
+    .ld-status-sub { font-size: 12px; color: var(--color-text-muted); }
+
+    .ld-section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--color-text-muted); margin-bottom: 12px;
+    }
+    .ld-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .ld-info-item { background: #f8fafc; border: 1px solid #eef0f3; border-radius: 10px; padding: 12px 14px; }
+    .ld-info-lbl { font-size: 11px; color: var(--color-text-muted); font-weight: 600; margin-bottom: 4px; }
+    .ld-info-val { font-size: 14px; font-weight: 700; color: var(--color-text); }
+
+    .ld-duration-box {
+      background: var(--color-primary-faint); border: 1px solid rgba(var(--color-primary-rgb),.2);
+      border-radius: 12px; padding: 16px 18px; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .ld-duration-num { font-size: 32px; font-weight: 800; color: var(--color-primary); line-height: 1; }
+    .ld-duration-lbl { font-size: 13px; color: var(--color-primary); font-weight: 600; }
+    .ld-duration-sub { font-size: 11px; color: var(--color-text-muted); }
+
+    .ld-reason-box {
+      background: #f8fafc; border: 1px solid #eef0f3;
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 24px;
+      font-size: 13px; color: var(--color-text); line-height: 1.6;
+    }
+
+    .ld-review-card {
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
+      border: 1px solid #eef0f3; background: #fff;
+    }
+    .ld-reviewer { display: flex; align-items: center; gap: 10px; }
+    .ld-reviewer-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--color-primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .ld-reviewer-name { font-size: 13px; font-weight: 700; color: var(--color-text); }
+    .ld-reviewer-role { font-size: 11px; color: var(--color-text-muted); }
+    .ld-review-note {
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f2f5;
+      font-size: 13px; color: var(--color-text-muted); font-style: italic; line-height: 1.5;
+    }
+
+    .ld-timeline { display: flex; flex-direction: column; gap: 0; }
+    .ld-tl-item { display: flex; gap: 12px; padding-bottom: 16px; position: relative; }
+    .ld-tl-item:not(:last-child)::before {
+      content: ''; position: absolute; left: 11px; top: 24px;
+      width: 2px; height: calc(100% - 10px); background: #e8ecf0;
+    }
+    .ld-tl-dot {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; margin-top: 1px;
+    }
+    .ld-tl-dot.done   { background: var(--color-primary); color: #fff; }
+    .ld-tl-dot.active { background: #fff3e0; color: #d97706; border: 2px solid #d97706; }
+    .ld-tl-dot.grey   { background: #f0f2f5; color: #94a3b8; }
+    .ld-tl-label { font-size: 13px; font-weight: 600; color: var(--color-text); }
+    .ld-tl-sub   { font-size: 11px; color: var(--color-text-muted); }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Quick Services</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero">
+        <div class="page-hero-bc">Dashboard &rsaquo; <span>Quick Services</span></div>
+        <div class="page-hero-title"><i class="bi bi-lightning-charge me-2"></i>Quick Services</div>
+        <div class="page-hero-sub">Submit leave or work-from-home requests in seconds.</div>
+      </div>
+
+      <!-- Tab Pills -->
+      <div class="qs-tabs">
+        <button class="qs-tab active" data-tab="leave" id="qsTabLeave">
+          <i class="bi bi-calendar-check"></i> Leave Request
+        </button>
+        <button class="qs-tab" data-tab="wfh" id="qsTabWfh">
+          <i class="bi bi-house-door"></i> Work From Home
+        </button>
+      </div>
+
+      <!-- ═══════════════ LEAVE PANEL ═══════════════ -->
+      <div class="qs-panel active" id="qsPanelLeave">
+
+        <!-- Inline Leave Form -->
+        <div class="qs-form-card">
+          <h6 class="mb-3" style="font-weight:700;color:var(--color-text)"><i class="bi bi-calendar-plus me-2" style="color:var(--color-primary)"></i>New Leave Request</h6>
+          <div class="row g-3 align-items-end">
+            <div class="col-md-2">
+              <label class="form-label">Type *</label>
+              <select class="form-select" id="qsLeaveType">
+                <option value="annual">Annual</option>
+                <option value="sick">Sick</option>
+                <option value="emergency">Emergency</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">From *</label>
+              <input type="date" class="form-control" id="qsLeaveStart">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">To *</label>
+              <input type="date" class="form-control" id="qsLeaveEnd">
+            </div>
+            <div class="col-md-auto">
+              <div class="qs-days-badge">
+                <span class="num" id="qsLeaveDays">—</span>
+                <span class="lbl">days</span>
+              </div>
+            </div>
+            <div class="col-md">
+              <label class="form-label">Reason</label>
+              <input type="text" class="form-control" id="qsLeaveReason" placeholder="Optional reason...">
+            </div>
+            <div class="col-md-auto">
+              <button class="btn btn-primary" id="qsBtnSubmitLeave">
+                <i class="bi bi-send me-1"></i>Submit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Leave Requests Table -->
+        <div class="dark-table-card">
+          <div class="dark-table-head">
+            <h6><i class="bi bi-list-check me-2"></i>My Leave Requests</h6>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th style="width:60px">Days</th>
+                  <th>Reason</th>
+                  <th style="width:110px">Status</th>
+                  <th>Reviewed By</th>
+                </tr>
+              </thead>
+              <tbody id="qsLeavesBody">
+                <tr><td colspan="7" class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ WFH PANEL ═══════════════ -->
+      <div class="qs-panel" id="qsPanelWfh">
+
+        <!-- Inline WFH Form -->
+        <div class="qs-form-card">
+          <h6 class="mb-3" style="font-weight:700;color:var(--color-text)"><i class="bi bi-house-door me-2" style="color:var(--color-primary)"></i>New WFH Request</h6>
+          <div class="row g-3 align-items-end">
+            <div class="col-md-2">
+              <label class="form-label">From *</label>
+              <input type="date" class="form-control" id="qsWfhStart">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">To *</label>
+              <input type="date" class="form-control" id="qsWfhEnd">
+            </div>
+            <div class="col-md-auto">
+              <div class="qs-days-badge">
+                <span class="num" id="qsWfhDays">—</span>
+                <span class="lbl">days</span>
+              </div>
+            </div>
+            <div class="col-md">
+              <label class="form-label">Reason</label>
+              <input type="text" class="form-control" id="qsWfhReason" placeholder="Optional reason...">
+            </div>
+            <div class="col-md-auto">
+              <button class="btn btn-primary" id="qsBtnSubmitWfh">
+                <i class="bi bi-send me-1"></i>Submit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- My WFH Requests Table -->
+        <div class="dark-table-card">
+          <div class="dark-table-head">
+            <h6><i class="bi bi-list-check me-2"></i>My WFH Requests</h6>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>To</th>
+                  <th style="width:60px">Days</th>
+                  <th>Reason</th>
+                  <th>Submitted</th>
+                  <th style="width:110px">Status</th>
+                </tr>
+              </thead>
+              <tbody id="qsWfhBody">
+                <tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Detail Drawer -->
+<div class="qs-drawer-overlay" id="qsDrawerOverlay"></div>
+<div class="qs-drawer" id="qsDrawer">
+  <div class="ld-header">
+    <div class="ld-header-left">
+      <div class="ld-type-icon" id="qdTypeIcon"><i class="bi bi-calendar-check"></i></div>
+      <div>
+        <div class="ld-title" id="qdTitle">Request</div>
+        <div class="ld-subtitle" id="qdSubtitle">Details</div>
+      </div>
+    </div>
+    <button class="ld-close" id="qsDrawerClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="ld-body">
+    <div class="ld-status-banner" id="qdStatusBanner">
+      <i class="ld-status-icon" id="qdStatusIcon"></i>
+      <div>
+        <div class="ld-status-text" id="qdStatusText">—</div>
+        <div class="ld-status-sub" id="qdStatusSub">—</div>
+      </div>
+    </div>
+    <div class="ld-duration-box">
+      <div><div class="ld-duration-num" id="qdDays">—</div></div>
+      <div>
+        <div class="ld-duration-lbl">Working Days</div>
+        <div class="ld-duration-sub" id="qdDateRange">—</div>
+      </div>
+    </div>
+    <div class="ld-section-label">Details</div>
+    <div class="ld-info-grid" id="qdInfoGrid"></div>
+    <div class="ld-section-label">Reason</div>
+    <div class="ld-reason-box" id="qdReason">—</div>
+    <div id="qdReviewSection" style="display:none">
+      <div class="ld-section-label">Reviewed By</div>
+      <div class="ld-review-card">
+        <div class="ld-reviewer">
+          <div class="ld-reviewer-avatar" id="qdReviewerAvatar">—</div>
+          <div>
+            <div class="ld-reviewer-name" id="qdReviewerName">—</div>
+            <div class="ld-reviewer-role">Manager</div>
+          </div>
+        </div>
+        <div class="ld-review-note" id="qdReviewNote" style="display:none"></div>
+      </div>
+    </div>
+    <div class="ld-section-label mt-3">Timeline</div>
+    <div class="ld-timeline" id="qdTimeline"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/quick-services.js"></script>
+</body>
+</html>

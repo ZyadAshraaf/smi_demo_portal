@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#001E57">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/unifiedsmi/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/unifiedsmi/assets/pwa-icon.png">
+  <title>Sign In — Unified Workspace</title>
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/mobile/css/mobile.css">
+</head>
+<body>
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo">
+      <h2>Unified Workspace</h2>
+      <p>Sign in to continue</p>
+    </div>
+
+    <form class="m-form" id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" placeholder="you@company.com" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn--primary btn--full" id="submitBtn">Sign In</button>
+    </form>
+
+    <p class="login-demo">Demo: ahmed@company.com / khalid@company.com / sara@company.com &nbsp;·&nbsp; demo123</p>
+  </div>
+</div>
+
+<script src="/unifiedsmi/mobile/js/api.js"></script>
+<script src="/unifiedsmi/mobile/js/login.js"></script>
+</body>
+</html>

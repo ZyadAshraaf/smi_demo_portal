@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unified Workspace — Teams</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- App Styles: defaults first, then dynamic theme override -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/css/global.css">
+
+  <!-- Chart.js 4.4 (loaded now, used by future Analytics view) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       LOGIN PANEL
+       Shown when the user has no active session.
+       Authenticates against the main backend via API proxy.
+       ============================================================ -->
+  <div id="loginPanel" class="login-panel" style="display: none;">
+    <div class="login-card">
+      <!-- Brand -->
+      <div class="brand-bar">
+        <img src="/assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+        <span>Unified Workspace</span>
+      </div>
+
+      <h2>Sign In</h2>
+      <p class="subtitle">Enter your credentials to continue</p>
+
+      <!-- Error message -->
+      <div id="loginError" class="alert alert-danger py-2 px-3" style="display: none; font-size: 13px;"></div>
+
+      <!-- Login form -->
+      <form id="loginForm" onsubmit="AppShell.handleLogin(event)">
+        <div class="mb-3">
+          <label for="loginEmail" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="loginEmail" placeholder="name@company.com" autocomplete="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="loginPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" id="loginBtn">Sign In</button>
+      </form>
+
+      <p class="text-center mt-3 mb-0" style="font-size: 11px; color: var(--color-text-light);">
+        Demo: ahmed@company.com / demo123
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       APP SHELL
+       The main application layout: sidebar + topbar + content area.
+       Hidden until authentication succeeds.
+       ============================================================ -->
+  <div id="appShell" class="app-wrapper" style="display: none;">
+
+    <!-- ── Sidebar Overlay (mobile) ──────────────────────── -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <aside id="sidebar" class="sidebar">
+
+      <!-- Brand -->
+      <div class="sidebar-brand">
+        <img src="/assets/logo.png" alt="Logo" class="sidebar-logo" onerror="this.style.display='none'">
+        <span class="sidebar-app-name">Unified Workspace</span>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+
+        <div class="nav-section">
+          <div class="nav-section-label">Main</div>
+          <a class="nav-item" data-page="home" href="#">
+            <i class="bi bi-house-door"></i> Home
+          </a>
+          <a class="nav-item" data-page="tasks" href="#">
+            <i class="bi bi-list-check"></i> My Tasks
+            <!-- FUTURE: Dynamic task count badge -->
+          </a>
+          <a class="nav-item" data-page="leaves" href="#">
+            <i class="bi bi-calendar-event"></i> Leave Requests
+          </a>
+          <a class="nav-item" data-page="analytics" href="#">
+            <i class="bi bi-bar-chart-line"></i> Analytics
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-label">Performance</div>
+          <a class="nav-item" data-page="goals" href="#">
+            <i class="bi bi-trophy"></i> Goals & OKR
+          </a>
+          <a class="nav-item" data-page="appraisal" href="#">
+            <i class="bi bi-star"></i> Appraisal
+          </a>
+          <a class="nav-item" data-page="attendance" href="#">
+            <i class="bi bi-clock-history"></i> Attendance
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-label">Support</div>
+          <a class="nav-item" data-page="helpdesk" href="#">
+            <i class="bi bi-headset"></i> Help Desk
+          </a>
+          <a class="nav-item" data-page="directory" href="#">
+            <i class="bi bi-people"></i> Directory
+          </a>
+        </div>
+
+      </nav>
+
+      <!-- Sidebar Footer: User Info -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar-sidebar" id="sidebarAvatar">?</div>
+          <div class="sidebar-user-details">
+            <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+            <div class="sidebar-user-role" id="sidebarUserRole">—</div>
+          </div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" title="Sign Out">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ──────────────────────────────────── -->
+    <div class="main-wrapper">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <h1 class="page-title" id="pageTitle">Home</h1>
+        <div class="topbar-right">
+          <div class="topbar-user">
+            <div class="user-avatar-sm" id="topbarAvatar">?</div>
+            <span class="topbar-user-name" id="topbarUserName"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area: View Panels -->
+      <main class="content" id="viewContainer">
+
+        <!-- ── HOME VIEW ───────────────────────────────────
+             FUTURE: Dashboard with KPI cards, quick actions,
+             and recent activity. Will call AnalyticsController.
+             ──────────────────────────────────────────────── -->
+        <div id="view-home" class="view-panel">
+          <div class="row g-3 mb-4">
+            <!-- FUTURE: Stat cards row (Total Tasks, Pending, Completed, Leave Balance) -->
+            <div class="col-md-3">
+              <div class="stat-card">
+                <div class="stat-icon primary"><i class="bi bi-list-check"></i></div>
+                <div>
+                  <div class="stat-value" id="statTotalTasks">—</div>
+                  <div class="stat-label">Total Tasks</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card">
+                <div class="stat-icon warning"><i class="bi bi-hourglass-split"></i></div>
+                <div>
+                  <div class="stat-value" id="statPending">—</div>
+                  <div class="stat-label">Pending</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card">
+                <div class="stat-icon success"><i class="bi bi-check-circle"></i></div>
+                <div>
+                  <div class="stat-value" id="statCompleted">—</div>
+                  <div class="stat-label">Completed</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card">
+                <div class="stat-icon info"><i class="bi bi-calendar-check"></i></div>
+                <div>
+                  <div class="stat-value" id="statLeaveBalance">—</div>
+                  <div class="stat-label">Leave Balance</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FUTURE: Quick Actions grid -->
+          <div class="card mb-3">
+            <div class="card-header">Quick Actions</div>
+            <div class="card-body">
+              <p class="text-muted mb-0" style="font-size: 13px;">
+                <i class="bi bi-lightning-charge"></i>
+                Quick action tiles will be loaded here (New Task, Request Leave, View Analytics, etc.)
+              </p>
+              <!-- FUTURE: Render quick action tiles that link to other views -->
+            </div>
+          </div>
+
+          <!-- FUTURE: Recent Activity / Announcements -->
+          <div class="card">
+            <div class="card-header">Recent Activity</div>
+            <div class="card-body">
+              <p class="text-muted mb-0" style="font-size: 13px;">
+                <i class="bi bi-clock-history"></i>
+                Recent tasks, approvals, and announcements will appear here.
+              </p>
+              <!-- FUTURE: Load from /api/news and /api/tasks (recent items) -->
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── TASKS VIEW ──────────────────────────────────
+             FUTURE: Unified task list with filters, grouped
+             by source system, with action buttons.
+             Will call TasksController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-tasks" class="view-panel">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+              <!-- FUTURE: Filter bar (by system, status, priority) -->
+            </div>
+            <button class="btn btn-primary btn-sm" disabled>
+              <i class="bi bi-plus-lg"></i> New Task
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-body p-0">
+              <!-- FUTURE: Task table rendered by TasksController -->
+              <div class="empty-state">
+                <i class="bi bi-list-check"></i>
+                <h5>My Tasks</h5>
+                <p>Task list will be loaded here from all connected systems.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── ANALYTICS VIEW ──────────────────────────────
+             FUTURE: Charts and KPIs using Chart.js.
+             Will call AnalyticsController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-analytics" class="view-panel">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Tasks by System</div>
+                <div class="card-body">
+                  <!-- FUTURE: Chart.js pie/doughnut chart -->
+                  <div class="empty-state py-4">
+                    <i class="bi bi-pie-chart"></i>
+                    <p class="mb-0">Chart will render here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Tasks by Status</div>
+                <div class="card-body">
+                  <!-- FUTURE: Chart.js bar chart -->
+                  <div class="empty-state py-4">
+                    <i class="bi bi-bar-chart"></i>
+                    <p class="mb-0">Chart will render here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Tasks by Priority</div>
+                <div class="card-body">
+                  <!-- FUTURE: Chart.js horizontal bar -->
+                  <div class="empty-state py-4">
+                    <i class="bi bi-funnel"></i>
+                    <p class="mb-0">Chart will render here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Leave Summary</div>
+                <div class="card-body">
+                  <!-- FUTURE: Chart.js doughnut -->
+                  <div class="empty-state py-4">
+                    <i class="bi bi-calendar3"></i>
+                    <p class="mb-0">Chart will render here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── LEAVES VIEW ─────────────────────────────────
+             FUTURE: Leave request self-service.
+             Will call LeavesController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-leaves" class="view-panel">
+          <div class="card">
+            <div class="card-header">
+              My Leave Requests
+              <button class="btn btn-primary btn-sm" disabled>
+                <i class="bi bi-plus-lg"></i> Request Leave
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-calendar-event"></i>
+                <h5>Leave Requests</h5>
+                <p>Submit and track leave requests here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── GOALS VIEW ──────────────────────────────────
+             FUTURE: Goals & OKR tracking.
+             Will call GoalsController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-goals" class="view-panel">
+          <div class="card">
+            <div class="card-header">Goals & OKR</div>
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-trophy"></i>
+                <h5>Goals & OKR</h5>
+                <p>Personal and team goals with key results tracking.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── APPRAISAL VIEW ──────────────────────────────
+             FUTURE: Performance appraisal.
+             Will call AppraisalController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-appraisal" class="view-panel">
+          <div class="card">
+            <div class="card-header">Performance Appraisal</div>
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-star"></i>
+                <h5>Performance Appraisal</h5>
+                <p>Self-assessment and manager reviews.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── ATTENDANCE VIEW ─────────────────────────────
+             FUTURE: Attendance statistics.
+             Will call AttendanceController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-attendance" class="view-panel">
+          <div class="card">
+            <div class="card-header">Attendance</div>
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-clock-history"></i>
+                <h5>Attendance Statistics</h5>
+                <p>Daily punch records and monthly overview.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── HELPDESK VIEW ───────────────────────────────
+             FUTURE: Support ticket management.
+             Will call HelpdeskController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-helpdesk" class="view-panel">
+          <div class="card">
+            <div class="card-header">
+              Help Desk
+              <button class="btn btn-primary btn-sm" disabled>
+                <i class="bi bi-plus-lg"></i> New Ticket
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-headset"></i>
+                <h5>Help Desk</h5>
+                <p>Submit and track IT support tickets.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── DIRECTORY VIEW ──────────────────────────────
+             FUTURE: Organization directory search.
+             Will call DirectoryController.init().
+             ──────────────────────────────────────────────── -->
+        <div id="view-directory" class="view-panel">
+          <div class="card">
+            <div class="card-header">Organization Directory</div>
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-people"></i>
+                <h5>Directory</h5>
+                <p>Search employees by name, department, or role.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ── PLACEHOLDER VIEW (fallback) ─────────────────
+             Shown when navigating to a view that doesn't exist yet.
+             ──────────────────────────────────────────────── -->
+        <div id="view-placeholder" class="view-panel">
+          <div class="card">
+            <div class="card-body">
+              <div class="empty-state">
+                <i class="bi bi-wrench-adjustable"></i>
+                <h5 class="placeholder-title">Coming Soon</h5>
+                <p>This module is under development and will be available in a future update.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ── Scripts ───────────────────────────────────────────── -->
+  <!-- Microsoft Teams JavaScript SDK (v2.x via CDN) -->
+  <script src="https://res.cdn.office.net/teams-js/2.31.1/js/MicrosoftTeams.min.js"
+    crossorigin="anonymous"></script>
+
+  <!-- Bootstrap JS (for toasts, modals, dropdowns) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- App Scripts (order matters) -->
+  <script src="/js/teams-init.js"></script>   <!-- 1. Teams SDK wrapper -->
+  <script src="/js/api.js"></script>           <!-- 2. API + Layout + UI helpers -->
+  <script src="/js/app-shell.js"></script>     <!-- 3. App shell controller (boots on DOMContentLoaded) -->
+</body>
+</html>

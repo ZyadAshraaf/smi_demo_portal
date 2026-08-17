@@ -1,0 +1,409 @@
+[
+  {
+    "id": "hd001",
+    "ticketNo": "TKT-2026-001",
+    "title": "Cannot Access CRM System",
+    "description": "I receive an 'Access Denied' error when trying to log into the CRM system. This started happening today after my password was reset.",
+    "category": "Access & Permissions",
+    "priority": "high",
+    "status": "open",
+    "submittedBy": "u004",
+    "assignedTo": "u005",
+    "createdAt": "2026-03-24T08:30:00Z",
+    "updatedAt": "2026-03-24T08:30:00Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-03-24T08:30:00Z",
+        "note": "Ticket submitted"
+      }
+    ]
+  },
+  {
+    "id": "hd002",
+    "ticketNo": "TKT-2026-002",
+    "title": "Laptop Keyboard Not Working",
+    "description": "Several keys on my laptop keyboard have stopped responding. This is severely impacting my productivity. Need urgent replacement or repair.",
+    "category": "Hardware",
+    "priority": "high",
+    "status": "in_progress",
+    "submittedBy": "u005",
+    "assignedTo": "u005",
+    "createdAt": "2026-03-22T14:00:00Z",
+    "updatedAt": "2026-03-23T10:00:00Z",
+    "comments": [
+      {
+        "by": "u005",
+        "name": "Omar Al-Farsi",
+        "at": "2026-03-23T10:00:00Z",
+        "text": "Replacement keyboard ordered from supplier. Expected delivery: March 26th.",
+        "isInternal": false
+      }
+    ],
+    "history": [
+      {
+        "action": "created",
+        "by": "u005",
+        "at": "2026-03-22T14:00:00Z",
+        "note": "Ticket submitted"
+      },
+      {
+        "action": "in_progress",
+        "by": "u005",
+        "at": "2026-03-23T10:00:00Z",
+        "note": "Started working on ticket"
+      }
+    ]
+  },
+  {
+    "id": "hd003",
+    "ticketNo": "TKT-2026-003",
+    "title": "Need Training on Advanced Excel Functions",
+    "description": "I would like to request Excel training specifically on pivot tables, VLOOKUP, and Power Query to improve my reporting efficiency.",
+    "category": "Training",
+    "priority": "low",
+    "status": "resolved",
+    "submittedBy": "u004",
+    "assignedTo": "u003",
+    "createdAt": "2026-03-10T09:00:00Z",
+    "updatedAt": "2026-03-18T11:00:00Z",
+    "comments": [
+      {
+        "by": "u003",
+        "name": "Fatima Al-Zahraa",
+        "at": "2026-03-12T10:00:00Z",
+        "text": "Training session scheduled for March 18th, 2:00 PM.",
+        "isInternal": false
+      },
+      {
+        "by": "u004",
+        "name": "Sara Al-Mutairi",
+        "at": "2026-03-18T15:00:00Z",
+        "text": "Training completed. Very helpful, thank you!",
+        "isInternal": false
+      }
+    ],
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-03-10T09:00:00Z",
+        "note": "Ticket submitted"
+      },
+      {
+        "action": "in_progress",
+        "by": "u003",
+        "at": "2026-03-12T10:00:00Z",
+        "note": "Training session scheduled"
+      },
+      {
+        "action": "resolved",
+        "by": "u003",
+        "at": "2026-03-18T11:00:00Z",
+        "note": "Training completed"
+      }
+    ]
+  },
+  {
+    "id": "hd004",
+    "ticketNo": "TKT-2026-004",
+    "title": "Network Drive Unavailable — Finance Share",
+    "description": "The Finance department shared network drive (\\\\fileserver\\Finance) is unavailable. The entire team cannot access shared documents.",
+    "category": "Network",
+    "priority": "critical",
+    "status": "open",
+    "submittedBy": "u002",
+    "assignedTo": "u001",
+    "createdAt": "2026-03-24T07:45:00Z",
+    "updatedAt": "2026-03-24T07:45:00Z",
+    "comments": [
+      {
+        "by": "u001",
+        "name": "Ahmed Al-Rashidi",
+        "at": "2026-03-24T08:00:00Z",
+        "text": "Investigating the issue. Likely related to last night's maintenance.",
+        "isInternal": true
+      }
+    ],
+    "history": [
+      {
+        "action": "created",
+        "by": "u002",
+        "at": "2026-03-24T07:45:00Z",
+        "note": "Ticket submitted"
+      }
+    ]
+  },
+  {
+    "id": "HD5F3636FB",
+    "ticketNo": "TKT-2026-005",
+    "title": "borken laptop",
+    "description": "test",
+    "category": "Access & Permissions",
+    "priority": "medium",
+    "status": "open",
+    "submittedBy": "u004",
+    "assignedTo": null,
+    "createdAt": "2026-03-25T15:25:00.319Z",
+    "updatedAt": "2026-03-25T15:25:00.320Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-03-25T15:25:00.319Z",
+        "note": "Ticket submitted"
+      }
+    ]
+  },
+  {
+    "id": "HDFD0CC8B0",
+    "ticketNo": "TKT-2026-006",
+    "title": "Test Ticket",
+    "description": "issue on my laptop",
+    "category": "Hardware",
+    "priority": "medium",
+    "status": "open",
+    "submittedBy": "u001",
+    "assignedTo": null,
+    "createdAt": "2026-05-05T08:50:13.609Z",
+    "updatedAt": "2026-05-05T08:50:13.609Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-05T08:50:13.609Z",
+        "note": "Ticket submitted"
+      }
+    ]
+  },
+  {
+    "id": "HD63B38779",
+    "ticketNo": "TKT-2026-007",
+    "title": "Test Ticket",
+    "description": "v,c v,c",
+    "category": "Hardware",
+    "priority": "critical",
+    "status": "closed",
+    "submittedBy": "u001",
+    "assignedTo": "u001",
+    "createdAt": "2026-05-05T09:45:40.576Z",
+    "updatedAt": "2026-05-05T09:46:44.549Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-05T09:45:40.576Z",
+        "note": "Ticket submitted"
+      },
+      {
+        "action": "in_progress",
+        "by": "u001",
+        "at": "2026-05-05T09:45:49.499Z",
+        "note": ""
+      },
+      {
+        "action": "resolved",
+        "by": "u001",
+        "at": "2026-05-05T09:45:52.958Z",
+        "note": ""
+      },
+      {
+        "action": "reopened",
+        "by": "u001",
+        "at": "2026-05-05T09:46:20.644Z",
+        "note": ""
+      },
+      {
+        "action": "in_progress",
+        "by": "u001",
+        "at": "2026-05-05T09:46:26.806Z",
+        "note": ""
+      },
+      {
+        "action": "resolved",
+        "by": "u001",
+        "at": "2026-05-05T09:46:29.446Z",
+        "note": ""
+      },
+      {
+        "action": "closed",
+        "by": "u001",
+        "at": "2026-05-05T09:46:44.548Z",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "HDF0BE3B81",
+    "ticketNo": "TKT-2026-008",
+    "title": "Office License Activation Issue",
+    "description": "My office license is not working, and I need it to be activated as soon as possible in order to perform my work.",
+    "category": "Software",
+    "priority": "high",
+    "status": "open",
+    "submittedBy": "u001",
+    "assignedTo": null,
+    "createdAt": "2026-05-05T10:05:56.117Z",
+    "updatedAt": "2026-05-05T10:05:56.117Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-05T10:05:56.117Z",
+        "note": "Ticket submitted via My Assistant"
+      }
+    ]
+  },
+  {
+    "id": "HDA7C8ED79",
+    "ticketNo": "TKT-2026-009",
+    "title": "Laptop won't boot up",
+    "description": "Laptop gets stuck on the loading screen and shuts down again",
+    "category": "Hardware",
+    "priority": "critical",
+    "status": "open",
+    "submittedBy": "u001",
+    "assignedTo": null,
+    "createdAt": "2026-05-05T10:09:50.895Z",
+    "updatedAt": "2026-05-05T10:09:50.895Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-05T10:09:50.895Z",
+        "note": "Ticket submitted via My Assistant"
+      }
+    ]
+  },
+  {
+    "id": "HD152AA9FE",
+    "ticketNo": "TKT-2026-010",
+    "title": "test ticket22",
+    "description": "test hardware ticket",
+    "category": "Hardware",
+    "priority": "critical",
+    "status": "in_progress",
+    "submittedBy": "u001",
+    "assignedTo": "u001",
+    "createdAt": "2026-05-06T06:28:37.995Z",
+    "updatedAt": "2026-05-06T06:28:50.015Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T06:28:37.995Z",
+        "note": "Ticket submitted"
+      },
+      {
+        "action": "in_progress",
+        "by": "u001",
+        "at": "2026-05-06T06:28:50.015Z",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "HDD848854B",
+    "ticketNo": "TKT-2026-011",
+    "title": "Microphone Not Working",
+    "description": "My microphone is not working.",
+    "category": "Hardware",
+    "priority": "medium",
+    "status": "open",
+    "submittedBy": "u001",
+    "assignedTo": null,
+    "createdAt": "2026-05-06T06:32:32.511Z",
+    "updatedAt": "2026-05-06T06:32:32.511Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T06:32:32.511Z",
+        "note": "Ticket submitted via My Assistant"
+      }
+    ]
+  },
+  {
+    "id": "HDDB174FEF",
+    "ticketNo": "TKT-2026-012",
+    "title": "Laptop Microphone Not Working",
+    "description": "My laptop's microphone has not been working properly for the past 3 days.",
+    "category": "Hardware",
+    "priority": "medium",
+    "status": "closed",
+    "submittedBy": "u001",
+    "assignedTo": "u001",
+    "createdAt": "2026-05-06T06:41:33.082Z",
+    "updatedAt": "2026-05-06T06:56:39.737Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T06:41:33.082Z",
+        "note": "Ticket submitted via My Assistant"
+      },
+      {
+        "action": "in_progress",
+        "by": "u001",
+        "at": "2026-05-06T06:56:35.782Z",
+        "note": ""
+      },
+      {
+        "action": "resolved",
+        "by": "u001",
+        "at": "2026-05-06T06:56:37.722Z",
+        "note": ""
+      },
+      {
+        "action": "closed",
+        "by": "u001",
+        "at": "2026-05-06T06:56:39.737Z",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "HD80E822DF",
+    "ticketNo": "TKT-2026-013",
+    "title": "Laptop not working properly",
+    "description": "The laptop is not working as expected, but the exact issue is not specified.",
+    "category": "Hardware",
+    "priority": "critical",
+    "status": "resolved",
+    "submittedBy": "u001",
+    "assignedTo": "u001",
+    "createdAt": "2026-05-06T10:03:03.910Z",
+    "updatedAt": "2026-05-06T10:03:25.766Z",
+    "comments": [],
+    "history": [
+      {
+        "action": "created",
+        "by": "u001",
+        "at": "2026-05-06T10:03:03.910Z",
+        "note": "Ticket submitted via My Assistant"
+      },
+      {
+        "action": "in_progress",
+        "by": "u001",
+        "at": "2026-05-06T10:03:19.782Z",
+        "note": ""
+      },
+      {
+        "action": "resolved",
+        "by": "u001",
+        "at": "2026-05-06T10:03:25.766Z",
+        "note": ""
+      }
+    ]
+  }
+]

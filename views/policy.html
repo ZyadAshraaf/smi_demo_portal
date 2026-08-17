@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policy AI — Unified Workspace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://res.cdn.office.net/teams-js/2.24.0/js/MicrosoftTeams.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/unifiedsmi/css/variables.css">
+  <link rel="stylesheet" href="/unifiedsmi/theme.css">
+  <link rel="stylesheet" href="/unifiedsmi/css/global.css">
+  <script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed-mode');</script>
+  <link rel="stylesheet" href="/unifiedsmi/css/pages.css">
+  <style>
+    .chat-wrap { display: flex; gap: 20px; height: calc(100vh - 140px); }
+    .policy-sidebar { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+    .policy-card { background: white; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px 16px; cursor: pointer; transition: all 0.2s; }
+    .policy-card:hover { border-color: var(--color-primary); background: var(--color-primary-faint); }
+    .policy-card-title { font-size: 13px; font-weight: 600; color: var(--color-text); }
+    .policy-card-cat   { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+    .chat-main { flex: 1; display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .chat-header { padding: 16px 20px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px; background: var(--color-primary-faint); }
+    .chat-header-icon { width: 38px; height: 38px; background: var(--color-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .msg { display: flex; gap: 10px; max-width: 85%; }
+    .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+    .msg-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+    .msg.bot  .msg-avatar { background: var(--color-primary); color: white; }
+    .msg.user .msg-avatar { background: var(--color-secondary); color: white; }
+    .msg-bubble { padding: 12px 16px; border-radius: 16px; font-size: 13px; line-height: 1.6; }
+    .msg.bot  .msg-bubble { background: var(--color-surface); border: 1px solid var(--color-border); border-top-left-radius: 4px; color: var(--color-text); }
+    .msg.user .msg-bubble { background: var(--color-primary); color: white; border-top-right-radius: 4px; }
+    .msg-sources { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .source-tag { background: var(--color-primary-faint); color: var(--color-primary); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+    .chat-input-bar { padding: 14px 16px; border-top: 1px solid var(--color-border); display: flex; gap: 10px; align-items: flex-end; }
+    .chat-input-bar textarea { flex: 1; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 10px 14px; font-size: 13px; resize: none; outline: none; font-family: var(--font-family); }
+    .chat-input-bar textarea:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb),0.12); }
+    .btn-send { width: 40px; height: 40px; border: none; background: var(--color-primary); color: white; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 17px; transition: background 0.15s; flex-shrink: 0; }
+    .btn-send:hover { background: var(--color-primary-dark); }
+    .btn-send:disabled { background: var(--color-text-light); cursor: not-allowed; }
+    .suggested-questions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .sq-btn { background: white; border: 1px solid var(--color-primary); color: var(--color-primary); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .sq-btn:hover { background: var(--color-primary); color: white; }
+    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+    .typing-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-primary-lighter); animation: typing 1.2s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing { 0%,80%,100%{transform:scale(1);opacity:.5} 40%{transform:scale(1.2);opacity:1} }
+    @media (max-width:768px) { .chat-wrap { flex-direction: column; height: auto; } .policy-sidebar { width: 100%; max-height: 200px; } }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="/unifiedsmi/assets/logo.png" alt="WIND-IS" class="sidebar-logo">
+    </div>
+        <nav class="sidebar-nav">
+      <div class="nav-section">
+        <a href="/unifiedsmi/" class="nav-item" data-page="landing"><i class="bi bi-house-door"></i><span>Home</span></a>
+        <a href="/unifiedsmi/tasks" class="nav-item" data-page="tasks"><i class="bi bi-check2-square"></i><span>My Tasks</span><span class="nav-badge d-none" id="tasksBadge">0</span></a>
+      </div>
+      <div class="nav-section"><div class="nav-section-label">Services</div>
+        <a href="/unifiedsmi/services" class="nav-item" data-page="services"><i class="bi bi-grid-3x3-gap"></i><span>Service Catalog</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-sidebar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-details">
+          <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">--</div>
+        </div>
+      </div>
+      <a href="/unifiedsmi/api/auth/logout" class="sidebar-logout" title="Sign Out"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <img src="/unifiedsmi/assets/logo.png" alt="Logo" class="topbar-logo" id="topbarLogo">
+      <h1 class="page-title">Policy AI Assistant</h1>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="text" placeholder="Search..."></div>
+        <button class="icon-btn"><i class="bi bi-bell"></i><span class="notif-dot d-none" id="notifDot"></span></button>
+        <div class="dropdown">
+          <div class="topbar-user" data-bs-toggle="dropdown">
+            <div class="user-avatar-sm" id="topbarAvatar">A</div>
+            <span class="topbar-user-name" id="topbarUserName">User</span>
+            <i class="bi bi-chevron-down fs-xs text-muted ms-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/unifiedsmi/api/auth/logout"><i class="bi bi-box-arrow-right me-2 text-danger"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-hero" style="margin-bottom:18px">
+        <div class="page-hero-bc">Dashboard &rsaquo; <span>Policy AI</span></div>
+        <div class="page-hero-title"><i class="bi bi-robot me-2"></i>Policy AI Assistant</div>
+        <div class="page-hero-sub">Ask anything about company policies — leave, remote work, conduct and more.</div>
+      </div>
+      <div class="chat-wrap">
+        <!-- Policy List Sidebar -->
+        <div class="policy-sidebar">
+          <div class="fw-600 fs-sm text-muted mb-1" style="text-transform:uppercase;letter-spacing:.8px">Policies</div>
+          <div id="policyList">
+            <div class="text-center py-3"><div class="spinner-border spinner-border-sm" style="color:var(--color-primary)"></div></div>
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-main">
+          <div class="chat-header">
+            <div class="chat-header-icon"><i class="bi bi-robot"></i></div>
+            <div>
+              <div class="fw-700" style="font-size:15px">Policy Assistant</div>
+              <div class="fs-sm text-muted">Ask anything about company policies</div>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg bot">
+              <div class="msg-avatar"><i class="bi bi-robot"></i></div>
+              <div>
+                <div class="msg-bubble">
+                  Hello! I'm your Policy AI Assistant. Ask me anything about company policies — leave, remote work, IT security, conduct, and more.<br><br>Try one of these questions:
+                </div>
+                <div class="suggested-questions">
+                  <button class="sq-btn" onclick="PolicyPage.askSuggestion(this)">How many annual leave days do I get?</button>
+                  <button class="sq-btn" onclick="PolicyPage.askSuggestion(this)">What is the remote work policy?</button>
+                  <button class="sq-btn" onclick="PolicyPage.askSuggestion(this)">What happens if I'm sick for 3 days?</button>
+                  <button class="sq-btn" onclick="PolicyPage.askSuggestion(this)">How does the appraisal process work?</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input-bar">
+            <textarea id="chatInput" rows="1" placeholder="Ask a question about company policies..." maxlength="500"></textarea>
+            <button class="btn-send" id="btnSend" title="Send"><i class="bi bi-send-fill"></i></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/unifiedsmi/js/api.js"></script>
+<script src="/unifiedsmi/js/policy.js"></script>
+</body>
+</html>

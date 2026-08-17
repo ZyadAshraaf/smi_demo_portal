@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configure Tab — Unified Workspace</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/theme.css">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+      padding: 24px;
+    }
+
+    .config-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 480px;
+      margin: 0 auto;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .config-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--color-text);
+    }
+
+    .config-card .subtitle {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .view-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid #e8e8e8;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 8px;
+    }
+
+    .view-option:hover {
+      border-color: var(--color-primary-lighter);
+      background: var(--color-primary-faint);
+    }
+
+    .view-option.selected {
+      border-color: var(--color-primary);
+      background: var(--color-primary-faint);
+    }
+
+    .view-option i {
+      font-size: 20px;
+      color: var(--color-primary);
+      width: 24px;
+      text-align: center;
+    }
+
+    .view-option .view-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .view-option .view-desc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       CONFIGURABLE TAB — Configuration Page
+
+       When a user adds this app as a channel/group tab, Teams
+       shows this page first. The user selects which view the tab
+       should display, then clicks Save.
+
+       Flow:
+       1. Teams loads this page in a dialog
+       2. User selects a default view (Home, Tasks, Analytics)
+       3. We call pages.config.setConfig() with the contentUrl
+       4. Teams saves the config and loads the contentUrl as the tab
+       ============================================================ -->
+  <div class="config-card">
+    <h2>Configure Unified Workspace</h2>
+    <p class="subtitle">Choose the default view for this tab.</p>
+
+    <!-- View options -->
+    <div id="viewOptions">
+      <div class="view-option selected" data-view="home">
+        <i class="bi bi-house-door"></i>
+        <div>
+          <div class="view-name">Home Dashboard</div>
+          <div class="view-desc">KPI overview, quick actions, recent activity</div>
+        </div>
+      </div>
+
+      <div class="view-option" data-view="tasks">
+        <i class="bi bi-list-check"></i>
+        <div>
+          <div class="view-name">My Tasks</div>
+          <div class="view-desc">Unified task list from all systems</div>
+        </div>
+      </div>
+
+      <div class="view-option" data-view="analytics">
+        <i class="bi bi-bar-chart-line"></i>
+        <div>
+          <div class="view-name">Analytics</div>
+          <div class="view-desc">Charts, KPIs, and performance metrics</div>
+        </div>
+      </div>
+
+      <div class="view-option" data-view="leaves">
+        <i class="bi bi-calendar-event"></i>
+        <div>
+          <div class="view-name">Leave Requests</div>
+          <div class="view-desc">Submit and track leave requests</div>
+        </div>
+      </div>
+
+      <div class="view-option" data-view="attendance">
+        <i class="bi bi-clock-history"></i>
+        <div>
+          <div class="view-name">Attendance</div>
+          <div class="view-desc">Daily attendance and monthly overview</div>
+        </div>
+      </div>
+
+      <div class="view-option" data-view="helpdesk">
+        <i class="bi bi-headset"></i>
+        <div>
+          <div class="view-name">Help Desk</div>
+          <div class="view-desc">IT support tickets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Microsoft Teams JS SDK -->
+  <script src="https://res.cdn.office.net/teams-js/2.31.1/js/MicrosoftTeams.min.js"
+    crossorigin="anonymous"></script>
+
+  <script>
+    /* ── Configuration Page Logic ────────────────────────────── */
+    (async () => {
+      let selectedView = 'home';
+
+      try {
+        // Initialize Teams SDK
+        await microsoftTeams.app.initialize();
+
+        // Get the current hostname for building contentUrl
+        const context = await microsoftTeams.app.getContext();
+
+        // Handle view option selection
+        document.querySelectorAll('.view-option').forEach(el => {
+          el.addEventListener('click', () => {
+            document.querySelectorAll('.view-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedView = el.dataset.view;
+
+            // Enable the Save button whenever a selection is made
+            microsoftTeams.pages.config.setValidityState(true);
+          });
+        });
+
+        // Enable Save button (default selection is "home")
+        microsoftTeams.pages.config.setValidityState(true);
+
+        // Register the save handler — called when user clicks Save in Teams
+        microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+          const baseUrl = window.location.origin;
+
+          microsoftTeams.pages.config.setConfig({
+            contentUrl:          `${baseUrl}/pages/tab.html?view=${selectedView}`,
+            websiteUrl:          `${baseUrl}/pages/tab.html?view=${selectedView}`,
+            entityId:            `unified-${selectedView}`,
+            suggestedDisplayName: `Workspace — ${selectedView.charAt(0).toUpperCase() + selectedView.slice(1)}`,
+            removeUrl:           `${baseUrl}/pages/remove.html`
+          })
+            .then(() => saveEvent.notifySuccess())
+            .catch(() => saveEvent.notifyFailure('Failed to save configuration.'));
+        });
+
+        // Notify Teams that we finished loading
+        microsoftTeams.app.notifySuccess();
+
+      } catch (err) {
+        // Not running in Teams — show a message for standalone testing
+        console.log('[Config] Not in Teams context:', err.message);
+        const card = document.querySelector('.config-card');
+        card.insertAdjacentHTML('beforeend',
+          '<p class="mt-3" style="font-size:12px; color:#888;"><i class="bi bi-info-circle"></i> This page is designed to be loaded by Microsoft Teams during tab configuration. Run it inside Teams to test the save flow.</p>'
+        );
+      }
+    })();
+  </script>
+</body>
+</html>

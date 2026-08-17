@@ -1,0 +1,204 @@
+[
+  {
+    "id": "MR1A2B3C4D",
+    "mrqNumber": "MR-2026-0001",
+    "userId": "u004",
+    "department": "Finance",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-18",
+    "priority": "normal",
+    "projectCode": "",
+    "lineItems": [
+      {
+        "materialCode": "MAT-001",
+        "materialName": "A4 Paper Ream (500 sheets)",
+        "category": "Stationery",
+        "uom": "Ream",
+        "qtyRequested": 10,
+        "stockAvailable": 120
+      },
+      {
+        "materialCode": "MAT-002",
+        "materialName": "Ballpoint Pens (Box of 12)",
+        "category": "Stationery",
+        "uom": "Box",
+        "qtyRequested": 3,
+        "stockAvailable": 45
+      },
+      {
+        "materialCode": "MAT-004",
+        "materialName": "Sticky Notes (100 sheets)",
+        "category": "Stationery",
+        "uom": "Pack",
+        "qtyRequested": 5,
+        "stockAvailable": 60
+      }
+    ],
+    "justification": "Monthly stationery replenishment for Finance team of 8 people.",
+    "status": "approved",
+    "taskId": null,
+    "submittedAt": "2026-04-07T08:00:00Z",
+    "reviewedBy": "u002",
+    "reviewedAt": "2026-04-07T11:30:00Z",
+    "reviewNote": "Approved. Collect from Warehouse A."
+  },
+  {
+    "id": "MR2B3C4D5E",
+    "mrqNumber": "MR-2026-0002",
+    "userId": "u005",
+    "department": "IT",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-19",
+    "priority": "urgent",
+    "projectCode": "PRJ-IT-2026",
+    "lineItems": [
+      {
+        "materialCode": "MAT-006",
+        "materialName": "HDMI Cable 2m",
+        "category": "IT Consumables",
+        "uom": "Pcs",
+        "qtyRequested": 5,
+        "stockAvailable": 25
+      },
+      {
+        "materialCode": "MAT-007",
+        "materialName": "USB-C Hub (7-in-1)",
+        "category": "IT Consumables",
+        "uom": "Pcs",
+        "qtyRequested": 3,
+        "stockAvailable": 12
+      },
+      {
+        "materialCode": "MAT-010",
+        "materialName": "AA Batteries (Pack of 20)",
+        "category": "IT Consumables",
+        "uom": "Pack",
+        "qtyRequested": 4,
+        "stockAvailable": 3
+      }
+    ],
+    "justification": "Urgent IT accessories required for new workstation setup in server room.",
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-11T10:15:00Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "MR3C4D5E6F",
+    "mrqNumber": "MR-2026-0003",
+    "userId": "u003",
+    "department": "Human Resources",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-20",
+    "priority": "normal",
+    "projectCode": "",
+    "lineItems": [
+      {
+        "materialCode": "MAT-011",
+        "materialName": "Safety Helmet (Standard)",
+        "category": "Safety / PPE",
+        "uom": "Pcs",
+        "qtyRequested": 10,
+        "stockAvailable": 40
+      },
+      {
+        "materialCode": "MAT-013",
+        "materialName": "Safety Gloves (Pair)",
+        "category": "Safety / PPE",
+        "uom": "Pair",
+        "qtyRequested": 10,
+        "stockAvailable": 50
+      }
+    ],
+    "justification": "PPE kits for new site visit personnel attending the Jeddah plant inspection.",
+    "status": "rejected",
+    "taskId": null,
+    "submittedAt": "2026-04-01T09:00:00Z",
+    "reviewedBy": "u002",
+    "reviewedAt": "2026-04-01T14:00:00Z",
+    "reviewNote": "PPE should be sourced from Safety department stock. Please coordinate with Operations Manager."
+  },
+  {
+    "id": "MRF7C1861A",
+    "mrqNumber": "MR-2026-0004",
+    "userId": "u004",
+    "department": "Finance",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-22",
+    "priority": "urgent",
+    "projectCode": "100",
+    "lineItems": [
+      {
+        "materialCode": "MAT-001",
+        "materialName": "A4 Paper Ream (500 sheets)",
+        "category": "Stationery",
+        "uom": "Ream",
+        "qtyRequested": 1,
+        "stockAvailable": 120
+      }
+    ],
+    "justification": "rrtrt",
+    "status": "approved",
+    "taskId": "T77A38D0C",
+    "submittedAt": "2026-04-17T09:54:11.730Z",
+    "reviewedBy": "u001",
+    "reviewedAt": "2026-04-17T09:54:24.632Z",
+    "reviewNote": ""
+  },
+  {
+    "id": "MRF18C395F",
+    "mrqNumber": "MR-2026-0005",
+    "userId": "u001",
+    "department": "IT",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-04-29",
+    "priority": "normal",
+    "projectCode": "",
+    "lineItems": [
+      {
+        "materialCode": "MAT-001",
+        "materialName": "A4 Paper Ream (500 sheets)",
+        "category": "Stationery",
+        "uom": "Ream",
+        "qtyRequested": 4,
+        "stockAvailable": 120
+      }
+    ],
+    "justification": "hhh",
+    "status": "pending",
+    "taskId": null,
+    "submittedAt": "2026-04-19T16:17:24.780Z",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "reviewNote": ""
+  },
+  {
+    "id": "MR6B7DE2A6",
+    "mrqNumber": "MR-2026-0006",
+    "userId": "u001",
+    "department": "Executive",
+    "deliveryLocation": "Riyadh HQ",
+    "requiredBy": "2026-05-01",
+    "priority": "normal",
+    "projectCode": "",
+    "lineItems": [
+      {
+        "materialCode": "MAT-001",
+        "materialName": "A4 Paper Ream (500 sheets)",
+        "category": "Stationery",
+        "uom": "Ream",
+        "qtyRequested": 1,
+        "stockAvailable": 120
+      }
+    ],
+    "justification": "iojyutr",
+    "status": "approved",
+    "taskId": "TF296F0EA",
+    "submittedAt": "2026-04-21T09:49:50.635Z",
+    "reviewedBy": "u001",
+    "reviewedAt": "2026-04-21T09:49:54.079Z",
+    "reviewNote": ""
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "openPurchaseOrders": 38,
+    "openInvoices": 24,
+    "ytdTurnover": 4820000,
+    "ytdTurnoverCurrency": "SAR",
+    "budgetUtilization": 74,
+    "totalBudget": 6500000,
+    "dso": 32,
+    "overduePOs": 5,
+    "overdueInvoices": 7,
+    "collectedThisMonth": 620000
+  },
+  "revenueQuarters": {
+    "labels": ["Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025", "Q1 2026"],
+    "revenue":  [980000, 1120000, 1250000, 1470000, 1380000],
+    "target":   [1000000, 1100000, 1200000, 1400000, 1500000]
+  },
+  "cashflow": {
+    "labels":   ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    "inflows":  [520000, 610000, 490000, 720000, 680000, 810000, 570000, 630000, 700000, 620000, 750000, 880000],
+    "outflows": [410000, 480000, 390000, 550000, 510000, 640000, 430000, 490000, 560000, 500000, 590000, 700000]
+  },
+  "apAging": {
+    "labels":  ["0–30 days", "31–60 days", "61–90 days", "90+ days"],
+    "amounts": [320000, 185000, 97000, 42000]
+  },
+  "invoiceAging": {
+    "labels":  ["Current", "1–30 days", "31–60 days", "60+ days"],
+    "counts":  [10, 7, 4, 3]
+  },
+  "expenseCategories": {
+    "labels":  ["Salaries", "Operations", "IT & Tech", "Marketing", "Travel", "Other"],
+    "amounts": [2100000, 890000, 420000, 310000, 180000, 215000]
+  }
+}

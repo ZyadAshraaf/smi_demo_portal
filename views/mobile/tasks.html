@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><head>
+<script>
+  const tab = location.pathname.split('/').pop();
+  const qs  = location.search ? location.search + '&tab=' + tab : '?tab=' + tab;
+  location.replace('/unifiedsmi/m/home' + qs);
+</script>
+</head></html>
