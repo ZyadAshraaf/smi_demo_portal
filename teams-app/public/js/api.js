@@ -11,7 +11,7 @@
 const API = {
   /* ── HTTP Helpers ─────────────────────────────────────────
      All API calls go to /api/* which the Teams server proxies
-     to the main Unified Workspace backend (localhost:3030).
+     to the main Unified Workspace backend (localhost:4046).
      ───────────────────────────────────────────────────────── */
   async get(url) {
     const res = await fetch(url, { credentials: 'include' });

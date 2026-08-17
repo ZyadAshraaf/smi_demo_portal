@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Command | Purpose |
 |---|---|
 | `npm install` | Install dependencies |
-| `npm start` | Start server on ports 3030 (browser) + 3001 (Teams) |
+| `npm start` | Start server on port 4046 |
 | `npm run dev` | Start with nodemon (auto-restart on file changes) |
 | `npm test` | Run all workflow integration suites via `tests/run.js` (server must be running first) |
 | `node teams-app/update-url.js <URL>` | Update Teams manifest with tunnel URL + repackage zip |
@@ -18,20 +18,20 @@ No build step, no TypeScript. The server runs directly with `node server.js`.
 ```bash
 node tests/workflows/leave.test.js        # or wfh, travel, purchase-orders, material-requisitions, ems-versions
 ```
-Set `TEST_BASE_URL` to target a non-default server. **The default is `http://localhost:3030/unifiedsmi`** (not bare `http://localhost:3030`) because all API paths in the helpers are relative to the base path (e.g. `/api/leaves`). Tests clean up all created records automatically.
+Set `TEST_BASE_URL` to target a non-default server. **The default is `http://localhost:4046/unifiedsmi`** (not bare `http://localhost:4046`) because all API paths in the helpers are relative to the base path (e.g. `/api/leaves`). Tests clean up all created records automatically.
 
 **Environment variables** (copy `.env.example` → `.env` to get started):
 - `GROQ_API_KEY` — required for `/unifiedsmi/api/hr-chat` and `/unifiedsmi/api/leave-assistant/chat` (both use Groq llama-3.3-70b-versatile via raw `fetch` to `api.groq.com` — no groq npm package)
-- `PORT` — overrides default port 3030
+- `PORT` — overrides default port 4046
 - `TEAMS_PORT` — overrides Teams proxy server port (default 3001); used by `teams-app/server.js`
-- `MAIN_APP_ORIGIN` — overrides proxy target in `teams-app/server.js` (default `http://localhost:3030`)
+- `MAIN_APP_ORIGIN` — overrides proxy target in `teams-app/server.js` (default `http://localhost:4046`)
 - `SESSION_SECRET` — session signing secret (default `unified-workspace-secret-2026`)
 - `DOCEVAL_URL` — upstream document-AI hostname (default `doceval-8362469192e8.herokuapp.com`); used by the AI warmup endpoint and `routes/doceval.js`
 
 ## Project Structure
 
 ```
-server.js              # Main Express server (ports 3030 + 3001)
+server.js              # Main Express server (port 4046)
 routes/                # Express route handlers (one per feature); ems/ is a sub-router
 views/                 # HTML pages — structure only, no server-side templating
 public/
@@ -53,16 +53,16 @@ Key non-obvious files:
 
 ## Architecture
 
-Single **Node.js/Express** server (`server.js`) serving both a browser app (port 3030) and Microsoft Teams iframe (port 3001 via tunnel). One codebase — Teams is just a manifest pointing at the same Express routes.
+Single **Node.js/Express** server (`server.js`) serving the browser app on port 4046. One codebase — Teams is just a manifest pointing at the same Express routes.
 
-**Base path: `/unifiedsmi`** — every route, static asset, and API call is prefixed with `/unifiedsmi`. Examples: `http://localhost:3030/unifiedsmi/`, `/unifiedsmi/api/leaves`, `/unifiedsmi/theme.css`, `/unifiedsmi/m/home`. When adding new routes or writing client-side `fetch` calls, always include this prefix.
+**Base path: `/unifiedsmi`** — every route, static asset, and API call is prefixed with `/unifiedsmi`. Examples: `http://localhost:4046/unifiedsmi/`, `/unifiedsmi/api/leaves`, `/unifiedsmi/theme.css`, `/unifiedsmi/m/home`. When adding new routes or writing client-side `fetch` calls, always include this prefix.
 
 - **Backend:** Express routes in `routes/` — each route reads/writes JSON files in `data/` directly via `fs.readFileSync`/`fs.writeFileSync`
 - **Frontend:** Vanilla HTML/CSS/JS — no React/Vue/Angular, no bundler. Bootstrap 5.3 + Chart.js 4.4 loaded from CDN
 - **Database:** JSON files in `data/` — no external DB
 - **Auth:** `express-session` with file-based store in `.sessions/`, 8-hour TTL
 - **Theme engine:** `GET /unifiedsmi/theme.css` is a **dynamic Express endpoint** (not a static file) that computes CSS variables from `data/settings.json` on every request
-- **Dual-port:** `server.js` binds the same Express app to both PORT (3030) and TEAMS_PORT (3001). `teams-app/server.js` is a separate optional proxy for alternative tunnel deployments; it is **not** started by `npm start`.
+- **Single port:** `server.js` binds the Express app to PORT (4046) only. `teams-app/server.js` is a separate optional proxy for Teams tunnel deployments; it is **not** started by `npm start` and runs on its own `TEAMS_PORT` (default 3001).
 
 **1-to-1 view/controller pairing:** Every `views/X.html` has exactly one `public/js/X.js` controller. HTML has structure only; JS handles all API calls, DOM updates, and events. The only exception is `views/ems/index.html`, which orchestrates multiple sub-controllers from `public/js/ems/`.
 
@@ -257,7 +257,7 @@ Minimal shapes for the most-referenced JSON files — enough to write route code
 
 **Teams activity notifications:** `utils/teamsNotify.js` sends Teams activity feed notifications via Microsoft Graph API when leaves are submitted or decided. Requires `teamsGraph` in `data/settings.json`. If not configured, notifications are silently skipped. Exposes two functions: `notifyLeaveRequest()` and `notifyLeaveDecision()`. Caches the Graph API access token in memory. Uses a hardcoded `TEAMS_APP_ID` (`a7e3c1d9-4f82-4b6a-9e15-3d8f0c2b1a47`) for activity feed deep links.
 
-**Teams proxy server:** `teams-app/server.js` is a stateless Express proxy (port 3001) — it proxies `/api/*` and `/theme.css` to `MAIN_APP_ORIGIN` (default `http://localhost:3030`) and serves Teams-specific static pages (`pages/tab.html`, `pages/config.html`, `pages/remove.html`) with their own CSP headers. Exposes `/health` for diagnostics.
+**Teams proxy server:** `teams-app/server.js` is a stateless Express proxy (port 3001) — it proxies `/api/*` and `/theme.css` to `MAIN_APP_ORIGIN` (default `http://localhost:4046`) and serves Teams-specific static pages (`pages/tab.html`, `pages/config.html`, `pages/remove.html`) with their own CSP headers. Exposes `/health` for diagnostics.
 
 **Teams iframe support:** `Content-Security-Policy` frame-ancestors header allows Teams/Outlook domains. `X-Frame-Options` is removed. `app.set('trust proxy', 1)` is required for ngrok HTTPS detection.
 

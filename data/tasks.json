@@ -39,7 +39,7 @@
   },
   {
     "id": "t003",
-    "title": "Review CRM Opportunity \u2014 Al-Farhan Deal",
+    "title": "Review CRM Opportunity — Al-Farhan Deal",
     "description": "Review the Al-Farhan Group opportunity in CRM. Deal value: SAR 2.4M. Approval required before proposal submission.",
     "sourceSystem": "CRM",
     "type": "approval",
@@ -68,7 +68,7 @@
   },
   {
     "id": "t004",
-    "title": "Quarterly Inventory Count \u2014 Warehouse Zone B",
+    "title": "Quarterly Inventory Count — Warehouse Zone B",
     "description": "Conduct physical inventory count for Warehouse Zone B and reconcile with system records.",
     "sourceSystem": "Warehouse",
     "type": "task",
@@ -131,7 +131,7 @@
   },
   {
     "id": "t008",
-    "title": "Process Vendor Invoice \u2014 Vendor #2847",
+    "title": "Process Vendor Invoice — Vendor #2847",
     "description": "Process and approve payment for Vendor #2847 (Al-Khalid Supplies). Invoice amount: SAR 48,500.",
     "sourceSystem": "Accounting",
     "type": "approval",
@@ -221,7 +221,7 @@
   {
     "id": "t012",
     "title": "Submit Q1 Travel Expense Report",
-    "description": "Submit expense report for Q1 travel to Jeddah branch (Feb 14\u201316). Total claimed: SAR 3,850.",
+    "description": "Submit expense report for Q1 travel to Jeddah branch (Feb 14–16). Total claimed: SAR 3,850.",
     "sourceSystem": "Accounting",
     "type": "task",
     "priority": "medium",
@@ -245,7 +245,7 @@
         "action": "escalated",
         "by": "u002",
         "at": "2026-03-23T09:00:00Z",
-        "note": "Task overdue \u2014 escalated to HR for follow-up"
+        "note": "Task overdue — escalated to HR for follow-up"
       }
     ],
     "comments": [],
@@ -254,8 +254,8 @@
   },
   {
     "id": "TWFH008",
-    "title": "Approve WFH Request \u2014 Khalid Al-Mansouri",
-    "description": "Khalid Al-Mansouri has requested to work from home for 2 day(s) (2026-04-21 to 2026-04-22). Reason: Home office setup \u2014 awaiting ergonomic chair delivery.",
+    "title": "Approve WFH Request — Khalid Al-Mansouri",
+    "description": "Khalid Al-Mansouri has requested to work from home for 2 day(s) (2026-04-21 to 2026-04-22). Reason: Home office setup — awaiting ergonomic chair delivery.",
     "sourceSystem": "HR",
     "type": "approval",
     "priority": "medium",
@@ -272,7 +272,7 @@
         "startDate": "2026-04-21",
         "endDate": "2026-04-22",
         "days": 2,
-        "reason": "Home office setup \u2014 awaiting ergonomic chair delivery.",
+        "reason": "Home office setup — awaiting ergonomic chair delivery.",
         "submittedAt": "2026-04-02T16:00:00.000Z"
       }
     },
@@ -290,7 +290,7 @@
   },
   {
     "id": "T6C03E774",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 3 day(s) (2026-04-15 to 2026-04-17). Reason: Family matter",
     "sourceSystem": "HR",
     "type": "approval",
@@ -333,7 +333,7 @@
   },
   {
     "id": "T954BA7DA",
-    "title": "Approve WFH Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve WFH Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested to work from home for 2 day(s) (2026-04-22 to 2026-04-23). Reason: Not provided",
     "sourceSystem": "HR",
     "type": "approval",
@@ -369,7 +369,7 @@
   },
   {
     "id": "T1790ED26",
-    "title": "Approve Business Trip \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Business Trip — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested a business trip to Abha for 4 day(s) (2026-04-24 to 2026-04-27). Purpose: sd. Total estimated cost: SAR 3,220.",
     "sourceSystem": "HR",
     "type": "approval",
@@ -397,7 +397,7 @@
   },
   {
     "id": "T67EA612F",
-    "title": "Approve WFH Request \u2014 Sara Hassan",
+    "title": "Approve WFH Request — Sara Hassan",
     "description": "Sara Hassan has requested to work from home for 1 day(s) (2026-04-17 to 2026-04-18). Reason: Not provided",
     "sourceSystem": "HR",
     "type": "approval",
@@ -439,7 +439,7 @@
   },
   {
     "id": "T7F94A1E2",
-    "title": "Approve Purchase Order \u2014 PO-2026-0005",
+    "title": "Approve Purchase Order — PO-2026-0005",
     "description": "Sara Hassan submitted PO-2026-0005 to Riyadh Industrial Trading for SAR 115.00. Cost Center: IT.",
     "sourceSystem": "Procurement",
     "type": "approval",
@@ -473,7 +473,7 @@
   },
   {
     "id": "T77A38D0C",
-    "title": "Approve Material Requisition \u2014 MR-2026-0004",
+    "title": "Approve Material Requisition — MR-2026-0004",
     "description": "Sara Hassan (Finance) requested 1 material line(s) (1 total units) for Riyadh HQ. Required by: 2026-04-22.",
     "sourceSystem": "Warehouse",
     "type": "approval",
@@ -507,7 +507,7 @@
   },
   {
     "id": "T12EBE801",
-    "title": "Approve Leave Request \u2014 Sara Hassan",
+    "title": "Approve Leave Request — Sara Hassan",
     "description": "Sara Hassan has requested emergency leave for 4 day(s) (2026-04-21 to 2026-04-24). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -550,7 +550,7 @@
   },
   {
     "id": "TB83CD7E3",
-    "title": "Approve WFH Request \u2014 Sara Hassan",
+    "title": "Approve WFH Request — Sara Hassan",
     "description": "Sara Hassan has requested to work from home for 4 day(s) (2026-04-18 to 2026-04-23). Reason: Not provided",
     "sourceSystem": "HR",
     "type": "approval",
@@ -592,7 +592,7 @@
   },
   {
     "id": "T88DD678A",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-04-23 to 2026-04-25). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -636,7 +636,7 @@
   },
   {
     "id": "T233D8B7B",
-    "title": "Approve Leave Request \u2014 Sara Hassan",
+    "title": "Approve Leave Request — Sara Hassan",
     "description": "Sara Hassan has requested annual leave for 3 day(s) (2026-06-01 to 2026-06-03). Reason: test",
     "sourceSystem": "HR",
     "type": "approval",
@@ -674,7 +674,7 @@
   },
   {
     "id": "T5CF72AFA",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-04-21 to 2026-04-22). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -718,7 +718,7 @@
   },
   {
     "id": "T187F3110",
-    "title": "Approve WFH Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve WFH Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested to work from home for 1 day(s) (2026-04-24 to 2026-04-25). Reason: Not provided",
     "sourceSystem": "HR",
     "type": "approval",
@@ -760,7 +760,7 @@
   },
   {
     "id": "T742E1666",
-    "title": "Approve Business Trip \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Business Trip — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested a business trip to Abha for 4 day(s) (2026-05-01 to 2026-05-04). Purpose: klhkjh. Total estimated cost: SAR 3,160.",
     "sourceSystem": "HR",
     "type": "approval",
@@ -794,7 +794,7 @@
   },
   {
     "id": "T36DA7AF2",
-    "title": "Approve Purchase Order \u2014 PO-2026-0007",
+    "title": "Approve Purchase Order — PO-2026-0007",
     "description": "Ahmed Al-Rashidi submitted PO-2026-0007 to Al Futtaim Office Solutions for USD 115.00. Cost Center: HR.",
     "sourceSystem": "Procurement",
     "type": "approval",
@@ -828,7 +828,7 @@
   },
   {
     "id": "TF296F0EA",
-    "title": "Approve Material Requisition \u2014 MR-2026-0006",
+    "title": "Approve Material Requisition — MR-2026-0006",
     "description": "Ahmed Al-Rashidi (Executive) requested 1 material line(s) (1 total units) for Riyadh HQ. Required by: 2026-05-01.",
     "sourceSystem": "Warehouse",
     "type": "approval",
@@ -862,7 +862,7 @@
   },
   {
     "id": "TC381ECB0",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested marriage leave for 10 day(s) (2026-05-03 to 2026-05-14). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -908,7 +908,7 @@
   },
   {
     "id": "TDAF4ECC5",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-05-06 to 2026-05-07). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -952,7 +952,7 @@
   },
   {
     "id": "T77C1DA2C",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 2 day(s) (2026-05-10 to 2026-05-11). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -996,7 +996,7 @@
   },
   {
     "id": "TA2917ADB",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 1 day(s) (2026-05-07 to 2026-05-07). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -1040,7 +1040,7 @@
   },
   {
     "id": "T073E2F1E",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 1 day(s) (2026-05-11 to 2026-05-11). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -1084,7 +1084,7 @@
   },
   {
     "id": "TC9CEE357",
-    "title": "Approve Leave Request \u2014 Ahmed Al-Rashidi",
+    "title": "Approve Leave Request — Ahmed Al-Rashidi",
     "description": "Ahmed Al-Rashidi has requested annual leave for 1 day(s) (2026-05-18 to 2026-05-18). Reason: ",
     "sourceSystem": "HR",
     "type": "approval",
@@ -1120,6 +1120,50 @@
         "by": "u001",
         "at": "2026-05-06T07:29:44.916Z",
         "note": "Leave request rejected"
+      }
+    ],
+    "comments": [],
+    "escalated": false,
+    "delegatedFrom": null
+  },
+  {
+    "id": "T2526876A",
+    "title": "Approve Leave Request — Sara Hassan",
+    "description": "Sara Hassan has requested annual leave for 4 day(s) (2026-08-21 to 2026-08-26). Reason: fgedfg",
+    "sourceSystem": "HR",
+    "type": "approval",
+    "priority": "medium",
+    "status": "approved",
+    "assignedTo": "u002",
+    "createdBy": "u004",
+    "dueDate": "2026-08-21",
+    "createdAt": "2026-08-17T12:10:23.724Z",
+    "updatedAt": "2026-08-17T12:10:43.904Z",
+    "metadata": {
+      "leaveId": "LCBBA782E",
+      "requestDetails": {
+        "userName": "Sara Hassan",
+        "type": "annual",
+        "startDate": "2026-08-21",
+        "endDate": "2026-08-26",
+        "days": 4,
+        "reason": "fgedfg",
+        "customFields": {},
+        "submittedAt": "2026-08-17T12:10:23.724Z"
+      }
+    },
+    "history": [
+      {
+        "action": "created",
+        "by": "u004",
+        "at": "2026-08-17T12:10:23.724Z",
+        "note": "Leave request submitted"
+      },
+      {
+        "action": "approved",
+        "by": "u002",
+        "at": "2026-08-17T12:10:43.904Z",
+        "note": "Leave request approved"
       }
     ],
     "comments": [],

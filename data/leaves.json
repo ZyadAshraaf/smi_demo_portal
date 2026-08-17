@@ -354,5 +354,21 @@
     "reviewedBy": "u001",
     "reviewedAt": "2026-05-06T07:29:44.916Z",
     "reviewNote": ""
+  },
+  {
+    "id": "LCBBA782E",
+    "userId": "u004",
+    "type": "annual",
+    "startDate": "2026-08-21",
+    "endDate": "2026-08-26",
+    "days": 4,
+    "reason": "fgedfg",
+    "customFields": {},
+    "status": "approved",
+    "taskId": "T2526876A",
+    "submittedAt": "2026-08-17T12:10:23.724Z",
+    "reviewedBy": "u002",
+    "reviewedAt": "2026-08-17T12:10:43.904Z",
+    "reviewNote": ""
   }
 ]

@@ -13,13 +13,11 @@ const requireAuth = (req, res, next) => {
 // GET /api/analytics/summary
 router.get('/summary', requireAuth, (req, res) => {
   const tasks      = read('tasks.json');
-  const leaves     = read('leaves.json');
   const helpdesk   = read('helpdesk.json');
   const attendance = read('attendance.json');
   const user       = req.session.user;
 
   const myTasks    = (user.role === 'admin' || user.role === 'hr') ? tasks : tasks.filter(t => t.assignedTo === user.id);
-  const myLeaves   = leaves.filter(l => l.userId === user.id);
   const myAttend   = attendance[user.id] || [];
 
   // Only count current month
@@ -32,7 +30,7 @@ router.get('/summary', requireAuth, (req, res) => {
   const leaveDays   = thisMonth.filter(d => d.status === 'leave').length;
 
   const leaveBalance = {
-    annual: 21 - myLeaves.filter(l => l.type === 'annual' && l.status === 'approved').reduce((s, l) => s + l.days, 0),
+    annual: 21,
     sick:   30
   };
 

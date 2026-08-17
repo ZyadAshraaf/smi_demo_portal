@@ -2,8 +2,8 @@
  * Test runner — executes all workflow test suites in sequence.
  *
  * Usage:
- *   node tests/run.js                        # runs against http://localhost:3030
- *   TEST_BASE_URL=http://localhost:3030 node tests/run.js
+ *   node tests/run.js                        # runs against http://localhost:4046
+ *   TEST_BASE_URL=http://localhost:4046 node tests/run.js
  *
  * The server must be running before executing this script.
  * All created test records are cleaned up automatically after each test.

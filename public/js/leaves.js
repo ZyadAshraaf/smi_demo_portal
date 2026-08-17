@@ -18,17 +18,14 @@ async function loadLeaves() {
 }
 
 function updateBalance() {
-  const user      = Layout.user;
-  const myApproved = allLeaves.filter(l => l.userId === user.id && l.type === 'annual' && l.status === 'approved');
-  const usedDays   = myApproved.reduce((s, l) => s + (l.days || 0), 0);
   const total      = 21;
+  const usedDays   = 0;
   const remaining  = total - usedDays;
 
   document.getElementById('balAnnual').textContent = remaining;
   document.getElementById('balUsed').textContent   = usedDays;
-  const pct = Math.round((usedDays / total) * 100);
-  document.getElementById('balAnnualBar').style.width = `${Math.max(0, 100 - pct)}%`;
-  document.getElementById('balUsedBar').style.width   = `${pct}%`;
+  document.getElementById('balAnnualBar').style.width = '100%';
+  document.getElementById('balUsedBar').style.width   = '0%';
 }
 
 function renderMyLeaves() {

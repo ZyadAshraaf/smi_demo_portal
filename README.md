@@ -13,7 +13,7 @@ The app runs as a **single Node.js/Express server** and can be accessed from bot
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Express Server (server.js)               │
-│                               Port: 3030 (browser)              │
+│                               Port: 4046 (browser)              │
 │                                                                 │
 │  ┌──────────┐  ┌──────────┐  ┌───────────┐  ┌───────────────┐  │
 │  │ Auth     │  │ API      │  │ View      │  │ Theme Engine  │  │
@@ -29,9 +29,9 @@ The app runs as a **single Node.js/Express server** and can be accessed from bot
      ┌──────┴──────┐              ┌───────┴────────┐
      │   Browser   │              │  Teams Proxy   │
      │ localhost   │              │  Server        │
-     │  :3030      │              │  (port 3001)   │
+     │  :4046      │              │  (port 3001)   │
      │             │              │ Proxies /api/* │
-     │ Normal      │              │ to :3030       │
+     │ Normal      │              │ to :4046       │
      │ HTTP cookie │              │ SameSite=None  │
      └─────────────┘              │ Secure cookie  │
                                   └────────────────┘
@@ -39,7 +39,7 @@ The app runs as a **single Node.js/Express server** and can be accessed from bot
 
 ### Key Architecture Decisions
 
-- **One codebase, two access points** — The Express server listens on port 3030. A separate lightweight proxy server (`teams-app/server.js`) runs on port 3001 and forwards all requests to port 3030, adding Teams-specific CSP headers.
+- **One codebase, two access points** — The Express server listens on port 4046. A separate lightweight proxy server (`teams-app/server.js`) runs on port 3001 and forwards all requests to port 4046, adding Teams-specific CSP headers.
 - **No separate Teams code** — The `teams-app/` folder contains a manifest, icons, a URL-update script, and the stateless proxy server. All UI and logic lives in the main Express app.
 - **Dynamic cookie security** — A middleware detects HTTPS (ngrok) vs HTTP (localhost) and upgrades cookie attributes accordingly, so login works in both contexts without code changes.
 
@@ -209,7 +209,7 @@ unified-workspace/
 ├── utils/
 │   └── teamsNotify.js               # Teams activity feed notifications via Microsoft Graph
 └── teams-app/                       # Microsoft Teams integration
-    ├── server.js                    # Stateless proxy server (port 3001) → main app :3030
+    ├── server.js                    # Stateless proxy server (port 3001) → main app :4046
     ├── public/pages/                # Teams-specific HTML (tab.html, config.html, remove.html)
     ├── manifest/
     │   ├── manifest.json            # Teams app manifest
@@ -224,21 +224,21 @@ unified-workspace/
 
 ### How It Works
 
-The Teams app is **not a separate application** — `teams-app/server.js` is a stateless Express proxy that forwards all requests to the main app on port 3030, then serves the response with Teams-compatible CSP headers.
+The Teams app is **not a separate application** — `teams-app/server.js` is a stateless Express proxy that forwards all requests to the main app on port 4046, then serves the response with Teams-compatible CSP headers.
 
 ```
 User clicks "Unified Workspace" in Teams
     → Teams reads manifest.json
     → manifest says: load https://<ngrok-url>/
     → ngrok forwards to localhost:3001
-    → teams-app/server.js proxies request to localhost:3030
+    → teams-app/server.js proxies request to localhost:4046
     → Main Express app responds with the same landing.html
     → User sees the exact same app inside Teams
 ```
 
 ### Technical Details
 
-1. **Proxy server** — `teams-app/server.js` uses `http-proxy` to forward `/api/*` and all pages to `MAIN_APP_ORIGIN` (default `http://localhost:3030`). Exposes `/health` for diagnostics.
+1. **Proxy server** — `teams-app/server.js` uses `http-proxy` to forward `/api/*` and all pages to `MAIN_APP_ORIGIN` (default `http://localhost:4046`). Exposes `/health` for diagnostics.
 2. **Iframe headers** — Teams proxy sets `Content-Security-Policy: frame-ancestors` for `teams.microsoft.com`, `*.teams.microsoft.com`, `*.skype.com`, and `*.office.com`
 3. **Proxy trust** — Main `server.js` sets `app.set('trust proxy', 1)` so Express correctly reads `X-Forwarded-Proto: https` from ngrok
 4. **Dynamic cookie upgrade** — Middleware detects HTTPS requests (ngrok/Teams) and sets `SameSite=None; Secure` on the session cookie. HTTP requests (localhost) use normal cookies. Without this, the browser blocks cookies in the Teams iframe and login fails.
@@ -642,11 +642,11 @@ set GROQ_API_KEY=your_key_here      # Windows CMD
 npm start
 ```
 
-The server starts on **http://localhost:3030** (browser). Teams proxy runs on **http://localhost:3001**.
+The server starts on **http://localhost:4046** (browser).
 
 ### Login
 
-Open **http://localhost:3030** in your browser. Login with email + password:
+Open **http://localhost:4046** in your browser. Login with email + password:
 
 | Email | Password | Role |
 |---|---|---|
@@ -666,16 +666,16 @@ npm run dev
 | Variable | Default | Purpose |
 |---|---|---|
 | `GROQ_API_KEY` | *(required)* | HR Chat + Leave Assistant AI |
-| `PORT` | `3030` | Main app port |
+| `PORT` | `4046` | Main app port |
 | `TEAMS_PORT` | `3001` | Teams proxy server port |
-| `MAIN_APP_ORIGIN` | `http://localhost:3030` | Teams proxy target |
+| `MAIN_APP_ORIGIN` | `http://localhost:4046` | Teams proxy target |
 
 ### Quick Reference
 
 | Command | What it does |
 |---|---|
 | `npm install` | Installs all dependencies |
-| `npm start` | Starts server on ports 3030 + 3001 |
+| `npm start` | Starts server on port 4046 |
 | `npm run dev` | Starts with nodemon (auto-restart) |
 | `node teams-app/update-url.js <URL>` | Updates Teams manifest + repackages zip |
 

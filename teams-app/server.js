@@ -4,7 +4,7 @@
    Lightweight Express server that:
    1. Serves static Teams tab pages (HTML/CSS/JS)
    2. Sets required Content-Security-Policy headers for Teams iframe embedding
-   3. Proxies API calls to the main Unified Workspace backend (port 3030)
+   3. Proxies API calls to the main Unified Workspace backend (port 4046)
 
    This server does NOT contain business logic — it is a shell that
    hosts the Teams tab UI and forwards API requests to the main app.
@@ -21,7 +21,7 @@ const PORT = process.env.TEAMS_PORT || 3001;
    MAIN_APP_ORIGIN: The origin of the existing Unified Workspace
    Express server. All /api/* requests are proxied here.
    ───────────────────────────────────────────────────────────── */
-const MAIN_APP_ORIGIN = process.env.MAIN_APP_ORIGIN || 'http://localhost:3030';
+const MAIN_APP_ORIGIN = process.env.MAIN_APP_ORIGIN || 'http://localhost:4046';
 
 /* ── Content-Security-Policy for Teams ─────────────────────────
    Teams loads tab apps inside an iframe. The server MUST allow

@@ -7,7 +7,7 @@
 const fs   = require('fs');
 const path = require('path');
 
-const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3030';
+const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:4046';
 
 // ── Credentials ──────────────────────────────────────────────────────────────
 

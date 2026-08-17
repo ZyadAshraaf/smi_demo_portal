@@ -7,8 +7,7 @@ const path       = require('path');
 const fs         = require('fs');
 
 const app        = express();
-const PORT       = process.env.PORT       || 3030;
-const TEAMS_PORT = process.env.TEAMS_PORT || 3001;
+const PORT       = process.env.PORT       || 4046;
 
 // ─── Color Utilities (for dynamic theme.css) ───────────────────────────────
 function hexToRgb(hex) {
@@ -224,12 +223,3 @@ const server1 = app.listen(PORT, () => {
 });
 server1.keepAliveTimeout  = 120000;   // 2 min — prevents tunnel from dropping idle connections
 server1.headersTimeout    = 125000;   // slightly above keepAlive
-
-// Also listen on TEAMS_PORT for tunnel (Cloudflare / ngrok) → Teams integration
-if (PORT !== TEAMS_PORT) {
-  const server2 = app.listen(TEAMS_PORT, () => {
-    console.log(`  Teams tunnel port:      http://localhost:${TEAMS_PORT}\n`);
-  });
-  server2.keepAliveTimeout = 120000;
-  server2.headersTimeout   = 125000;
-}

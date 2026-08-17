@@ -51,20 +51,9 @@ function getHelpdeskTickets(userId) {
 
 // ── Leave balance ─────────────────────────────────────────────────────────────
 function getLeaveBalance(userId) {
-  const leaves = readLeaves();
-  const year   = new Date().getFullYear();
-  const mine   = leaves.filter(l => l.userId === userId && l.status !== 'rejected');
-
-  const usedAnnual = mine
-    .filter(l => l.type === 'annual' && new Date(l.startDate).getFullYear() === year)
-    .reduce((s, l) => s + (l.days || 0), 0);
-  const usedSick = mine
-    .filter(l => l.type === 'sick' && new Date(l.startDate).getFullYear() === year)
-    .reduce((s, l) => s + (l.days || 0), 0);
-
   return {
-    annual: { total: 21, used: usedAnnual, remaining: Math.max(0, 21 - usedAnnual) },
-    sick:   { total: 30, used: usedSick,   remaining: Math.max(0, 30 - usedSick) }
+    annual: { total: 21, used: 0, remaining: 21 },
+    sick:   { total: 30, used: 0, remaining: 30 }
   };
 }
 
